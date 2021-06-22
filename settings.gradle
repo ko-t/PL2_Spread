@@ -1,0 +1,2 @@
+rootProject.name = "PL2_Spread"
+include ':app'
