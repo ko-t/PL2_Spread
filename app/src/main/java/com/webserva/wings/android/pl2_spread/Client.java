@@ -44,12 +44,22 @@ public class Client {
 //        finish();
 //        startActivity(new Intent(Game.this, Result.class));
 //    }
+
 //    void setTimer(long msec){
 //
 //    }
 
     static void sendMessage(String message){
         //みてい
+    }
+
+    //これを使ってください
+    void receiveMessage(String message){
+        String[] s=message.split("$");
+        switch(s[0]){ //最初のパート
+            case "dummy":
+                break;
+        }
     }
 
 //    void moveLocation(double x, double y){
