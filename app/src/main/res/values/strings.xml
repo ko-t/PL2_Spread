@@ -1,3 +1,12 @@
 <resources>
+    <string name="ti_start">START</string>
+    
     <string name="app_name">PL2_Spread</string>
+    <string name="mm_start_game">Start Game</string>
+    <string name="mm_profile">プロフィール</string>
+    <string name="mm_record">記録</string>
+
+    <string name="rmn_joinRoom">ルームに参加する</string>
+    <string name="rmn_makeRoom">ルームを作る</string>
+
 </resources>

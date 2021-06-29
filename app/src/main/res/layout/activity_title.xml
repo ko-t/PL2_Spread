@@ -10,7 +10,7 @@
         android:id="@+id/ti_button_start"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="START"
+        android:text="@string/ti_start"
         android:autoSizeTextType="uniform"
         app:layout_constraintWidth_percent="0.4"
         app:layout_constraintHeight_percent="0.1"
