@@ -54,7 +54,7 @@ public class Client {
     }
 
     //これを使ってください
-    void receiveMessage(String message){
+    static void receiveMessage(String message){
         String[] s=message.split("$");
         switch(s[0]){ //最初のパート
             case "dummy":
