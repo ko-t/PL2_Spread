@@ -16,4 +16,36 @@ public class Room {
         this.hostId = new HashMap<>();
         this.hostId.put(hostid, 0);
     }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public int getTag() {
+        return tag;
+    }
+
+    public void setTag(int tag) {
+        this.tag = tag;
+    }
+
+    public Map<String, Integer> getHostId() {
+        return hostId;
+    }
+
+    public void setHostId(Map<String, Integer> hostId) {
+        this.hostId = hostId;
+    }
+
+    public List<Map<String, Integer>> getMember() {
+        return member;
+    }
+
+    public void setMember(List<Map<String, Integer>> member) {
+        this.member = member;
+    }
 }
