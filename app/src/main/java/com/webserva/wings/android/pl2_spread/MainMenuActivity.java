@@ -21,8 +21,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
         Button mm_button_profile = findViewById(R.id.mm_button_profile);
         mm_button_profile.setOnClickListener(v -> {
-            Intent intent_to_rmn = new Intent(getApplication(),RoomMenuActivity.class);
-            startActivity(intent_to_rmn);
+            Intent intent_to_pr = new Intent(getApplication(),ProfileActivity.class);
+            startActivity(intent_to_pr);
         });
 
         Button mm_button_recode = findViewById(R.id.mm_button_recode);
