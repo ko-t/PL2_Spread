@@ -31,7 +31,7 @@ public class Client {
         LevelUp
     }
 
-    MemberInfo myInfo;
+    static MemberInfo myInfo;
     GoogleMap mMap;
     FusedLocationProviderClient fusedLocationClient;
     Sensor pedometer;
@@ -50,15 +50,70 @@ public class Client {
 //    }
 
     static void sendMessage(String message){
-        //みてい
+        //moveのとき別処理
     }
 
-    //これを使ってください
     static void receiveMessage(String message){
-        String[] s=message.split("$");
+        String[] s=message.split("\\$");
         switch(s[0]){ //最初のパート
-            case "dummy":
+            case "rank":
+            case "best":
+            case "num":
+                Ranking.receiveMessage(message);
                 break;
+
+            case "add4":
+            case "del":
+                RoomList.receiveMessage(message);
+                break;
+
+            case "approved":
+            case "declined":
+                RoomWait.receiveMessage(message);
+                break;
+
+            case "add10":
+            case "delete10":
+            case "broken":
+            case "confirm":
+                RoomInfo.receiveMessage(message);
+                break;
+
+            case "add9":
+            case "delete9":
+                MemberSelect.receiveMessage(message);
+                break;
+
+            case "start":
+                Ready.receiveMessage(message);
+                break;
+
+            case "readyall":
+                HReady.receiveMessage(message);
+                break;
+
+            case "otherpos12":
+            case "score12":
+                ResultMap.receiveMessage(message);
+                break;
+
+            case "score13":
+                ResultExp.receiveMessage(message);
+                break;
+
+            case "gps17":
+                TeamSplit.receiveMessage(message);
+                break;
+
+            case "gps18":
+                TeamSplitResult.receiveMessage(message);
+                break;
+
+            case "otherpos19":
+            case "score19":
+                TeamResultMap.receiveMessage(message);
+                break;
+
         }
     }
 
