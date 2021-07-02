@@ -1,3 +1,23 @@
 <resources>
+    <string name="ti_start">START</string>
+    
     <string name="app_name">PL2_Spread</string>
+    <string name="mm_start_game">Start Game</string>
+    <string name="mm_profile">プロフィール</string>
+    <string name="mm_record">記録</string>
+
+    <string name="rmn_joinRoom">ルームに参加する</string>
+    <string name="rmn_makeRoom">ルームを作る</string>
+    <string name="tg_roomName">ルーム名</string>
+    <string name="tg_gameMode">ゲームモード</string>
+    <string name="tg_battle">対戦</string>
+    <string name="tg_cooperation">協力</string>
+    <string name="tg_statusEffect">ステータス効果</string>
+    <string name="tg_on">あり</string>
+    <string name="tg_off">なし</string>
+    <string name="tg_member">メンバー</string>
+    <string name="tg_known">知ってる人のみ</string>
+    <string name="tg_unknown">知らない人もOK</string>
+    <string name="tg_create">作成する</string>
+
 </resources>

@@ -10,7 +10,7 @@
         android:id="@+id/tg_textView_roomLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ルーム名"
+        android:text="@string/tg_roomName"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         android:id="@+id/tg_textView_gameMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ゲームモード"
+        android:text="@string/tg_gameMode"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,20 +59,20 @@
             android:id="@+id/tg_radioButton_battle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="対戦" />
+            android:text="@string/tg_battle" />
 
         <RadioButton
             android:id="@+id/tg_radioButton_cooperation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="協力" />
+            android:text="@string/tg_cooperation" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/tg_textView_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ステータス効果"
+        android:text="@string/tg_statusEffect"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,20 +96,20 @@
             android:id="@+id/tg_radioButton_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="あり" />
+            android:text="@string/tg_on" />
 
         <RadioButton
             android:id="@+id/tg_radioButton_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="なし" />
+            android:text="@string/tg_off" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/tg_textView_member"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="メンバー"
+        android:text="@string/tg_member"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,13 +133,13 @@
             android:id="@+id/tg_radioButton_known"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="知ってる人のみ" />
+            android:text="@string/tg_known" />
 
         <RadioButton
             android:id="@+id/tg_radioButton_unknown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="知らない人もOK" />
+            android:text="@string/tg_unknown" />
     </RadioGroup>
 
     <ImageButton
@@ -170,7 +170,8 @@
         android:id="@+id/tg_button_create"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="作成する"
+        android:text="@string/tg_create"
+        android:autoSizeTextType="uniform"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
