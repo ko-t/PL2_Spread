@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class TitleActivity extends AppCompatActivity {
+public class Title extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class TitleActivity extends AppCompatActivity {
 
         Button ti_button_start = findViewById(R.id.ti_button_start);
         ti_button_start.setOnClickListener(v -> {
-            Intent intent_to_mm = new Intent(getApplication(),MainMenuActivity.class);
+            Intent intent_to_mm = new Intent(getApplication(), MainMenu.class);
             startActivity(intent_to_mm);
         });
     }

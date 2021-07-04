@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class RoomMenuActivity extends AppCompatActivity {
+public class RoomMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -14,13 +14,13 @@ public class RoomMenuActivity extends AppCompatActivity {
 
         Button rmn_button_join = findViewById(R.id.rmn_button_join);
         rmn_button_join.setOnClickListener(v -> {
-            Intent intent_to_rl = new Intent(getApplication(),MainMenuActivity.class);
+            Intent intent_to_rl = new Intent(getApplication(), MainMenu.class);
             startActivity(intent_to_rl);
         });
 
         Button rmn_button_make = findViewById(R.id.rmn_button_make);
         rmn_button_make.setOnClickListener(v -> {
-            Intent intent_to_tg = new Intent(getApplication(),MainMenuActivity.class);
+            Intent intent_to_tg = new Intent(getApplication(), MainMenu.class);
             startActivity(intent_to_tg);
         });
     }

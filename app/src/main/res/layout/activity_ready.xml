@@ -4,13 +4,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ReadyActivity">
+    tools:context=".Ready">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="101dp" />
+        android:id="@+id/rd_textView_rule"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/rd_ruleLabel"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <ImageView
+        android:id="@+id/rd_imageView_rule"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintHeight_percent="0.4"
+        app:srcCompat="@drawable/rd_rule1"
+        app:layout_constraintTop_toBottomOf="@id/rd_textView_rule"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0"/>
+
+    <ImageButton
+        android:id="@+id/rd_imageButton_right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#00000000"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHeight_percent="0.1"
+        app:srcCompat="@drawable/rd_arrow_right"
+        app:layout_constraintTop_toTopOf="@id/rd_imageView_rule"
+        app:layout_constraintBottom_toBottomOf="@id/rd_imageView_rule"
+        app:layout_constraintStart_toEndOf="@id/rd_imageView_rule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"/>
+
+    <ImageButton
+        android:id="@+id/rd_imageButton_left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#00000000"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHeight_percent="0.1"
+        app:srcCompat="@drawable/rd_arrow_left"
+        app:layout_constraintTop_toTopOf="@id/rd_imageView_rule"
+        app:layout_constraintBottom_toBottomOf="@id/rd_imageView_rule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rd_imageView_rule"
+        app:layout_constraintHorizontal_bias="0.5"/>
+
+    <TextView
+        android:id="@+id/rd_textView_rule1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="@string/rd_rule1"
+        android:textStyle="bold"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintTop_toTopOf="@id/rd_imageView_rule"
+        app:layout_constraintBottom_toBottomOf="@id/rd_imageView_rule"
+        app:layout_constraintStart_toStartOf="@id/rd_imageView_rule"
+        app:layout_constraintEnd_toEndOf="@id/rd_imageView_rule"
+        app:layout_constraintVertical_bias="0.9"/>
+
+    <TextView
+        android:id="@+id/rd_textView_ruleNumber"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintHeight_percent="0.05"
+        android:text="@string/rd_ruleNumber1"
+        android:autoSizeTextType="uniform"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@id/rd_imageView_rule"
+        app:layout_constraintStart_toStartOf="@id/rd_imageView_rule"
+        app:layout_constraintTop_toBottomOf="@id/rd_imageView_rule"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"/>
+
+    <Button
+        android:id="@+id/rd_button_ready"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/rd_ready"
+        android:backgroundTint="@color/light_blue"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintHeight_percent="0.08" />
+
+    <TextView
+        android:id="@+id/rd_textView_waiting"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/rd_waiting"
+        android:autoSizeTextType="uniform"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintHeight_percent="0.08"  />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

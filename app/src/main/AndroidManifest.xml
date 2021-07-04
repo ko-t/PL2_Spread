@@ -9,12 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PL2_Spread">
-        <activity android:name=".ReadyActivity"></activity>
-        <activity android:name=".TagSetActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".RoomMenuActivity" />
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".TitleActivity">
+        <activity android:name=".MoveLocation"></activity>
+        <activity android:name=".LevelUp" />
+        <activity android:name=".ResultExp" />
+        <activity android:name=".Ready" />
+        <activity android:name=".TagSet" />
+        <activity android:name=".Profile" />
+        <activity android:name=".RoomMenu" />
+        <activity android:name=".MainMenu" />
+        <activity android:name=".Title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
