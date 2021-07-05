@@ -20,7 +20,7 @@ public class RoomMenu extends AppCompatActivity {
 
         Button rmn_button_make = findViewById(R.id.rmn_button_make);
         rmn_button_make.setOnClickListener(v -> {
-            Intent intent_to_tg = new Intent(getApplication(), MainMenu.class);
+            Intent intent_to_tg = new Intent(getApplication(), TagSet.class);
             startActivity(intent_to_tg);
         });
     }
