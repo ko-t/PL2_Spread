@@ -1,20 +1,27 @@
 package com.webserva.wings.android.pl2_spread;
 
+import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public class Room {
     private String roomName;
     private int tag;
-    private Map<String, Integer> hostId;
-    private List<Map<String, Integer>> member;
+    private Entry<String, Integer> hostId;
+    private Map<String, Integer> member;
+    private boolean isOpen;
+    private int count = 0;
 
-    Room(String roomName, int tag, String hostid){
+    Room(String roomName, int tag, String hostid) {
         this.roomName = roomName;
         this.tag = tag;
-        this.hostId = new HashMap<>();
-        this.hostId.put(hostid, 0);
+        this.hostId = new SimpleEntry(hostId, 0);
+        member = new TreeMap<>();
+        member.put(hostId.getKey(), hostId.getValue());
     }
 
     public String getRoomName() {
@@ -33,19 +40,35 @@ public class Room {
         this.tag = tag;
     }
 
-    public Map<String, Integer> getHostId() {
+    public Entry<String, Integer> getHostId() {
         return hostId;
     }
 
-    public void setHostId(Map<String, Integer> hostId) {
+    public void setHostId(Entry<String, Integer> hostId) {
         this.hostId = hostId;
     }
 
-    public List<Map<String, Integer>> getMember() {
+    public Map<String, Integer> getMember() {
         return member;
     }
 
-    public void setMember(List<Map<String, Integer>> member) {
-        this.member = member;
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public boolean increaseAndCheckCount() {
+        count++;
+        if(count == member.size()){
+            count = 0;
+            return true;
+        } else return false;
     }
 }
