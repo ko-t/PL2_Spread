@@ -158,7 +158,7 @@
         app:layout_constraintHorizontal_bias="0.8"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/pr_textView_id"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.2"
@@ -170,4 +170,17 @@
         app:layout_constraintBottom_toBottomOf="@id/pr_textView_idLabel"
         app:layout_constraintTop_toTopOf="@id/pr_textView_idLabel"
         app:layout_constraintHorizontal_bias="0.8"/>
+
+    <Button
+        android:id="@+id/pr_button_editName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="編集"
+        android:autoSizeTextType="uniform"
+        android:backgroundTint="@color/light_blue"
+        app:layout_constraintWidth_percent="0.15"
+        app:layout_constraintBottom_toBottomOf="@id/pr_plainText_name"
+        app:layout_constraintTop_toTopOf="@id/pr_plainText_name"
+        app:layout_constraintStart_toEndOf="@id/pr_plainText_name"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

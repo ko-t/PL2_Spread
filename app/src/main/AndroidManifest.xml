@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PL2_Spread">
-        <activity android:name=".GameEnd"></activity>
+        <activity android:name=".TeamSplit"></activity>
+        <activity android:name=".GameEnd" />
         <activity android:name=".HReady" />
         <activity android:name=".MoveLocation" />
         <activity android:name=".LevelUp" />

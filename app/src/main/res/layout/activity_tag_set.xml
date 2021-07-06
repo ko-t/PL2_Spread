@@ -22,7 +22,6 @@
         android:id="@+id/tg_plainText_room"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         app:layout_constraintWidth_percent="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/tg_radioGroup_status"
+        android:id="@+id/tg_radioGroup_statusEffect"
         app:layout_constraintTop_toBottomOf="@id/tg_textView_status"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -160,25 +159,51 @@
         android:layout_height="wrap_content"
         android:background="#00000000"
         app:srcCompat="@drawable/question_icon_32"
-        app:layout_constraintTop_toTopOf="@id/tg_radioGroup_status"
-        app:layout_constraintBottom_toBottomOf="@id/tg_radioGroup_status"
-        app:layout_constraintStart_toEndOf="@id/tg_radioGroup_status"
+        app:layout_constraintTop_toTopOf="@id/tg_radioGroup_statusEffect"
+        app:layout_constraintBottom_toBottomOf="@id/tg_radioGroup_statusEffect"
+        app:layout_constraintStart_toEndOf="@id/tg_radioGroup_statusEffect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"/>
 
     <Button
-        android:id="@+id/tg_button_create"
+        android:id="@+id/tg_button_make"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/tg_create"
+        android:text="@string/tg_make"
         android:backgroundTint="@color/light_blue"
         android:autoSizeTextType="uniform"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.85"
+        app:layout_constraintVertical_bias="0.9"
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_percent="0.08"/>
+
+    <TextView
+        android:id="@+id/tg_textView_radioAlert"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textColor="@color/red"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.77"/>
+
+    <TextView
+        android:id="@+id/tg_textView_inputAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tg_plainText_room"
+        app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

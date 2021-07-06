@@ -17,7 +17,7 @@
     <string name="tg_member">メンバー</string>
     <string name="tg_known">知ってる人のみ</string>
     <string name="tg_unknown">知らない人もOK</string>
-    <string name="tg_create">作成する</string>
+    <string name="tg_make">作成する</string>
     <string name="ruleLabel">ルール</string>
     <string name="rule1">制限時間内に地図上に<br></br>大きい三角形を作る。</string>
     <string name="rule2">チーム内で描けた一番大きな<br></br>三角形を記録とする。</string>
@@ -39,6 +39,7 @@
     <string name="hr_gameStart">ゲームを開始する</string>
     <string name="ge_replay">もう一度遊ぶ</string>
     <string name="ge_endGame">ゲームを終了する</string>
-
+    <string name="tg_inputAlert">ルーム名を入力して下さい</string>
+    <string name="tg_radioAlert">ボタンを全て選択して下さい</string>
 
 </resources>

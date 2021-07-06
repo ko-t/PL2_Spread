@@ -7,7 +7,7 @@
     tools:context=".Ready">
 
     <TextView
-        android:id="@+id/rd_textView_rule"
+        android:id="@+id/rd_textView_ruleLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/ruleLabel"
@@ -28,8 +28,7 @@
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.7"
         app:layout_constraintHeight_percent="0.4"
-        app:srcCompat="@drawable/rule1"
-        app:layout_constraintTop_toBottomOf="@id/rd_textView_rule"
+        app:layout_constraintTop_toBottomOf="@id/rd_textView_ruleLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,12 +63,11 @@
         app:layout_constraintHorizontal_bias="0.5"/>
 
     <TextView
-        android:id="@+id/rd_textView_rule1"
+        android:id="@+id/rd_textView_rule"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.6"
         app:layout_constraintHeight_percent="0.1"
-        android:text="@string/rule1"
         android:textStyle="bold"
         android:autoSizeTextType="uniform"
         app:layout_constraintTop_toTopOf="@id/rd_imageView_rule"
@@ -84,7 +82,6 @@
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.2"
         app:layout_constraintHeight_percent="0.05"
-        android:text="@string/ruleNumber1"
         android:autoSizeTextType="uniform"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -114,7 +111,6 @@
         android:id="@+id/rd_textView_waiting"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/rd_waiting"
         android:autoSizeTextType="uniform"
         android:textStyle="bold"
         android:gravity="center"

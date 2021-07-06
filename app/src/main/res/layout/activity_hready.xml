@@ -7,7 +7,7 @@
     tools:context=".HReady">
 
     <TextView
-        android:id="@+id/hr_textView_rule"
+        android:id="@+id/hr_textView_ruleLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/ruleLabel"
@@ -29,7 +29,7 @@
         app:layout_constraintWidth_percent="0.7"
         app:layout_constraintHeight_percent="0.4"
         app:srcCompat="@drawable/rule1"
-        app:layout_constraintTop_toBottomOf="@id/hr_textView_rule"
+        app:layout_constraintTop_toBottomOf="@id/hr_textView_ruleLabel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
         app:layout_constraintHorizontal_bias="0.5"/>
 
     <TextView
-        android:id="@+id/hr_textView_rule1"
+        android:id="@+id/hr_textView_rule"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.6"
