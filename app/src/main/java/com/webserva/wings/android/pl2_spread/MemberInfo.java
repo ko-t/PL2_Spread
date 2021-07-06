@@ -3,6 +3,8 @@ package com.webserva.wings.android.pl2_spread;
 public class MemberInfo {
     private String name;
     private String id;
+    private String roomId = null;
+    private int team = -1;
     private int level = 1;
     private int[] status = {0, 0, 0, 0};
     private int matchHistory = 0;
@@ -59,5 +61,21 @@ public class MemberInfo {
 
     public void setRecordId(int recordId) {
         this.recordId = recordId;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public int getTeam() {
+        return team;
+    }
+
+    public void setTeam(int team) {
+        this.team = team;
     }
 }
