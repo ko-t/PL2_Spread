@@ -12,8 +12,11 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="500dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/resultmap" />
 
     <Button
         android:id="@+id/rm_button"
@@ -30,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="999999999"
+        android:text="計算中..."
         android:textColor="#000000"
         android:textSize="48dp"
         app:layout_constraintBottom_toTopOf="@+id/rm_button"
