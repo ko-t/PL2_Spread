@@ -62,7 +62,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent i = new Intent(this, ResultExp.class);
+                Intent i = new Intent(ResultMap.this, ResultExp.class);
                 i.putExtra("SCORE", score);
                 startActivity(i);
             }

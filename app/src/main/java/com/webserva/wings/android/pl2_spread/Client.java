@@ -75,11 +75,9 @@ public class Client {
     }
 
 
-
     void createInfo(String name, String id){
         myInfo = new MemberInfo(name, id);
     }
-
     static void sendMessage(String message){
         String[] s=message.split("\\$");
         switch(s[0]) {
@@ -103,7 +101,6 @@ public class Client {
                         Integer.parseInt(s[3]),Integer.parseInt(s[4])};
                 myInfo.setStatus(news);
                 break;
-
             case "rank":
             case "best":
             case "num":
