@@ -1,9 +1,9 @@
 package com.webserva.wings.android.pl2_spread;
 
 /*
-  　sendMessageで画面遷移するときはこれを使ってください
+  　receiveMessageで画面遷移するときはこれを使ってください
 
-     static void sendMessage(String message) {
+     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
         switch (s[0]) {
             case "start":
@@ -14,7 +14,7 @@ package com.webserva.wings.android.pl2_spread;
         }
     }
 
-       また、sendMessageをクラスに実装したら、ClientのreceiveMessageの
+       また、receiveMessageをクラスに実装したら、ClientのreceiveMessageの
    コメントアウトを解除してくれると手間が省けます。
 
  */
@@ -37,7 +37,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class Client {
-    String address = "localhost";
+    String address = "10.0.2.2";
     int port = 38443;
 
     static MemberInfo myInfo;
@@ -92,9 +92,7 @@ public class Client {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }) {
-
-        }.start();
+        }) .start();
     }
 
     static void finishActivity(){
@@ -161,7 +159,7 @@ public class Client {
                 break;
 
             case "start":
-                Ready.receiveMessage(message);
+//                Ready.receiveMessage(message);
                 break;
 
             case "readyall":
