@@ -1,5 +1,27 @@
 package com.webserva.wings.android.pl2_spread;
 
+/*
+  　sendMessageで画面遷移するときはこれを使ってください
+
+     static void sendMessage(String message) {
+        String[] s = message.split("\\$");
+        switch (s[0]) {
+            case "start":
+                Client.finishActivity();
+                Intent i = new Intent(Client.context, {次のクラス}.class);
+                Client.startActivity(i);
+                break;
+        }
+    }
+
+       また、sendMessageをクラスに実装したら、ClientのreceiveMessageの
+   コメントアウトを解除してくれると手間が省けます。
+
+ */
+
+
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 
@@ -25,6 +47,7 @@ public class Client {
     Sensor pedometer;
     static int[] expTable;
     static PrintWriter out;
+    static Context context;
 
 //    static enum screens{
 //        Title,
@@ -74,6 +97,14 @@ public class Client {
         }.start();
     }
 
+    static void finishActivity(){
+        ((Activity) context).finish();
+    }
+
+    static void startActivity(Intent i){
+        context.startActivity(i);
+    }
+
 
     void createInfo(String name, String id){
         myInfo = new MemberInfo(name, id);
@@ -104,29 +135,29 @@ public class Client {
             case "rank":
             case "best":
             case "num":
-                Ranking.receiveMessage(message);
+//                Ranking.receiveMessage(message);
                 break;
 
             case "add4":
             case "del":
-                RoomList.receiveMessage(message);
+//                RoomList.receiveMessage(message);
                 break;
 
             case "approved":
             case "declined":
-                RoomWait.receiveMessage(message);
+//                RoomWait.receiveMessage(message);
                 break;
 
             case "add10":
             case "delete10":
             case "broken":
             case "confirm":
-                RoomInfo.receiveMessage(message);
+//                RoomInfo.receiveMessage(message);
                 break;
 
             case "add9":
             case "delete9":
-                MemberSelect.receiveMessage(message);
+//                MemberSelect.receiveMessage(message);
                 break;
 
             case "start":
@@ -134,7 +165,7 @@ public class Client {
                 break;
 
             case "readyall":
-                HReady.receiveMessage(message);
+//                HReady.receiveMessage(message);
                 break;
 
             case "otherpos12":
@@ -143,24 +174,24 @@ public class Client {
                 break;
 
             case "score13":
-                ResultExp.receiveMessage(message);
+//                ResultExp.receiveMessage(message);
                 break;
 
             case "gps17":
-                TeamSplit.receiveMessage(message);
+//                TeamSplit.receiveMessage(message);
                 break;
 
             case "gps18":
-                TeamSplitResult.receiveMessage(message);
+//                TeamSplitResult.receiveMessage(message);
                 break;
 
             case "otherpos19":
             case "score19":
-                TeamResultMap.receiveMessage(message);
+//                TeamResultMap.receiveMessage(message);
                 break;
 
             case "showresult":
-                Game.receiveMesage(message);
+//                Game.receiveMesage(message);
                 break;
         }
     }
