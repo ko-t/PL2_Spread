@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MoveLocation">
+
+    <TextView
+        android:id="@+id/ml_textView_statusEffect"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textColor="@color/black"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.05"
+        android:autoSizeTextType="uniform"
+        android:text="@string/ml_statusEffect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <ImageView
+        android:id="@+id/ml_imageView_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/tmp_status_img"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/ml_textView_north"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHeight_percent="0.05"
+        android:text="55"
+        android:autoSizeTextType="uniform"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:background="@drawable/border"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/ml_imageView_status"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ml_imageView_status"
+        app:layout_constraintEnd_toEndOf="@id/ml_imageView_status"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/ml_textView_west"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:text="10"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:background="@drawable/border"
+        app:layout_constraintBottom_toBottomOf="@id/ml_imageView_status"
+        app:layout_constraintEnd_toStartOf="@id/ml_imageView_status"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ml_imageView_status"
+        app:layout_constraintWidth_percent="0.1" />
+
+    <TextView
+        android:id="@+id/ml_textView_south"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHeight_percent="0.05"
+        android:text="55"
+        android:autoSizeTextType="uniform"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/ml_imageView_status"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ml_imageView_status"
+        app:layout_constraintEnd_toEndOf="@id/ml_imageView_status"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:id="@+id/ml_textView_east"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:text="10"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:background="@drawable/border"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/ml_imageView_status"
+        app:layout_constraintStart_toEndOf="@id/ml_imageView_status"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ml_imageView_status" />
+
+    <Button
+        android:id="@+id/lv_button_decide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/lv_decide"
+        android:autoSizeTextType="uniform"
+        android:backgroundTint="@color/light_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.9 "
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintHeight_percent="0.08"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

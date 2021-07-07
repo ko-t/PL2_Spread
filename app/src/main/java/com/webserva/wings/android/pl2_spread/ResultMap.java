@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -29,6 +30,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
     static int flag = 0;
     static List<LatLng> others_pos = new ArrayList<>();
     Button button = findViewById(R.id.rm_button);
+    TextView textView = findViewById(R.id.rm_textView_value);
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
@@ -60,7 +62,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 finish();
-                Intent i = new Intent(this, ResultExp.class);
+                Intent i = new Intent(ResultMap.this, ResultExp.class);
                 i.putExtra("SCORE", score);
                 startActivity(i);
             }
@@ -120,6 +122,8 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
             }
         }
 
+        textView.setText(Long.toString(Math.round(area)));
+
         triangle = new ArrayList<>(Arrays.asList(others_pos.get(index[0]),
                 others_pos.get(index[1]), others_pos.get(index[2])));
 
@@ -127,5 +131,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                 .addAll(triangle)
                 .strokeColor(Color.BLUE)
                 .fillColor(Color.argb(64, 128, 128, 255)));
+
+
     }
 }
