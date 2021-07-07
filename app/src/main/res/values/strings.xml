@@ -1,5 +1,49 @@
 <resources>
     <string name="app_name">PL2_Spread</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyC1Icg9coKuZg51qR1uGyqX1cj4OMwDLyM</string>
+
+    <string name="ti_start">START</string>
+
+    <string name="mm_start_game">Start Game</string>
+    <string name="mm_profile">プロフィール</string>
+    <string name="mm_record">記録</string>
+    <string name="rmn_joinRoom">ルームに参加する</string>
+    <string name="rmn_makeRoom">ルームを作る</string>
+    <string name="tg_roomName">ルーム名</string>
+    <string name="tg_gameMode">ゲームモード</string>
+    <string name="tg_battle">対戦</string>
+    <string name="tg_cooperation">協力</string>
+    <string name="tg_statusEffect">ステータス効果</string>
+    <string name="tg_on">あり</string>
+    <string name="tg_off">なし</string>
+    <string name="tg_member">メンバー</string>
+    <string name="tg_known">知ってる人のみ</string>
+    <string name="tg_unknown">知らない人もOK</string>
+    <string name="tg_make">作成する</string>
+    <string name="ruleLabel">ルール</string>
+    <string name="rule1">制限時間内に地図上に<br></br>大きい三角形を作る。</string>
+    <string name="rule2">チーム内で描けた一番大きな<br></br>三角形を記録とする。</string>
+    <string name="rule3">制限時間終了後に、プレイヤの<br></br>ステータスに応じて座標を少し<br></br>動かすことができる。</string>
+    <string name="ruleNumber1">1/3</string>
+    <string name="ruleNumber2">2/3</string>
+    <string name="ruleNumber3">3/3</string>
+    <string name="rd_ready">準備0K</string>
+    <string name="rd_waiting">待機中...</string>
+    <string name="pr_playerName">プレイヤ名</string>
+    <string name="pr_id">ID</string>
+    <string name="levelLabel">レベル</string>
+    <string name="re_expLabel">経験値</string>
+    <string name="re_nextLevelLabel">次のレベルまで</string>
+    <string name="next">次へ</string>
+    <string name="lv_textView_exp">残り経験値</string>
+    <string name="lv_decide">決定する</string>
+    <string name="ml_statusEffect">ステータス効果</string>
+    <string name="hr_gameStart">ゲームを開始する</string>
+    <string name="ge_replay">もう一度遊ぶ</string>
+    <string name="ge_endGame">ゲームを終了する</string>
+    <string name="tg_inputAlert">ルーム名を入力して下さい</string>
+    <string name="tg_radioAlert">ボタンを全て選択して下さい</string>
+
     <string name="rl_button_search">この条件で検索</string>
 
     <string name="rl_checkbox_ok">知らない人もOK</string>

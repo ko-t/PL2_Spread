@@ -1,5 +1,6 @@
 package com.webserva.wings.android.pl2_spread;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
+public class ResultMap extends AppCompatActivity implements OnMapReadyCallback{
     static int score;
     static Object lock;
     static int flag = 0;
