@@ -13,12 +13,12 @@ import java.util.List;
 // list_ms.xmlのアダプター
 //Roominfo.xmlに導入
 
-public class RlAdapter extends ArrayAdapter<Room> {
+public class MsAdapter extends ArrayAdapter<Room> {
     private LayoutInflater mInflater;
     private TextView list_rl_playername, list_rl_id;
     private Button mButton;
 
-    public RlAdapter(Context context, List<Room> objects) {
+    public MsAdapter(Context context, List<Room> objects) {
         super(context, 0, objects);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

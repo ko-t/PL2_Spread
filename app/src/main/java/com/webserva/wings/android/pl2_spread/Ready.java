@@ -12,12 +12,6 @@ import android.widget.TextView;
 
 public class Ready extends AppCompatActivity {
     private int ruleNumber = 1;
-    static void receiveMessage(String message){
-        String[] s=message.split("\\$");
-        switch(s[0]){
-            
-        }
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,5 +67,15 @@ public class Ready extends AppCompatActivity {
             Client.sendMessage("ready");
             rd_button_ready.setEnabled(false);
         });
+    }
+
+    void receiveMessage(String message){
+        String[] s=message.split("\\$");
+        switch(s[0]){
+            case "start":
+                Client.finishActivity();
+                Intent intent_to_gm = new Intent(getApplication(), Game.class);
+                startActivity(intent_to_gm);
+        }
     }
 }

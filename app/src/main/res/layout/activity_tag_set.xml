@@ -154,7 +154,7 @@
         app:layout_constraintHorizontal_bias="0.8"/>
 
     <ImageButton
-        android:id="@+id/tg_imageButton_status"
+        android:id="@+id/tg_imageButton_statusEffect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00000000"

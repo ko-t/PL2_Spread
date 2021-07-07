@@ -8,11 +8,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class TagSet extends AppCompatActivity {
-
+    private boolean transitionFlag = true;
+    private int[] tagStatus = {0,0,0};
+    private int tag;
+    private String RoomName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,12 +30,16 @@ public class TagSet extends AppCompatActivity {
         TextView tg_textView_inputAlert = findViewById(R.id.tg_textView_inputAlert);
         TextView tg_textView_radioAlert = findViewById(R.id.tg_textView_radioAlert);
         String radio_alert = getString(R.string.tg_radioAlert);
+        RadioButton tg_radioButton_battle = findViewById(R.id.tg_radioButton_battle);
+        RadioButton tg_radioButton_on = findViewById(R.id.tg_radioButton_on);
+        RadioButton tg_radioButton_known = findViewById(R.id.tg_radioButton_known);
+
+        ImageButton tg_imageButton_gameMode = findViewById(R.id.tg_imageButton_gameMode);
 
         Button tg_button_make = findViewById(R.id.tg_button_make);
         tg_button_make.setOnClickListener(v -> {
-            boolean transitionFlag = true;
-
-            if(!TextUtils.isEmpty(tg_plainText_room.getText())) {
+            RoomName = tg_plainText_room.getText().toString();
+            if(!RoomName.equals("")) {
                 tg_textView_inputAlert.setText("");
             }else {
                 transitionFlag = false;
@@ -66,7 +75,27 @@ public class TagSet extends AppCompatActivity {
             }
 
             if(transitionFlag) {
+                if(tg_radioButton_battle.isChecked()) {
+                    tagStatus[0] = 0;
+                }else {
+                    tagStatus[0] = 1;
+                }
+
+                if(tg_radioButton_on.isChecked()) {
+                    tagStatus[1] = 0;
+                }else {
+                    tagStatus[1] = 1;
+                }
+
+                if(tg_radioButton_known.isChecked()) {
+                    tagStatus[2] = 0;
+                }else {
+                    tagStatus[2] = 1;
+                }
+                tag = tagStatus[0]*4+tagStatus[1]*2+tagStatus[2];
+                Client.sendMessage("newroom$" + RoomName + "$" + tag);
                 Intent intent_to_ms = new Intent(getApplication(), MemberSelect.class);
+                intent_to_ms.putExtra("tag",tag);
                 startActivity(intent_to_ms);
             }
         });
