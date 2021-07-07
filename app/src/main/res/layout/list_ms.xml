@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout5"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <Button
+        android:id="@+id/list_ms_button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="32dp"
+        android:text="承認"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/list_ms_textview_playername"
+        app:layout_constraintTop_toTopOf="parent"></Button>
+
+    <TextView
+        android:id="@+id/list_ms_textview_playername"
+        android:layout_width="70dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="name"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/list_ms_textview_id"
+        android:layout_width="53dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
+        android:text=" id :"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/list_ms_textview_playername"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <!--ルーム名、条件、現在の人数のリストのレイアウト-->
