@@ -168,16 +168,16 @@ public class Client {
         }
     }
 
-//    void moveLocation(double x, double y){
-//
-//    }
+    void moveLocation(double x, double y){
 
-//    void playSound(String message){
-//
-//    }
+    }
+
+    void playSound(String message){
+
+    }
 
     //y=204x+9796（仮）
-    int calcLevel(int exp){
+    int calcLevel(int exp) {
         return (int)(Math.floor(((double)exp-9796.0))/204.0);
     }
 

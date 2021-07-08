@@ -28,8 +28,11 @@ public class Ranking extends AppCompatActivity implements View.OnClickListener {
         rk_count = (TextView) findViewById((R.id.rk_textview_count));
         //サーバからmessage("num\\$5")を受信
         receiveMessage("num$5");
+        System.out.print("rkはメッセージを受信しました");
         rk_count.setText(rk_str_count);
 
+        //ランキングの作成
+        //ランキング情報はサーバから？
         Room room1 = new Room("room1",1,"19641");
         Room room2 = new Room("room2",2,"19642");
         List<Room> list = new ArrayList<>();
