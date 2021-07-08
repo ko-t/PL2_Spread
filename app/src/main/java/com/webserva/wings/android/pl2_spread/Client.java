@@ -1,7 +1,31 @@
 package com.webserva.wings.android.pl2_spread;
 
+/*
+  　receiveMessageで画面遷移するときはこれを使ってください
+
+     static void receiveMessage(String message) {
+        String[] s = message.split("\\$");
+        switch (s[0]) {
+            case "start":
+                Client.finishActivity();
+                Intent i = new Intent(Client.context, {次のクラス}.class);
+                Client.startActivity(i);
+                break;
+        }
+    }
+
+       また、receiveMessageをクラスに実装したら、ClientのreceiveMessageの
+   コメントアウトを解除してくれると手間が省けます。
+
+ */
+
+
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,8 +39,9 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class Client {
-    String address = "localhost";
-    int port = 38443;
+    //static String serveraddress = "10.0.2.2";
+    static String serveraddress = "192.168.1.4";
+    static int port = 38443;
 
     static MemberInfo myInfo;
     static GoogleMap mMap;
@@ -25,6 +50,7 @@ public class Client {
     Sensor pedometer;
     static int[] expTable;
     static PrintWriter out;
+    static Context context;
 
 //    static enum screens{
 //        Title,
@@ -50,9 +76,17 @@ public class Client {
 //        LevelUp
 //    }
 
-    void init(){
+    static enum commands{
+        noConnection
+    }
+
+    static void init(){
+        myInfo = new MemberInfo("dummyName", "dummyId");
+    }
+
+    static void init_connection(){
         new Thread(() -> {
-            InetSocketAddress address = new InetSocketAddress( Client.this.address,Client.this.port);
+            InetSocketAddress address = new InetSocketAddress(serveraddress,port);
             Socket socket = new Socket();
             try {
                 socket.connect(address, 3000);
@@ -69,15 +103,15 @@ public class Client {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }) {
-
-        }.start();
+        }) .start();
     }
 
+    static void finishActivity(){
+        ((Activity) context).finish();
+    }
 
-
-    void createInfo(String name, String id){
-        myInfo = new MemberInfo(name, id);
+    static void startActivity(Intent i){
+        context.startActivity(i);
     }
 
     static void sendMessage(String message){
@@ -96,6 +130,7 @@ public class Client {
     }
 
     static void receiveMessage(String message){
+        Log.i("Client_receiveMessage", message);
         String[] s=message.split("\\$");
         switch(s[0]){
             case "status":
@@ -103,41 +138,40 @@ public class Client {
                         Integer.parseInt(s[3]),Integer.parseInt(s[4])};
                 myInfo.setStatus(news);
                 break;
-
             case "rank":
             case "best":
             case "num":
-                Ranking.receiveMessage(message);
+//                Ranking.receiveMessage(message);
                 break;
 
             case "add4":
             case "del":
-                RoomList.receiveMessage(message);
+//                RoomList.receiveMessage(message);
                 break;
 
             case "approved":
             case "declined":
-                RoomWait.receiveMessage(message);
+//                RoomWait.receiveMessage(message);
                 break;
 
             case "add10":
             case "delete10":
             case "broken":
             case "confirm":
-                RoomInfo.receiveMessage(message);
+//                RoomInfo.receiveMessage(message);
                 break;
 
             case "add9":
             case "delete9":
-                MemberSelect.receiveMessage(message);
+//                MemberSelect.receiveMessage(message);
                 break;
 
             case "start":
-                Ready.receiveMessage(message);
+//                Ready.receiveMessage(message);
                 break;
 
             case "readyall":
-                HReady.receiveMessage(message);
+//                HReady.receiveMessage(message);
                 break;
 
             case "otherpos12":
@@ -146,24 +180,24 @@ public class Client {
                 break;
 
             case "score13":
-                ResultExp.receiveMessage(message);
+//                ResultExp.receiveMessage(message);
                 break;
 
             case "gps17":
-                TeamSplit.receiveMessage(message);
+//                TeamSplit.receiveMessage(message);
                 break;
 
             case "gps18":
-                TeamSplitResult.receiveMessage(message);
+//                TeamSplitResult.receiveMessage(message);
                 break;
 
             case "otherpos19":
             case "score19":
-                TeamResultMap.receiveMessage(message);
+//                TeamResultMap.receiveMessage(message);
                 break;
 
             case "showresult":
-                Game.receiveMesage(message);
+//                Game.receiveMesage(message);
                 break;
         }
     }

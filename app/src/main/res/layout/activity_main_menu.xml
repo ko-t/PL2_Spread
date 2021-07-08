@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainMenu">
+
+    <Button
+        android:id="@+id/mm_button_game"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/mm_start_game"
+        android:backgroundTint="@color/light_blue"
+        android:autoSizeTextType="uniform"
+        android:textAllCaps="false"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/mm_button_profile" />
+
+    <Button
+        android:id="@+id/mm_button_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/mm_profile"
+        android:backgroundTint="@color/light_blue"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mm_button_game"
+        app:layout_constraintBottom_toTopOf="@id/mm_button_recode" />
+
+    <Button
+        android:id="@+id/mm_button_recode"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/mm_record"
+        android:backgroundTint="@color/light_blue"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mm_button_profile"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
