@@ -24,6 +24,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,8 +39,9 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class Client {
-    String address = "10.0.2.2";
-    int port = 38443;
+    //static String serveraddress = "10.0.2.2";
+    static String serveraddress = "192.168.1.4";
+    static int port = 38443;
 
     static MemberInfo myInfo;
     static GoogleMap mMap;
@@ -73,9 +76,17 @@ public class Client {
 //        LevelUp
 //    }
 
-    void init(){
+    static enum commands{
+        noConnection
+    }
+
+    static void init(){
+        myInfo = new MemberInfo("dummyName", "dummyId");
+    }
+
+    static void init_connection(){
         new Thread(() -> {
-            InetSocketAddress address = new InetSocketAddress( Client.this.address,Client.this.port);
+            InetSocketAddress address = new InetSocketAddress(serveraddress,port);
             Socket socket = new Socket();
             try {
                 socket.connect(address, 3000);
@@ -103,10 +114,6 @@ public class Client {
         context.startActivity(i);
     }
 
-
-    void createInfo(String name, String id){
-        myInfo = new MemberInfo(name, id);
-    }
     static void sendMessage(String message){
         String[] s=message.split("\\$");
         switch(s[0]) {
@@ -123,6 +130,7 @@ public class Client {
     }
 
     static void receiveMessage(String message){
+        Log.i("Client_receiveMessage", message);
         String[] s=message.split("\\$");
         switch(s[0]){
             case "status":
