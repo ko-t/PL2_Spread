@@ -22,9 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 public class RoomWait extends AppCompatActivity implements View.OnClickListener {
-    private static int rw_flag;
     private static String rw_roomname,rw_tag,rw_id;
     private Button rw_button_quit;  //退出→4 RoomListに戻る
+    private static Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,22 +43,24 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         Rw_Ri_Tsr_Adapter rw_ri_tsr_adapter = new Rw_Ri_Tsr_Adapter(this, list);
         listview.setAdapter(rw_ri_tsr_adapter);
 
-        if(rw_flag==0){         //承認
-            System.out.println("入室を承認されました");
-        }else if(rw_flag==1){          //拒否
-            System.out.println("入室を拒否されました");
-
-        }
     }
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
         switch (s[0]) {
+            //承認をうけたら画面10(RoomInfo)に移動
             case "approved":
-                rw_flag=0;
+                System.out.println("入室を承認されました");
+                Client.finishActivity();
+                intent = new Intent(Client.context, RoomInfo.class);
+                Client.startActivity(intent);
                 break;
+            //
             case "declined":
-                rw_flag=1;
+                System.out.println("入室を拒否されました");
+                Client.finishActivity();
+                intent = new Intent(Client.context, RoomList.class);
+                Client.startActivity(intent);
                 break;
         }
         rw_roomname=s[1];
@@ -66,12 +69,10 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
     }
 
     @Override
-
     public void onClick(View v) {
         if(v==rw_button_quit){    //退出する場合
-            Intent intent = new Intent(this,RoomList.class);
+            intent = new Intent(this,RoomList.class);
             startActivityForResult(intent,0);
         }
     }
-    //承認をうけたら10に移動
 }

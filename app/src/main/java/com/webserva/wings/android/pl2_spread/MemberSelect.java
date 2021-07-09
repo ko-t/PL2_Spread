@@ -38,8 +38,10 @@ public class MemberSelect extends AppCompatActivity implements View.OnClickListe
         List<Room> list_member = new ArrayList<>();
         if(ms_flag==0) {   //追加
             list_member.add(room1);
+            System.out.println("ms_メンバリストのメンバが追加されました");
         }else if(ms_flag==1){   //削除
             list_member.remove(list_member.indexOf(room1));
+            System.out.println("ms_メンバリストのメンバが退出しました");
         }
         //メンバの表示
         ListView listview2 = (ListView) findViewById(R.id.ms_listview_memberlist);
@@ -52,9 +54,11 @@ public class MemberSelect extends AppCompatActivity implements View.OnClickListe
         switch (s[0]) {
             case "add9":
                 ms_flag=0;
+                System.out.println("ms_サーバからadd9を受け取りました");
                 break;
             case "del9":
                 ms_flag=1;
+                System.out.println("ms_サーバからdel9を受け取りました");
                 break;
         }
         ms_roomname=s[1];
