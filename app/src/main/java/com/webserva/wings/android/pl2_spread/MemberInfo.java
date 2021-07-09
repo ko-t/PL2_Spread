@@ -5,7 +5,7 @@ public class MemberInfo {
     private String id;
     private String roomId = null;
     private int team = -1;
-    private int level = 1;
+    private int exp = 1;
     private int[] status = {0, 0, 0, 0};
     private int matchHistory = 0;
     private int recordId = -1;
@@ -31,12 +31,12 @@ public class MemberInfo {
         this.id = id;
     }
 
-    public int getLevel() {
-        return level;
+    public int getExp() {
+        return exp;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 
     public int[] getStatus() {

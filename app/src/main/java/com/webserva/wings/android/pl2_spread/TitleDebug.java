@@ -24,14 +24,14 @@ public class TitleDebug extends AppCompatActivity {
 
         Button ti_button_start = findViewById(R.id.tid_button_start);
         ti_button_start.setOnClickListener(v -> {
-            forDebug();
             Client.init();
+            forDebug();
 
             if(sw.isChecked()){
                 Client.init_connection();
             }
 
-            Intent i = new Intent(getApplication(), ResultMap.class);
+            Intent i = new Intent(getApplication(), Title.class);
             startActivity(i);
         });
     }
