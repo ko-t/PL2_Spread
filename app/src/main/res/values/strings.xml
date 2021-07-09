@@ -41,5 +41,14 @@
     <string name="ge_endGame">ゲームを終了する</string>
     <string name="tg_inputAlert">ルーム名を入力して下さい</string>
     <string name="tg_radioAlert">ボタンを全て選択して下さい</string>
+    <string name="hr_gameWait">準備中...</string>
+    <string name="hr_gameReady">ゲームを開始できます</string>
+    <string name="ml_east">東</string>
+    <string name="ml_west">西</string>
+    <string name="ml_south">南</string>
+    <string name="ml_north">北</string>
+    <string name="ts_splitLabel">チーム分け</string>
+    <string name="ts_splitExplanation">どちらかを選んで下さい</string>
+    <string name="ts_limitLabel">残り回数</string>
 
 </resources>

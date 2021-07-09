@@ -159,7 +159,7 @@ public class Client {
                 break;
 
             case "start":
-//                Ready.receiveMessage(message);
+                Ready.receiveMessage(message);
                 break;
 
             case "readyall":

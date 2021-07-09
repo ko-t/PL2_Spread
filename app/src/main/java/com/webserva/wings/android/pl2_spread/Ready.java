@@ -30,6 +30,7 @@ public class Ready extends AppCompatActivity {
         String ruleNumber3 = getString(R.string.ruleNumber3);
         rd_textView_ruleNumber.setText(ruleNumber1);
         TextView rd_textView_waiting = findViewById(R.id.rd_textView_waiting);
+        String waiting = getString(R.string.rd_waiting);
         ImageButton rd_imageButton_left = findViewById(R.id.rd_imageButton_left);
         ImageButton rd_imageButton_right = findViewById(R.id.rd_imageButton_right);
         rd_imageButton_left.setEnabled(false);
@@ -66,16 +67,18 @@ public class Ready extends AppCompatActivity {
         rd_button_ready.setOnClickListener(v -> {
             Client.sendMessage("ready");
             rd_button_ready.setEnabled(false);
+            rd_textView_waiting.setText(waiting);
         });
     }
 
-    void receiveMessage(String message){
-        String[] s=message.split("\\$");
-        switch(s[0]){
+    static void receiveMessage(String message) {
+        String[] s = message.split("\\$");
+        switch (s[0]) {
             case "start":
                 Client.finishActivity();
-                Intent intent_to_gm = new Intent(getApplication(), Game.class);
-                startActivity(intent_to_gm);
+                Intent intent_to_gm = new Intent(Client.context, Game.class);
+                Client.startActivity(intent_to_gm);
+                break;
         }
     }
 }

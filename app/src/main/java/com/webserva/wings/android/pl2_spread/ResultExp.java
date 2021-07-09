@@ -2,6 +2,7 @@ package com.webserva.wings.android.pl2_spread;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -22,6 +23,13 @@ public class ResultExp extends AppCompatActivity {
         re_textView_west.setText(Client.myInfo.getStatus()[2]);
         TextView re_textView_north = findViewById(R.id.re_textView_north);
         re_textView_north.setText(Client.myInfo.getStatus()[3]);
+
+        Intent intent_from_rm = getIntent();
+        int score = intent_from_rm.getIntExtra("SCORE",0);
+
+
+
+
 
     }
 }
