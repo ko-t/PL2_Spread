@@ -33,6 +33,18 @@ public class ClientTest extends TestCase {
         String [] sMes = test.sendMessage("roomreq");
         assertEquals("roomreq",sMes);
 
+        //メンバーの確定
+        sMes = test.receiveMessage("confirm$4$id1$1$id2$1$id3$0$id4$1");
+        assertEquals("confirm",sMes[0]);
+        assertEquals("4",sMes[1]);
+        assertEquals("id1",sMes[2]);
+        assertEquals("1",sMes[3]);
+        assertEquals("id2",sMes[4]);
+        assertEquals("1",sMes[5]);
+        assertEquals("id3",sMes[6]);
+        assertEquals("0",sMes[7]);
+        assertEquals("id4",sMes[8]);
+        assertEquals("1",sMes[9]);
 
         //継続確認
         sMes = test.sendMessage("resume$0");
@@ -87,10 +99,18 @@ public class ClientTest extends TestCase {
         assertEquals("num",rMes[0]);
         assertEquals("15",rMes[1]);
 
-        //部屋の削除
+        //ルームの削除
         rMes = test.receiveMessage("del$my1D");
         assertEquals("del",rMes[0]);
         assertEquals("my1D",rMes[1]);
+
+        //承認
+        rMes = test.receiveMessage("approved");
+        assertEquals("approved",rMes[0]);
+
+        //否認
+        rMes = test.receiveMessage("declined");
+        assertEquals("declined",rMes[0]);
 
         //メンバーの追加
         rMes = test.receiveMessage("add$Taro$ta6ou");
@@ -103,22 +123,21 @@ public class ClientTest extends TestCase {
         assertEquals("delete",rMes[0]);
         assertEquals("ta6ou",rMes[1]);
 
-        //メンバーの確定
-        rMes = test.receiveMessage("confirm$4$id1$1$id2$1$id3$0$id4$1");
+        //ルームの消失
+        rMes = test.receiveMessage("broken");
+        assertEquals("broken",rMes[0]);
+
+        //メンバー確定
+        rMes = test.receiveMessage("confirm");
         assertEquals("confirm",rMes[0]);
-        assertEquals("4",rMes[1]);
-        assertEquals("id1",rMes[2]);
-        assertEquals("1",rMes[3]);
-        assertEquals("id2",rMes[4]);
-        assertEquals("1",rMes[5]);
-        assertEquals("id3",rMes[6]);
-        assertEquals("0",rMes[7]);
-        assertEquals("id4",rMes[8]);
-        assertEquals("1",rMes[9]);
 
         //ゲーム開始
         rMes = test.receiveMessage("start");
         assertEquals("start",rMes[0]);
+
+        //全員準備完了
+        rMes = test.receiveMessage("readyall");
+        assertEquals("readyall",rMes[0]);
 
        //他のプレイヤの位置
         rMes = test.receiveMessage("otherpos$3$137.22$37.43$137.24$37.41");
