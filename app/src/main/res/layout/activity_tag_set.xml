@@ -22,6 +22,7 @@
         android:id="@+id/tg_plainText_room"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="text"
         app:layout_constraintWidth_percent="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

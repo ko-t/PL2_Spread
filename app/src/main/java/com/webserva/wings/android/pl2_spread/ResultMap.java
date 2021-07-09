@@ -1,16 +1,20 @@
 package com.webserva.wings.android.pl2_spread;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -24,13 +28,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
+public class ResultMap extends FragmentActivity implements OnMapReadyCallback{
     static int score;
-    static Object lock;
+    static Object lock = new Object();
     static int flag = 0;
     static List<LatLng> others_pos = new ArrayList<>();
-    Button button = findViewById(R.id.rm_button);
-    TextView textView = findViewById(R.id.rm_textView_value);
+    Button button;
+    TextView textView;
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
@@ -58,18 +62,19 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resultmap);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                Intent i = new Intent(ResultMap.this, ResultExp.class);
-                i.putExtra("SCORE", score);
-                startActivity(i);
-            }
+        button = findViewById(R.id.rm_button);
+        textView = findViewById(R.id.rm_textView_value);
+
+        button.setOnClickListener(v -> {
+            finish();
+            Intent i = new Intent(ResultMap.this, ResultExp.class);
+            i.putExtra("SCORE", score);
+            startActivity(i);
         });
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.rm_map);
+        Log.i("rm_onCreate",mapFragment.toString());
         mapFragment.getMapAsync(this);
     }
 

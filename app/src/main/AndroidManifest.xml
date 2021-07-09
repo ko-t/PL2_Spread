@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.webserva.wings.android.pl2_spread">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
-
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PL2_Spread">
-        <activity android:name=".TeamSplit"></activity>
+            <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".Game" />
+        <activity android:name=".TeamSplit" />
         <activity android:name=".GameEnd" />
         <activity android:name=".HReady" />
         <activity android:name=".MoveLocation" />
@@ -23,11 +32,39 @@
         <activity android:name=".Profile" />
         <activity android:name=".RoomMenu" />
         <activity android:name=".MainMenu" />
-        <activity android:name=".Title">
+        <activity android:name=".Title"/>
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".TeamSplitResult"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".MemberSelect"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".Ranking"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".RoomInfo"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".RoomList"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".RoomWait"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".TitleDebug">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 </manifest>

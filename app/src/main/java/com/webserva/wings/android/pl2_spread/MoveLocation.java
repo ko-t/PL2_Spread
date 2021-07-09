@@ -44,6 +44,8 @@ public class MoveLocation extends AppCompatActivity {
                     Client.sendMessage("move$4");
                 }
 
+
+
             }
         });
     }
