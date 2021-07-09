@@ -51,8 +51,8 @@
     <string name="ts_splitExplanation">どちらかを選んで下さい</string>
     <string name="ts_limitLabel">残り回数</string>
     <string name="rl_button_search">この条件で検索</string>
-    <string name="rl_checkbox_ok">知らない人もOK</string>
-    <string name="rl_checkbox_no">知ってる人のみ</string>
+    <string name="rl_checkbox_ok">知らない人\nもOK</string>
+    <string name="rl_checkbox_no">知ってる人\nのみ</string>
     <string name="rl_checkbox_effectOn">効果あり</string>
     <string name="rl_checkbox_effectOff">効果なし</string>
 
