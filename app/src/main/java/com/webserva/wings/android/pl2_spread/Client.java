@@ -119,14 +119,14 @@ public class Client {
         switch(s[0]) {
             case "startpos":
             case "goalpos":
-                //位置情報を送る
+                message += ("$" + goal);
                 break;
 
             case "move":
                 //wip
                 break;
         }
-        out.println(message);
+        out.println(myInfo.getId() + "$" + message);
     }
 
     static void receiveMessage(String message){
