@@ -167,7 +167,7 @@ public class Client {
                 break;
 
             case "start":
-//                Ready.receiveMessage(message);
+                Ready.receiveMessage(message);
                 break;
 
             case "readyall":
@@ -211,11 +211,11 @@ public class Client {
 //    }
 
     //y=204x+9796（仮）
-    int calcLevel(int exp){
+    static int calcLevel(int exp){
         return (int)(Math.floor(((double)exp-9796.0))/204.0);
     }
 
-    int calcNextExp(int exp){
+    static int calcNextExp(int exp){
         return 204*(calcLevel(exp)+1)+9796-exp;
     }
 }
