@@ -20,7 +20,7 @@ public class Profile extends AppCompatActivity implements TextWatcher{
         setContentView(R.layout.activity_profile);
 
         TextView pr_textView_level = findViewById(R.id.pr_textView_level);
-        pr_textView_level.setText(String.valueOf(Client.myInfo.getLevel()));
+        pr_textView_level.setText(String.valueOf(Client.calcLevel(Client.myInfo.getExp())));
         TextView pr_textView_id = findViewById(R.id.pr_textView_id);
         pr_textView_id.setText(Client.myInfo.getId());
         TextView pr_textView_east = findViewById(R.id.pr_textView_east);
