@@ -40,8 +40,9 @@ import java.net.Socket;
 
 public class Client {
     //static String serveraddress = "10.0.2.2";
-    static String serveraddress = "192.168.1.4";
+    static String serveraddress = "172.20.10.14";
     static int port = 38443;
+    static long time = 10000;
 
     static MemberInfo myInfo;
     static GoogleMap mMap;
@@ -87,12 +88,15 @@ public class Client {
     static void init_connection(){
         new Thread(() -> {
             InetSocketAddress address = new InetSocketAddress(serveraddress,port);
+            Log.i("Client_init", "test1");
             Socket socket = new Socket();
             try {
                 socket.connect(address, 3000);
+                Log.i("Client_init", "test2");
                 BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream());
-                sendMessage("test");
+                sendMessage("");
+                Log.i("Client_init", "sent message");
                 String s;
                 while (true) {
                     s = br.readLine();
@@ -127,6 +131,7 @@ public class Client {
                 break;
         }
         out.println(myInfo.getId() + "$" + message);
+        out.flush();
     }
 
     static void receiveMessage(String message){
@@ -211,11 +216,11 @@ public class Client {
 //    }
 
     //y=204x+9796（仮）
-    int calcLevel(int exp){
+    static int calcLevel(int exp){
         return (int)(Math.floor(((double)exp-9796.0))/204.0);
     }
 
-    int calcNextExp(int exp){
+    static int calcNextExp(int exp){
         return 204*(calcLevel(exp)+1)+9796-exp;
     }
 }
