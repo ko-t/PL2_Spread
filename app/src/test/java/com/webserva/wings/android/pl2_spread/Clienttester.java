@@ -127,7 +127,7 @@ public class Clienttester {
                 //wip
                 break;
         }
-        out.println(myInfo.getId() + "$" + message);
+        //out.println(myInfo.getId() + "$" + message);
         return s;
     }
 
@@ -179,7 +179,7 @@ public class Clienttester {
 
             case "otherpos12":
             case "score12":
-                ResultMap.receiveMessage(message);
+                //ResultMap.receiveMessage(message);
                 break;
 
             case "score13":

@@ -28,10 +28,33 @@ public class ClientTest extends TestCase {
     }
 
     public void testSendMessage() {
-        //部屋リスト送信リクエスト
-
+        //ルームリスト送信リクエスト
         String [] sMes = test.sendMessage("roomreq");
-        assertEquals("roomreq",sMes);
+        assertEquals("roomreq",sMes[0]);
+
+        //メンバーの承認
+        sMes = test.receiveMessage("accept$myID");
+        assertEquals("accept",sMes[0]);
+        assertEquals("myID",sMes[1]);
+
+        //スコアの送信要求
+        sMes = test.sendMessage("rankreq");
+        assertEquals("rankreq",sMes[0]);
+
+        //ルーム作成申請(チーム名とタグ)
+        sMes = test.receiveMessage("newroom$myRoom$4");
+        assertEquals("newroom",sMes[0]);
+        assertEquals("myRoom",sMes[1]);
+        assertEquals("4",sMes[2]);
+
+        //ルームへの参加申請
+        sMes = test.receiveMessage("apply$my1D");
+        assertEquals("apply",sMes[0]);
+        assertEquals("my1D",sMes[1]);
+
+        //退出情報
+        sMes = test.sendMessage("leave");
+        assertEquals("leave",sMes[0]);
 
         //メンバーの確定
         sMes = test.receiveMessage("confirm$4$id1$1$id2$1$id3$0$id4$1");
@@ -70,6 +93,8 @@ public class ClientTest extends TestCase {
         assertEquals("num",rMes[0]);
         assertEquals("myID",rMes[1]);
         assertEquals("3",rMes[2]);
+
+
 
         //ルームリスト追加
         rMes = test.receiveMessage("add$myRoom$4$my1D$myName$3");
@@ -123,6 +148,30 @@ public class ClientTest extends TestCase {
         assertEquals("delete",rMes[0]);
         assertEquals("ta6ou",rMes[1]);
 
+        //メンバーの追加10
+        rMes = test.receiveMessage("add10$Taro$ta6ou");
+        assertEquals("add10",rMes[0]);
+        assertEquals("Taro",rMes[1]);
+        assertEquals("ta6ou",rMes[2]);
+
+        //メンバーの削除10
+        rMes = test.receiveMessage("delete10$ta6ou");
+        assertEquals("delete10",rMes[0]);
+        assertEquals("ta6ou",rMes[1]);
+
+        //メンバーの追加9
+        rMes = test.receiveMessage("add9$Taro$ta6ou");
+        assertEquals("add9",rMes[0]);
+        assertEquals("Taro",rMes[1]);
+        assertEquals("ta6ou",rMes[2]);
+
+        //メンバーの削除
+        rMes = test.receiveMessage("delete9$ta6ou");
+        assertEquals("delete9",rMes[0]);
+        assertEquals("ta6ou",rMes[1]);
+
+
+
         //ルームの消失
         rMes = test.receiveMessage("broken");
         assertEquals("broken",rMes[0]);
@@ -132,8 +181,8 @@ public class ClientTest extends TestCase {
         assertEquals("confirm",rMes[0]);
 
         //ゲーム開始
-        rMes = test.receiveMessage("start");
-        assertEquals("start",rMes[0]);
+        //rMes = test.receiveMessage("start");
+        //assertEquals("start",rMes[0]);
 
         //全員準備完了
         rMes = test.receiveMessage("readyall");
