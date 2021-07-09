@@ -34,6 +34,7 @@
         <activity android:name=".RoomMenu" />
         <activity android:name=".MainMenu" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".ResultMap"/>
         <activity
             android:name=".TeamSplitResult"
             android:label="@string/app_name">
