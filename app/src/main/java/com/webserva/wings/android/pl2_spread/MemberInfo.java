@@ -35,8 +35,8 @@ public class MemberInfo {
         return exp;
     }
 
-    public void setExp(int exp) {
-        this.exp = exp;
+    public void addExp(int exp) {
+        this.exp += exp;
     }
 
     public int[] getStatus() {

@@ -27,7 +27,7 @@ public class MainMenu extends AppCompatActivity {
 
         Button mm_button_recode = findViewById(R.id.mm_button_recode);
         mm_button_recode.setOnClickListener(v -> {
-            Intent intent_to_rmn = new Intent(getApplication(), Ranking.class);
+            Intent intent_to_rmn = new Intent(getApplication(), RoomMenu.class);
             startActivity(intent_to_rmn);
         });
     }
