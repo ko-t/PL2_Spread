@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <TextView
         android:id="@+id/ml_textView_north"
@@ -38,7 +38,6 @@
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.1"
         app:layout_constraintHeight_percent="0.05"
-        android:text="55"
         android:autoSizeTextType="uniform"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -56,7 +55,6 @@
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:gravity="center"
-        android:text="10"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:background="@drawable/border"
@@ -74,7 +72,6 @@
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.1"
         app:layout_constraintHeight_percent="0.05"
-        android:text="55"
         android:autoSizeTextType="uniform"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -91,7 +88,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        android:text="10"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:background="@drawable/border"
@@ -105,7 +101,7 @@
         app:layout_constraintTop_toTopOf="@id/ml_imageView_status" />
 
     <Button
-        android:id="@+id/lv_button_decide"
+        android:id="@+id/ml_button_decide"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/lv_decide"
@@ -118,5 +114,45 @@
         app:layout_constraintVertical_bias="0.9 "
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintHeight_percent="0.08"/>
+
+    <RadioGroup
+        android:id="@+id/ml_radioGroup_direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.75">
+
+        <RadioButton
+            android:id="@+id/ml_radioButton_east"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/ml_east" />
+
+        <RadioButton
+            android:id="@+id/ml_radioButton_west"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/ml_west" />
+
+        <RadioButton
+            android:id="@+id/ml_radioButton_south"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/ml_south" />
+
+        <RadioButton
+            android:id="@+id/ml_radioButton_north"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/ml_north" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
