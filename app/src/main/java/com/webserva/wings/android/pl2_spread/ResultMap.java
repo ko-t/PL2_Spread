@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,17 +45,14 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback{
                 for (int i = 0; i < num; i++) {
                     others_pos.add(new LatLng(Double.parseDouble(s[2 * i + 2]), Double.parseDouble(s[2 * i + 3])));
                 }
-                flag++;
+                synchronized (lock) {
+                    lock.notifyAll();
+                }
                 break;
             case "score12":
                 score = num;
                 flag++;
                 break;
-        }
-        if (flag == 2) {
-            synchronized (lock) {
-                lock.notifyAll();
-            }
         }
     }
 
@@ -83,15 +81,17 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback{
         Client.mMap = googleMap;
         Client.mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(Client.goal, 13));
 
-        if (flag <= 1) {
-            synchronized (lock) {
-                try {
-                    lock.wait();
-                } catch (Exception e) {
+        try{Thread.sleep(2000);}catch(Exception e){e.printStackTrace();};
 
-                }
-            }
-        }
+//        if (flag <= 1) {
+//            synchronized (lock) {
+//                try {
+//                    lock.wait();
+//                } catch (Exception e) {
+//
+//                }
+//            }
+//        }
 
         //直線
         LatLng even, odd = others_pos.get(0);
@@ -136,7 +136,19 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback{
                 .addAll(triangle)
                 .strokeColor(Color.BLUE)
                 .fillColor(Color.argb(64, 128, 128, 255)));
-
-
     }
+
+    double calcAngle(LatLng ll1, LatLng ll2){
+        double x1 = ll1.latitude, x2 = ll2.longitude, y1 = ll1.longitude, y2 = ll2.longitude, r=6371*1000;
+        double angle = 90 - Math.atan2(Math.sin(x2-x1), Math.cos(y1)*Math.tan(y2)-Math.sin(y1)*Math.cos(x2-x1));
+        return angle;
+    }
+
+    double calcDist(LatLng ll1, LatLng ll2){
+        double x1 = ll1.latitude, x2 = ll2.longitude, y1 = ll1.longitude, y2 = ll2.longitude, r=6371*1000;
+        double d = r*Math.acos(
+                Math.sin(y1)*Math.sin(y2)+Math.cos(y1)*Math.cos(y2)*Math.cos(x2-x1));
+        return d;
+    }
+
 }
