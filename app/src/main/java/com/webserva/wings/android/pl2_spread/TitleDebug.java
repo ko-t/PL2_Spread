@@ -3,9 +3,7 @@ package com.webserva.wings.android.pl2_spread;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class TitleDebug extends AppCompatActivity {
 
-    Switch sw;
+    Switch sw, sw2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +19,7 @@ public class TitleDebug extends AppCompatActivity {
         setContentView(R.layout.activity_titledebug);
 
         sw = findViewById(R.id.tid_switch);
+        sw2 = findViewById(R.id.tid_switch2);
 
         Button ti_button_start = findViewById(R.id.tid_button_start);
         ti_button_start.setOnClickListener(v -> {
@@ -34,16 +33,16 @@ public class TitleDebug extends AppCompatActivity {
                 }
             }
 
-            //forDebug();
-
-
+            if(sw2.isChecked()){
+                useDummyLocations();
+            }
 
             Intent i = new Intent(getApplication(), Title.class);
             Client.startActivity(i);
         });
     }
 
-    void forDebug() {
+    void useDummyLocations() {
         Client.goal = new LatLng(30.2, 21.34);
         ResultMap.receiveMessage("otherpos12$5$" +
                 "34.2$26.5$" +
