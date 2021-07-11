@@ -96,4 +96,5 @@
     <string name="tsr_button_next">次へ</string>
     <string name="ms_no_data">no data</string>
     <string name="main_button">Button</string>
+    <string name="ts_alert">もう一度選んで下さい</string>
 </resources>
