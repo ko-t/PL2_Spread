@@ -36,8 +36,7 @@ public class Ranking extends AppCompatActivity {
         rk_count.setText(rk_str_count);
 
         //ランキングの作成
-<<<<<<< HEAD
-=======
+
         //ランキング情報はサーバから？
         Room room1 = new Room("room1",1,"19641");
         Room room2 = new Room("room2",2,"19642");
@@ -66,7 +65,6 @@ public class Ranking extends AppCompatActivity {
         list.add(room11);
         list.add(room12);
 
->>>>>>> bef4770ffef50e5560331aa6bf09e52a1ce159cf
         ListView listview = (ListView) findViewById(R.id.rk_listview_ranking);
 
         RkAdapter rk_adapter = new RkAdapter(this, list);
@@ -101,6 +99,16 @@ public class Ranking extends AppCompatActivity {
                 rk_count.setText(rk_str_count);
                 break;
         }
+    }
+
+
+    //画面遷移
+    @Override
+    public void onClick(View v) {
+//        if(v==ms_button){
+//            Intent intent = new Intent(this,RoomInfo.class);
+//            Client.startActivity(intent);
+//        }
     }
 
 }

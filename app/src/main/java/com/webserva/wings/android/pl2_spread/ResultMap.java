@@ -64,10 +64,10 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback{
         textView = findViewById(R.id.rm_textView_value);
 
         button.setOnClickListener(v -> {
-            finish();
+            Client.finishActivity();
             Intent i = new Intent(ResultMap.this, ResultExp.class);
             i.putExtra("SCORE", score);
-            startActivity(i);
+            Client.startActivity(i);
         });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()

@@ -77,7 +77,7 @@ public class MemberSelect extends AppCompatActivity implements View.OnClickListe
             }
             Client.sendMessage("confirm$"+size+"$"+str_cnf);
             Intent intent = new Intent(this,RoomInfo.class);
-            startActivity(intent);
+            Client.startActivity(intent);
         }
     }
 }
