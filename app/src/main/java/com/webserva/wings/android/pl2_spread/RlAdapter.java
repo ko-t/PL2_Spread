@@ -26,9 +26,9 @@ public class RlAdapter extends ArrayAdapter<Room> {
         final Room item = this.getItem(position);
         if (item != null) {
             list_rl_roomname = (TextView) convertView.findViewById(R.id.rl_host_textview_roomname);
-            list_rl_roomname.setText(item.getRoomName());
+            //list_rl_roomname.setText(item.getRoomName());
             list_rl_setting = (TextView) convertView.findViewById(R.id.rl_host_textview_settting);
-            list_rl_setting.setText(String.valueOf(item.getHostId()));
+            //list_rl_setting.setText(String.valueOf(item.getHostId()));
 
             //メンバーの人数
             list_rl_count = (TextView) convertView.findViewById(R.id.rl_host_textview_count);

@@ -3,6 +3,7 @@ package com.webserva.wings.android.pl2_spread;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -46,12 +47,12 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         list = new ArrayList<>();
         if(rl_flag==0) {     //追加
             list.add(room1);
-            System.out.println("ルームが追加されました");
+            Log.i("rl_onCreate","ルームが追加されました");
         }else if(rl_flag==1){    //削除
             list.remove(list.indexOf(room1));
-            System.out.println("ルームが削除されました");
+            Log.i("rl_onCreate","ルームが削除されました");
         }else if(rl_flag==-1){
-            System.out.println("新しいルームのデータはありません");
+            Log.i("rl_onCreate","新しいルームのデータはありません");
         }
 
         ListView listview = (ListView) findViewById(R.id.rl_listview_roominfo);
@@ -64,7 +65,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
                 startActivity(intent_list);
-                System.out.println("RoomWait.classが開始されました");
+                Log.i("rl_onCreate","RoomWait.classが開始されました");
             }
         });
 
@@ -100,6 +101,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             //submitボタンは使用不可中
             @Override
             public boolean onQueryTextChange(String newText) {
+                Log.i("rl_onQueryTextChange","ルーム名検索が実行されました");
                 return false;
             }
         });
@@ -111,11 +113,11 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         switch (s[0]) {
             case "add4":
                 rl_flag=0;
-                System.out.println("追加するルーム情報が渡されました");
+                Log.i("rl_receive.Message","追加するルーム情報が渡されました");
                 break;
             case "del":
                 rl_flag=1;
-                System.out.println("削除するルーム情報が渡されました");
+                Log.i("rl_receive.Message","解除するルーム情報が渡されました");
                 break;
         }
         rl_roomname=s[1];
@@ -123,11 +125,9 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         rl_id=s[3];
     }
 
-    //検索をかけたとき
+    //チェックボックスで検索をかけたとき
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this,RoomWait.class);
-        startActivity(intent);
     }
 }
 

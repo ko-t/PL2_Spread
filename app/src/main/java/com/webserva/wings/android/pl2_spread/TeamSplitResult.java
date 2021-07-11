@@ -75,13 +75,6 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
         tsr_player=intent.getStringExtra(s[2]);
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
         room1 = new Room(s[2], 1, tsr_id);
-//        System.out.printf("チーム：");
-//        if(tsr_rsp==0){
-//            System.out.printf("グーで、");
-//        }else if(tsr_rsp==1){
-//            System.out.printf("パーで、");
-//        }
-//        System.out.printf("プレイヤ名は"+s[2]+"です");
     }
 
     //画面遷移

@@ -50,14 +50,14 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         switch (s[0]) {
             //承認をうけたら画面10(RoomInfo)に移動
             case "approved":
-                System.out.println("入室を承認されました");
+                Log.i("rw_receiveMessage","入室を承認されました");
                 Client.finishActivity();
                 intent = new Intent(Client.context, RoomInfo.class);
                 Client.startActivity(intent);
                 break;
             //
             case "declined":
-                System.out.println("入室を拒否されました");
+                Log.i("rw_receiveMessage","入室を拒否されました");
                 Client.finishActivity();
                 intent = new Intent(Client.context, RoomList.class);
                 Client.startActivity(intent);
@@ -71,6 +71,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if(v==rw_button_quit){    //退出する場合
+            Client.sendMessage("leave");
             intent = new Intent(this,RoomList.class);
             startActivityForResult(intent,0);
         }
