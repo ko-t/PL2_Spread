@@ -3,6 +3,7 @@ package com.webserva.wings.android.pl2_spread;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -43,10 +44,10 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         List<Room> list_member = new ArrayList<>();
         if(ri_flag==0) {   //追加
             list_member.add(room1);
-            System.out.println("ri_メンバリストのメンバが追加されました");
+            Log.i("ri_onCreate","メンバリストのメンバが追加されました");
         }else if(ri_flag==1){   //削除
             list_member.remove(list_member.indexOf(room1));
-            System.out.println("ri_メンバリストのメンバが退出しました");
+            Log.i("ri_onCreate","メンバリストのメンバが退出しました");
         }
         //メンバの表示
         ListView listview2 = (ListView) findViewById(R.id.ri_listview_member);
@@ -74,12 +75,12 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         switch (s[0]) {
             case "add10":
                 ri_flag=0;
-                System.out.println("ri_サーバからadd10を受け取りました");
+                Log.i("ri_receiveMessage","サーバからadd10を受け取りました");
                 break;
 
             case "del10":
                 ri_flag=1;
-                System.out.println("ri_サーバからdel9を受け取りました");
+                Log.i("ri_receiveMessage","サーバからdel9を受け取りました");
                 break;
 
             //ホストの接続が切れたとき
@@ -91,7 +92,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
             //ホストがメンバの確定を押したとき
             //Ready画面(Ready.java)に遷移
             case "confirm":
-                System.out.println("メンバが確定されました");
+                Log.i("ri_receiveMessage","メンバが確定されました");
                 Client.finishActivity();
                 intent = new Intent(Client.context, Ready.class);
                 Client.startActivity(intent);
@@ -106,6 +107,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         //退出するとき
         if(v==ri_button_quit){
+            Client.sendMessage("leave");
             Intent intent = new Intent(this,RoomList.class);
             startActivity(intent);
         }
