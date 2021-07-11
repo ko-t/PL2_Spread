@@ -34,10 +34,12 @@
         <activity android:name=".RoomMenu" />
         <activity android:name=".MainMenu" />
         <activity android:name=".MainActivity" />
+
         <activity android:name=".TeamSplitResult"/>
         <activity android:name=".MemberSelect"/>
         <activity android:name=".Ranking"/>
         <activity android:name=".RoomInfo"/>
+
 
         <activity android:name=".RoomWait"/>
         <activity android:name=".Title"/>
