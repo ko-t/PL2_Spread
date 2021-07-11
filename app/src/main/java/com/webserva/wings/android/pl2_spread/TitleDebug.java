@@ -38,7 +38,7 @@ public class TitleDebug extends AppCompatActivity {
 
 
 
-            Intent i = new Intent(getApplication(), GameEnd.class);
+            Intent i = new Intent(getApplication(), Title.class);
             Client.startActivity(i);
         });
     }
