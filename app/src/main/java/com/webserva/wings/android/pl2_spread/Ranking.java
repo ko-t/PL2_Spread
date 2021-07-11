@@ -82,7 +82,7 @@ public class Ranking extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
 //        if(v==ms_button){
 //            Intent intent = new Intent(this,RoomInfo.class);
-//            startActivity(intent);
+//            Client.startActivity(intent);
 //        }
     }
 }

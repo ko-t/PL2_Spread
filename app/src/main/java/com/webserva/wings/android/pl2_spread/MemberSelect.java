@@ -72,7 +72,7 @@ public class MemberSelect extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if(v==ms_button_decision){
             Intent intent = new Intent(this,RoomInfo.class);
-            startActivity(intent);
+            Client.startActivity(intent);
         }
     }
 }

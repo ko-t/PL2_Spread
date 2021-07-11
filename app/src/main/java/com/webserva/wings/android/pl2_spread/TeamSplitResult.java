@@ -89,7 +89,8 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if(v==tsr_button_next){   //画面15(Game)に遷移
             Intent intent = new Intent(this,RoomInfo.class);
-            startActivity(intent);
+            Client.finishActivity();
+            Client.startActivity(intent);
         }
     }
 }

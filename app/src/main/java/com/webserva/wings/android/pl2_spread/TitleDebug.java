@@ -24,22 +24,37 @@ public class TitleDebug extends AppCompatActivity {
 
         Button ti_button_start = findViewById(R.id.tid_button_start);
         ti_button_start.setOnClickListener(v -> {
-            Client.init();
-            forDebug();
-
-            if(sw.isChecked()){
+            Client.init(this);
+            if (sw.isChecked()) {
                 Client.init_connection();
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
-            Intent i = new Intent(getApplication(), Title.class);
-            startActivity(i);
+            //forDebug();
+
+
+
+            Intent i = new Intent(getApplication(), GameEnd.class);
+            Client.startActivity(i);
         });
     }
 
-    void forDebug(){
-        Client.goal = new LatLng(30.1, 21.44);
+    void forDebug() {
         Client.goal = new LatLng(30.2, 21.34);
-        Client.sendMessage("startpos");
-        Client.sendMessage("goalpos");
+        ResultMap.receiveMessage("otherpos12$5$" +
+                "34.2$26.5$" +
+                "30.173$30.1112$" +
+                "33.048$28.51$" +
+                "32.83$27.124$" +
+                "31.1245$29.53");
+        //ResultMap.receiveMessage("score12$30.2, 22.44");
+//        Client.start = new LatLng(30.1, 21.44);
+
+//        Client.sendMessage("startpos");
+//        Client.sendMessage("goalpos");
     }
 }
