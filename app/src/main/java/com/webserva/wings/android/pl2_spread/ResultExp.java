@@ -32,7 +32,7 @@ public class ResultExp extends AppCompatActivity {
         int current_exp = Client.myInfo.getExp();
         int current_level = Client.calcLevel(current_exp);
         int new_exp = current_exp+score;
-        Client.myInfo.setExp(new_exp);
+        Client.myInfo.addExp(new_exp);
         int next_level = Client.calcLevel(new_exp);
         re_textView_level.setText(next_level);
         re_textView_nextLevel.setText(Client.calcNextExp(new_exp));
