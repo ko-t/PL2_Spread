@@ -14,7 +14,7 @@ public class RoomMenu extends AppCompatActivity {
 
         Button rmn_button_join = findViewById(R.id.rmn_button_join);
         rmn_button_join.setOnClickListener(v -> {
-            Intent intent_to_rl = new Intent(getApplication(), MainMenu.class);
+            Intent intent_to_rl = new Intent(getApplication(), RoomList.class);
             startActivity(intent_to_rl);
         });
 

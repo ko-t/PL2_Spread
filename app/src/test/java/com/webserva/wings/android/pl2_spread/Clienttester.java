@@ -1,5 +1,6 @@
 package com.webserva.wings.android.pl2_spread;
 
+
 /*
   　receiveMessageで画面遷移するときはこれを使ってください
 
@@ -38,11 +39,10 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-public class Client {
+public class Clienttester {
     //static String serveraddress = "10.0.2.2";
-    static String serveraddress = "172.20.10.14";
+    static String serveraddress = "192.168.1.4";
     static int port = 38443;
-    static long time = 10000;
 
     static MemberInfo myInfo;
     static GoogleMap mMap;
@@ -88,20 +88,17 @@ public class Client {
     static void init_connection(){
         new Thread(() -> {
             InetSocketAddress address = new InetSocketAddress(serveraddress,port);
-            Log.i("Client_init", "test1");
             Socket socket = new Socket();
             try {
                 socket.connect(address, 3000);
-                Log.i("Client_init", "test2");
                 BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream());
-                sendMessage("");
-                Log.i("Client_init", "sent message");
+                sendMessage("test");//テスト用に改変
                 String s;
                 while (true) {
                     s = br.readLine();
                     if (s != null) {
-                        receiveMessage(s);
+                        //receiveMessage(s);
                     }
                 }
             } catch (IOException e) {
@@ -118,7 +115,7 @@ public class Client {
         context.startActivity(i);
     }
 
-    static void sendMessage(String message){
+    static String [] sendMessage(String message){
         String[] s=message.split("\\$");
         switch(s[0]) {
             case "startpos":
@@ -130,13 +127,14 @@ public class Client {
                 //wip
                 break;
         }
-        out.println(myInfo.getId() + "$" + message);
-        out.flush();
+        //out.println(myInfo.getId() + "$" + message);
+        return s;
     }
 
-    static void receiveMessage(String message){
-        Log.i("Client_receiveMessage", message);
+     String [] receiveMessage(String message){
+        //Log.i("Client_receiveMessage", message);
         String[] s=message.split("\\$");
+
         switch(s[0]){
             case "status":
                 int[] news  = {Integer.parseInt(s[1]), Integer.parseInt(s[2]),
@@ -172,7 +170,7 @@ public class Client {
                 break;
 
             case "start":
-//                Ready.receiveMessage(message);
+                Ready.receiveMessage(message);
                 break;
 
             case "readyall":
@@ -181,7 +179,7 @@ public class Client {
 
             case "otherpos12":
             case "score12":
-                ResultMap.receiveMessage(message);
+                //ResultMap.receiveMessage(message);
                 break;
 
             case "score13":
@@ -204,21 +202,19 @@ public class Client {
             case "showresult":
 //                Game.receiveMesage(message);
                 break;
-        }
+        }return s;
     }
 
-    void moveLocation(double x, double y){
+//    void moveLocation(double x, double y){
+//
+//    }
 
-    }
-
-    void playSound(String message){
-
-    }
+//    void playSound(String message){
+//
+//    }
 
     //y=204x+9796（仮）
-
     static int calcLevel(int exp){
-
         return (int)(Math.floor(((double)exp-9796.0))/204.0);
     }
 

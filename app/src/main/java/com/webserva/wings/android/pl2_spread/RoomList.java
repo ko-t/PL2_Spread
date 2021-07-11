@@ -31,6 +31,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         findViewById(R.id.rl_button_search).setOnClickListener(this);
 
 
+
         //listviewについて
         receiveMessage("add4$room1$tag1$id1");
         Integer rl_tag1 = Integer.parseInt(rl_tag);
@@ -53,6 +54,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         }else if(rl_flag==-1){
             System.out.println("新しいルームのデータはありません");
         }
+
 
         ListView listview = (ListView) findViewById(R.id.rl_listview_roominfo);
         RlAdapter rl_adapter = new RlAdapter(this, list);

@@ -29,7 +29,6 @@
         android:textColor="@color/black"
         app:layout_constraintWidth_percent="0.2"
         app:layout_constraintHeight_percent="0.05"
-        android:text="5"
         android:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.7"
@@ -37,38 +36,6 @@
         app:layout_constraintTop_toTopOf="@id/lv_textView_levelLabel"
         app:layout_constraintBottom_toBottomOf="@id/lv_textView_levelLabel"
         app:layout_constraintVertical_bias="0.05" />
-
-    <TextView
-        android:id="@+id/lv_textView_expLabel"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:autoSizeTextType="uniform"
-        android:textColor="@color/black"
-        app:layout_constraintWidth_percent="0.3"
-        app:layout_constraintHeight_percent="0.04"
-        android:text="@string/lv_textView_exp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.15"
-        app:layout_constraintHorizontal_bias="0.1"/>
-
-    <TextView
-        android:id="@+id/lv_textView_exp"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textColor="@color/black"
-        app:layout_constraintWidth_percent="0.2"
-        app:layout_constraintHeight_percent="0.04"
-        android:text="5"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/lv_textView_expLabel"
-        app:layout_constraintBottom_toBottomOf="@id/lv_textView_expLabel"
-        app:layout_constraintVertical_bias="0.15" />
 
     <ImageView
         android:id="@+id/lv_imageView_status"
@@ -79,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <TextView
         android:id="@+id/lv_textView_north"
@@ -87,7 +54,6 @@
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.1"
         app:layout_constraintHeight_percent="0.05"
-        android:text="55"
         android:autoSizeTextType="uniform"
         android:background="@drawable/border"
         android:textStyle="bold"
@@ -105,7 +71,6 @@
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:gravity="center"
-        android:text="10"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:background="@drawable/border"
@@ -123,7 +88,6 @@
         android:layout_height="0dp"
         app:layout_constraintWidth_percent="0.1"
         app:layout_constraintHeight_percent="0.05"
-        android:text="55"
         android:autoSizeTextType="uniform"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -133,14 +97,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/lv_imageView_status"
         app:layout_constraintEnd_toEndOf="@id/lv_imageView_status"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <TextView
         android:id="@+id/lv_textView_east"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        android:text="10"
         android:gravity="center"
         android:textStyle="bold"
         android:textColor="@color/black"

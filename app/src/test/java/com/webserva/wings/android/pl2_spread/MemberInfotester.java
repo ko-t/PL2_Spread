@@ -1,6 +1,8 @@
 package com.webserva.wings.android.pl2_spread;
 
-public class MemberInfo {
+
+
+public class MemberInfotester {
     private String name;
     private String id;
     private String roomId = null;
@@ -10,8 +12,8 @@ public class MemberInfo {
     private int matchHistory = 0;
     private int recordId = -1;
 
-    MemberInfo(String name, String id) {
-        this.id = id;
+    MemberInfotester(String name, String id) {
+        this.id = "id";
         this.name = name;
     }
 
@@ -35,8 +37,8 @@ public class MemberInfo {
         return exp;
     }
 
-    public void addExp(int exp) {
-        this.exp += exp;
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 
     public int[] getStatus() {
