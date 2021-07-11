@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout3"
@@ -7,10 +8,9 @@
 
     <TextView
         android:id="@+id/rk_textview_Ranking"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/rk_textview_Ranking"
         android:textStyle="bold"
@@ -22,7 +22,6 @@
         android:id="@+id/list_rk_textview_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="16dp"
         android:text="@string/rk_textview_Score"
@@ -33,41 +32,35 @@
 
     <ListView
         android:id="@+id/rk_listview_ranking"
-        android:layout_width="410dp"
-        android:layout_height="333dp"
-        android:layout_marginBottom="64dp"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.441" />
 
     <TextView
         android:id="@+id/rk_textview_playcount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/rk_textview_playcount"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rk_listview_ranking" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/rk_textview_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-
-        android:layout_marginBottom="108dp"
+       android:layout_marginBottom="32dp"
         android:text="0"
+
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rk_textview_playcount"
-        app:layout_constraintTop_toBottomOf="@+id/rk_listview_ranking" />
+        app:layout_constraintStart_toEndOf="@+id/rk_textview_playcount" />
 </androidx.constraintlayout.widget.ConstraintLayout>
