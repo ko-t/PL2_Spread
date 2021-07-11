@@ -95,7 +95,7 @@ public class LevelUp extends AppCompatActivity {
             Client.sendMessage("newstatus$" + newStatus[0] + "$" + newStatus[1] + "$"
                     + newStatus[2] + "$" + newStatus[3]);
             Intent intent_to_ge = new Intent(getApplication(), GameEnd.class);
-            startActivity(intent_to_ge);
+            Client.startActivity(intent_to_ge);
         });
 
     }

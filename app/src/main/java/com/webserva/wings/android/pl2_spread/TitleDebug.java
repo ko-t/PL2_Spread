@@ -24,7 +24,7 @@ public class TitleDebug extends AppCompatActivity {
 
         Button ti_button_start = findViewById(R.id.tid_button_start);
         ti_button_start.setOnClickListener(v -> {
-            Client.init();
+            Client.init(this);
             if (sw.isChecked()) {
                 Client.init_connection();
                 try {
@@ -34,10 +34,12 @@ public class TitleDebug extends AppCompatActivity {
                 }
             }
 
-            forDebug();
+            //forDebug();
 
-            Intent i = new Intent(getApplication(), ResultMap.class);
-            startActivity(i);
+
+
+            Intent i = new Intent(getApplication(), GameEnd.class);
+            Client.startActivity(i);
         });
     }
 

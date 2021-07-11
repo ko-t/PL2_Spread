@@ -92,10 +92,10 @@ public class Game extends ComponentActivity {
                         });
                 test();
 
-                finish();
+                Client.finishActivity();
                 if (Client.myInfo.getTeam() == -1)
-                    startActivity(new Intent(Game.this, ResultMap.class));
-                //else startActivity(new Intent(Game.this, TeamResultMap.class));
+                    Client.startActivity(new Intent(Game.this, ResultMap.class));
+                //else Client.finishActivity();startActivity(new Intent(Game.this, TeamResultMap.class));
 
             }
         };

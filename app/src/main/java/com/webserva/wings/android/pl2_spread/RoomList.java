@@ -65,7 +65,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
-                startActivity(intent_list);
+                Client.startActivity(intent_list);
                 System.out.println("RoomWait.classが開始されました");
             }
         });
@@ -129,7 +129,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this,RoomWait.class);
-        startActivity(intent);
+        Client.startActivity(intent);
     }
 }
 

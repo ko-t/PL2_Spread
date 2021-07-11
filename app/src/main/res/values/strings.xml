@@ -102,6 +102,7 @@
     <string name="tsr_button_next">次へ</string>
     <string name="ms_no_data">no data</string>
     <string name="main_button">Button</string>
+    <string name="ts_alert">もう一度選んで下さい</string>
     <string name="list_rl_approval">承認</string>
     <string name="list_rl_id">id :</string>
     <string name="list_rl_name">name</string>

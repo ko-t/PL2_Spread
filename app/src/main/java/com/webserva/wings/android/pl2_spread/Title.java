@@ -16,7 +16,7 @@ public class Title extends AppCompatActivity {
         Button ti_button_start = findViewById(R.id.ti_button_start);
         ti_button_start.setOnClickListener(v -> {
             Intent intent_to_mm = new Intent(getApplication(), MainMenu.class);
-            startActivity(intent_to_mm);
+            Client.startActivity(intent_to_mm);
         });
     }
 }
