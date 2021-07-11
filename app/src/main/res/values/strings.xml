@@ -105,10 +105,13 @@
     <string name="ri_button_quit">退出する</string>
     <string name="rw_button_quit">退出する</string>
 
-    <string name="ms_button_decision">メンバーを決定する</string>
+    <string name="ms_button_decision">メンバーを確定する</string>
     <string name="tsr_textview_teamsplit">チーム分け</string>
     <string name="tsr_textview_vs">VS</string>
     <string name="tsr_button_next">次へ</string>
     <string name="ms_no_data">no data</string>
     <string name="main_button">Button</string>
+    <string name="list_rl_approval">承認</string>
+    <string name="list_rl_id">id :</string>
+    <string name="list_rl_name">name</string>
 </resources>
