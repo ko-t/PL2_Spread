@@ -1,7 +1,7 @@
 package com.webserva.wings.android.pl2_spread;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,20 +21,27 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import static java.lang.System.exit;
+
 public class Game extends ComponentActivity {
 
-    ProgressBar pb;
+    ProgressBar progressBar;
 
     private ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
                     action();
                 } else {
-                    // Explain to the user that the feature is unavailable because the
-                    // features requires a permission that the user has denied. At the
-                    // same time, respect the user's decision. Don't link to system
-                    // settings in an effort to convince the user to change their
-                    // decision.
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.gm_message)
+                            .setMessage("このゲームは位置情報を利用しないとプレイすることができません。")
+                            .setPositiveButton("許可する", (dialog, which) -> {
+                                Game.this.requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                            })
+                            .setNegativeButton("キャンセル", (dialog, which) -> {
+                                exit(0);
+                            })
+                            .show();
                 }
             });
 
@@ -50,7 +57,7 @@ public class Game extends ComponentActivity {
             // permission for a specific feature to behave as expected. In this UI,
             // include a "cancel" or "no thanks" button that allows the user to
             // continue using your app without granting the permission.
-            Toast.makeText(this, "needs location permission", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "位置情報を許可してください。", Toast.LENGTH_LONG).show();
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
         } else {
             // You can directly ask for the permission.
@@ -66,7 +73,7 @@ public class Game extends ComponentActivity {
         SimpleDateFormat sdf =
                 new SimpleDateFormat("mm:ss:SS", Locale.US);
 
-        CountDownTimer cdt = new CountDownTimer(3 * 60000 , 10) {
+        CountDownTimer cdt = new CountDownTimer(5000 , 10) {
             @Override
             public void onTick(long millisUntilFinished) {
                 tv.setText(sdf.format(millisUntilFinished));
@@ -74,11 +81,15 @@ public class Game extends ComponentActivity {
 
             @Override
             public void onFinish() {
-                pb = findViewById(R.id.game_prog_waitingOthers);
-                pb.setVisibility(android.widget.ProgressBar.VISIBLE);
+                progressBar = findViewById(R.id.game_prog_waitingOthers);
+                progressBar.setVisibility(android.widget.ProgressBar.VISIBLE);
 
                 if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
+                    new AlertDialog.Builder(Game.this)
+                            .setTitle(R.string.gm_message)
+                            .setMessage("位置情報が利用できません。")
+                            .setPositiveButton("OK", null)
+                            .show();
                 }
 
                 Client.fusedLocationClient.getLastLocation()
@@ -90,35 +101,24 @@ public class Game extends ComponentActivity {
                                 Toast.makeText(Game.this, "位置情報がありません", Toast.LENGTH_SHORT).show();
                             }
                         });
-                test();
 
                 Client.finishActivity();
-                if (Client.myInfo.getTeam() == -1)
-                    Client.startActivity(new Intent(Game.this, ResultMap.class));
+                //if (Client.myInfo.getTeam() == -1)
+                    Client.startActivity(new Intent(getApplication(), ResultMap.class));
                 //else Client.finishActivity();startActivity(new Intent(Game.this, TeamResultMap.class));
 
             }
         };
-        cdt.start();
-
         Client.fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(Game.this, location -> {
                     if (location != null) {
+                        Client.start = new LatLng(location.getLatitude(), location.getLongitude());
                         Client.sendMessage("startpos");
                     } else {
                         Toast.makeText(Game.this, "位置情報がありません", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void test() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                pb.setVisibility(android.widget.ProgressBar.INVISIBLE);
-            }
-        });
-
+        cdt.start();
     }
 }
 
