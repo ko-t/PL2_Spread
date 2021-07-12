@@ -1,8 +1,7 @@
 <resources>
+    <string name="ti_start">START</string>
     <string name="app_name">PL2_Spread</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD2NHadjkzTxKv1baYFgXubRr1ko2Eodvk</string>
-
-    <string name="ti_start">START</string>
 
     <string name="mm_start_game">Start Game</string>
     <string name="mm_profile">プロフィール</string>
@@ -69,23 +68,18 @@
     <string name="rk_textview_Score">Score</string>
     <string name="rk_textview_playcount">プレイ回数</string>
     <string name="rk_textview_count">TextView</string>
-
     <string name="ms_textview_gamemode">ゲームモード</string>
     <string name="ri_textview_gamemode">ゲームモード</string>
     <string name="rw_textview_gamemode">ゲームモード</string>
-
     <string name="ms_textview_statusEffect">ステータス効果</string>
     <string name="ri_textview_statusEffect">ステータス効果</string>
     <string name="rw_textview_statusEffect">ステータス効果</string>
-
     <string name="ms_textview_roomname">ルーム名</string>
     <string name="ri_textview_roomname">ルーム名</string>
     <string name="rw_textview_roomname">ルーム名</string>
-
     <string name="ms_textview_member">メンバー</string>
     <string name="ri_textview_member">メンバー</string>
     <string name="rw_textview_member">メンバー</string>
-
     <string name="ms_textview_selectgm">TextView</string>
     <string name="ms_textview_selectse">TextView</string>
     <string name="ms_textview_selectm">TextView</string>
@@ -95,13 +89,10 @@
     <string name="rw_textview_selectgm">TextView</string>
     <string name="rw_textview_selectse">TextView</string>
     <string name="rw_textview_selectm">TextView</string>
-
     <string name="ms_textview_host">ホスト</string>
     <string name="ri_textview_host">ホスト</string>
     <string name="rw_textview_host">ホスト</string>
-
     <string name="rw_textview_loading">承認待ち</string>
-
     <string name="ri_button_quit">退出する</string>
     <string name="rw_button_quit">退出する</string>
 
@@ -111,6 +102,7 @@
     <string name="tsr_button_next">次へ</string>
     <string name="ms_no_data">no data</string>
     <string name="main_button">Button</string>
+    <string name="ts_alert">もう一度選んで下さい</string>
     <string name="list_rl_approval">承認</string>
     <string name="list_rl_id">id :</string>
     <string name="list_rl_name">name</string>

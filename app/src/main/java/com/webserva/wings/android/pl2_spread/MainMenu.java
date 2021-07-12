@@ -16,19 +16,19 @@ public class MainMenu extends AppCompatActivity {
         Button mm_button_game = findViewById(R.id.mm_button_game);
         mm_button_game.setOnClickListener(v -> {
             Intent intent_to_rmn = new Intent(getApplication(), RoomMenu.class);
-            startActivity(intent_to_rmn);
+            Client.startActivity(intent_to_rmn);
         });
 
         Button mm_button_profile = findViewById(R.id.mm_button_profile);
         mm_button_profile.setOnClickListener(v -> {
             Intent intent_to_pr = new Intent(getApplication(), Profile.class);
-            startActivity(intent_to_pr);
+            Client.startActivity(intent_to_pr);
         });
 
         Button mm_button_recode = findViewById(R.id.mm_button_recode);
         mm_button_recode.setOnClickListener(v -> {
             Intent intent_to_rmn = new Intent(getApplication(), Ranking.class);
-            startActivity(intent_to_rmn);
+            Client.startActivity(intent_to_rmn);
         });
     }
 }

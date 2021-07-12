@@ -40,13 +40,13 @@ public class ResultExp extends AppCompatActivity {
 
         Button re_button_next = findViewById(R.id.re_button_next);
         re_button_next.setOnClickListener(v -> {
+            Intent intent;
             if(levelup == 0) {
-                Intent intent_to_ge = new Intent(getApplication(), GameEnd.class);
+                intent = new Intent(getApplication(), GameEnd.class);
             }else {
-                Intent intent_to_lv = new Intent(getApplication(),LevelUp.class);
-                intent_to_lv.putExtra("levelup",levelup);
-                startActivity(intent_to_lv);
+                intent = new Intent(getApplication(), LevelUp.class);
             }
+            Client.startActivity(intent);
         });
 
     }

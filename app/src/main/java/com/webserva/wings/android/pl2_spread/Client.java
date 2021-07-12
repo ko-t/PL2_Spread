@@ -81,8 +81,9 @@ public class Client {
         noConnection
     }
 
-    static void init(){
+    static void init(Context c){
         myInfo = new MemberInfo("dummyName", "dummyId");
+        context = c;
     }
 
     static void init_connection(){

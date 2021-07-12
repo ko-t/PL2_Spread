@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class Ranking extends AppCompatActivity {
+public class Ranking extends AppCompatActivity implements View.OnClickListener {
     //private Button button;
     private static TextView rk_count;
     private static String rk_str_count="初期値";
@@ -73,6 +73,17 @@ public class Ranking extends AppCompatActivity {
                 rk_count.setText(rk_str_count);
                 break;
         }
+    }
+
+
+    //画面遷移
+
+    @Override
+    public void onClick(View v) {
+//        if(v==ms_button){
+//            Intent intent = new Intent(this,RoomInfo.class);
+//            Client.startActivity(intent);
+//        }
     }
 
 }

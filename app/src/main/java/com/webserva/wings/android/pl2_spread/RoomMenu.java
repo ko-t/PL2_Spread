@@ -15,13 +15,13 @@ public class RoomMenu extends AppCompatActivity {
         Button rmn_button_join = findViewById(R.id.rmn_button_join);
         rmn_button_join.setOnClickListener(v -> {
             Intent intent_to_rl = new Intent(getApplication(), RoomList.class);
-            startActivity(intent_to_rl);
+            Client.startActivity(intent_to_rl);
         });
 
         Button rmn_button_make = findViewById(R.id.rmn_button_make);
         rmn_button_make.setOnClickListener(v -> {
             Intent intent_to_tg = new Intent(getApplication(), TagSet.class);
-            startActivity(intent_to_tg);
+            Client.startActivity(intent_to_tg);
         });
     }
 }

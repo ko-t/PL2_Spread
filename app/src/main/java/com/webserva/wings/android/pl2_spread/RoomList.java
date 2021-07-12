@@ -66,8 +66,10 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
+
                 startActivity(intent_list);
                 Log.i("rl_onCreate","RoomWait.classが開始されました");
+
             }
         });
 
@@ -130,6 +132,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
     //チェックボックスで検索をかけたとき
     @Override
     public void onClick(View v) {
+
     }
 }
 

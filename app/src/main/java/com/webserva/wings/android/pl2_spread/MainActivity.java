@@ -19,6 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this,RoomList.class);
-        startActivity(intent);
+        Client.startActivity(intent);
     }
 }
