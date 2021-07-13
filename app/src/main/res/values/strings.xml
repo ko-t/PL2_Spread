@@ -106,4 +106,5 @@
     <string name="list_rl_approval">承認</string>
     <string name="list_rl_id">id :</string>
     <string name="list_rl_name">name</string>
+    <string name="gm_message">メッセージ</string>
 </resources>

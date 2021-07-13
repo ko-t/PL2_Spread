@@ -1,5 +1,6 @@
 package com.webserva.wings.android.pl2_spread;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,11 +20,14 @@ import java.util.List;
 public class RoomInfo extends AppCompatActivity implements View.OnClickListener {
     private static int ri_flag,ri_confirm=0,ri_broken=0;
     private static String ri_roomname,ri_tag,ri_id;
-    private Button ri_button_quit;
+    private static Button ri_button_quit;
     private static Intent intent;
+    private static List<Room> list_member;
+    private static Room room1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roominfo);
         ri_button_quit=(Button)findViewById(R.id.ri_button_quit);
@@ -32,7 +36,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         receiveMessage("add10$room1$tag1$id1");
         Integer ri_tag1 = Integer.parseInt(ri_tag);
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        Room room1 = new Room(ri_roomname, ri_tag1, ri_id);
+        room1 = new Room(ri_roomname, ri_tag1, ri_id);
 
         //ホストの表示
         List<Room> list_host = new ArrayList<>();
@@ -41,57 +45,56 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         listview1.setAdapter(adapter_host);
 
         //メンバーのリスト作成
-        List<Room> list_member = new ArrayList<>();
-        if(ri_flag==0) {   //追加
-            list_member.add(room1);
-            Log.i("ri_onCreate","メンバリストのメンバが追加されました");
-        }else if(ri_flag==1){   //削除
-            list_member.remove(list_member.indexOf(room1));
-            Log.i("ri_onCreate","メンバリストのメンバが退出しました");
-        }
+        list_member = new ArrayList<>();
+
         //メンバの表示
         ListView listview2 = (ListView) findViewById(R.id.ri_listview_member);
         Rw_Ri_Tsr_Adapter adapter_member = new Rw_Ri_Tsr_Adapter(this, list_member);
         listview1.setAdapter(adapter_member);
-
-        if(ri_broken==1) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("ホストの接続が切れました。\n部屋選択画面に移動します。")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //OKボタンで、Roomlist画面に遷移
-                            Client.finishActivity();
-                            intent = new Intent(Client.context, RoomList.class);
-                            Client.startActivity(intent);
-                        }
-                    });
-            builder.show();
-        }
     }
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
         switch (s[0]) {
             case "add10":
+                //add10$ユーザ名$ユーザID
                 ri_flag=0;
+                list_member.add(room1);
                 Log.i("ri_receiveMessage","サーバからadd10を受け取りました");
                 break;
 
             case "del10":
+                //delete10$ユーザID
                 ri_flag=1;
+                list_member.remove(list_member.indexOf(room1));
                 Log.i("ri_receiveMessage","サーバからdel9を受け取りました");
                 break;
 
             //ホストの接続が切れたとき
             //部屋にいた人に通知、部屋選択(RoomList.java)に遷移
             case "broken":
+                //broken
                 ri_broken=1;
+                RoomInfo ri = new RoomInfo();
+                AlertDialog.Builder builder = new AlertDialog.Builder(ri);
+                builder.setMessage("ホストの接続が切れました。\n部屋選択画面に移動します。")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //OKボタンで、Roomlist画面に遷移
+                                Client.finishActivity();
+                                intent = new Intent(Client.context, RoomList.class);
+                                Client.startActivity(intent);
+                            }
+                        });
+                builder.show();
+
                 break;
 
             //ホストがメンバの確定を押したとき
             //Ready画面(Ready.java)に遷移
             case "confirm":
+                //confirm
                 Log.i("ri_receiveMessage","メンバが確定されました");
                 Client.finishActivity();
                 intent = new Intent(Client.context, Ready.class);
