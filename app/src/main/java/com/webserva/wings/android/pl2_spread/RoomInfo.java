@@ -27,6 +27,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roominfo);
         ri_button_quit=(Button)findViewById(R.id.ri_button_quit);
