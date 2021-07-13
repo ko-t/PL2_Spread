@@ -22,6 +22,20 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Intent i= getIntent();
+        int num = i.getIntExtra("MEMBER_NUM",0); //人数
+        String name = i.getStringExtra("MEMBER_NAME");
+        String id = i.getStringExtra("MEMBER_ID");
+        String gp = i.getStringExtra("MEMBER_GP");
+
+        String[] s_name = name.split("\\$");
+        String[] s_id = id.split("\\$");
+        String[] s_gp = gp.split("\\$");
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teamsplitresult);
         tsr_button_next=(Button)findViewById(R.id.tsr_button_next);
@@ -46,20 +60,9 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
         listview_paper.setAdapter(adapter_rock);
 
 //        //rock側のリスト生成
-//        Room room1 = new Room("room1",1,"19641");
-//        Room room2 = new Room("room2",2,"19642");
-//        List<Room> list = new ArrayList<>();
-//        list.add(room1);
-//        list.add(room2);
-//        ListView listview = (ListView) findViewById(R.id.tsr_listview_rock);
 
 //        //paper側のリスト生成
-//        Room name3 = new Room("name3",1,"19643");
-//        List<Room> list_paper = new ArrayList<>();
-//        list_paper.add(name3);
-//        ListView listview_paper = (ListView) findViewById(R.id.tsr_listview_paper);
-//        Rw_Ri_Tsr_Adapter rw_ri_tsr_adapter_paper = new Rw_Ri_Tsr_Adapter(this, list_paper);
-//        listview_paper.setAdapter(rw_ri_tsr_adapter_paper);
+
     }
 
     static void receiveMessage(String message) {
@@ -71,10 +74,6 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
                 tsr_rsp= Integer.parseInt(s[1]);
                 break;
         }
-        //arraylist を teamsplit.classからもらう
-        tsr_player=intent.getStringExtra(s[2]);
-        //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        room1 = new Room(s[2], 1, tsr_id);
     }
 
     //画面遷移
