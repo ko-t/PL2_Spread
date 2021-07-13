@@ -48,9 +48,9 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 String hosttag;    //同様
                 String hostname;   //同様
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
-                intent_list.putExtra("TAG",hosttag);
-                intent_list.putExtra("HOSTID",hostid);
-                intent_list.putExtra("HOSTNAME",hostname);
+                //intent_list.putExtra("TAG",hosttag);
+                //intent_list.putExtra("HOSTID",hostid);
+                //intent_list.putExtra("HOSTNAME",hostname);
 
                 startActivity(intent_list);
                 Log.i("rl_onCreate","RoomWait.classが開始されました");
