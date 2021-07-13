@@ -74,7 +74,6 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.rm_map);
-        Log.i("rm_onCreate", mapFragment.toString());
         mapFragment.getMapAsync(this);
     }
 
@@ -143,13 +142,13 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
     static private double calcAngle(LatLng ll1, LatLng ll2) {
-        double x1 = ll1.latitude, x2 = ll2.longitude, y1 = ll1.longitude, y2 = ll2.longitude, r = 6371.0 * 1000.0;
+        double x1 = ll1.latitude, x2 = ll2.latitude, y1 = ll1.longitude, y2 = ll2.longitude, r = 6371.0 * 1000.0;
         double angle = 90.0 - Math.atan2(Math.sin(x2 - x1), Math.cos(y1) * Math.tan(y2) - Math.sin(y1) * Math.cos(x2 - x1));
         return angle;
     }
 
     static private double calcDist(LatLng ll1, LatLng ll2) {
-        double x1 = ll1.latitude, x2 = ll2.longitude, y1 = ll1.longitude, y2 = ll2.longitude, r = 6371.0 * 1000.0;
+        double x1 = ll1.latitude, x2 = ll2.latitude, y1 = ll1.longitude, y2 = ll2.longitude, r = 6371.0 * 1000.0;
         double d = r * Math.acos(
                 Math.sin(y1) * Math.sin(y2) + Math.cos(y1) * Math.cos(y2) * Math.cos(x2 - x1));
         return d;
@@ -157,13 +156,13 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 
     static private LatLng moveWithVector(LatLng target, LatLng vecStart, LatLng vecGoal) {
         double a = 6378137.06, f = 1.0 / 298.257223563, b = 6356752.314245,
-                fi1 = target.latitude, fi2, U1 = Math.atan((1 - f) * Math.tan(fi1)), U2,
+                fi1 = target.latitude, fi2, U1 = Math.atan((1.0 - f) * Math.tan(fi1)), U2,
                 L, lm1, lm2, al1 = calcAngle(vecStart, vecGoal), al2, al, dsig, sigm = 0.0,
                 s = calcDist(vecStart, vecGoal), sig, sig1;
         sig1 = Math.atan(Math.tan(U1) / Math.cos(al1));
         double sinal = Math.cos(U1) * Math.sin(al1);
         double cos2al = 1.0 - sinal * sinal;
-        double u2 = cos2al * (a * a - b * b / b * b);
+        double u2 = cos2al * ((a * a - b * b) / (b * b));
         double A = 1.0 + u2 / 16384.0 * (4096.0 + u2 * (-768.0 + u2 * (320.0 - 175.0 + u2)));
         double B = u2 / 1024.0 * (256.0 + u2 * (-128.0 + u2 * (74.0 - 47.0 * u2)));
         sig = s / b / A;
