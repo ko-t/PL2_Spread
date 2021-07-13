@@ -42,7 +42,8 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
         Room room1 = new Room(rw_hostname, rw_tag1, rw_id);
 
-        List<Room> list = new ArrayList<>();
+        //ホストの表示
+        List<MemberInfo> list = new ArrayList<>();
         ListView listview = (ListView) findViewById(R.id.rw_listview_hostname);
         Rw_Ri_Tsr_Adapter rw_ri_tsr_adapter = new Rw_Ri_Tsr_Adapter(this, list);
         listview.setAdapter(rw_ri_tsr_adapter);
