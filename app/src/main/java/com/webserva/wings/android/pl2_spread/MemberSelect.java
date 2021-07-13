@@ -34,7 +34,7 @@ public class MemberSelect extends AppCompatActivity implements View.OnClickListe
         Room room = new Room(ms_roomname, ms_tag1, ms_id);
 
         //ホストの表示
-        List<Room> list_host = new ArrayList<>();
+        List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = (ListView) findViewById(R.id.ms_listview_host);
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);

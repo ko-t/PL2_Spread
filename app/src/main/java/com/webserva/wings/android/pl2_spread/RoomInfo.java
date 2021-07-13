@@ -20,8 +20,8 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     private static String ri_roomname,ri_tag,ri_id;
     private static Button ri_button_quit;
     private static Intent intent;
-    private static List<Room> list_member;
-    private static Room room1;
+    private static List<MemberInfo> list_member;
+    private static Room room;
     private static TextView text_name,text_id;
 
     @Override
@@ -33,17 +33,16 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
 
         Integer ri_tag1 = Integer.parseInt(ri_tag);
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        room1 = new Room(ri_roomname, ri_tag1, ri_id);
+        room = new Room(ri_roomname, ri_tag1, ri_id);
 
         //ホストの表示
-        List<Room> list_host = new ArrayList<>();
+        List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = (ListView) findViewById(R.id.ri_listview_host);
-
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);
 
         //メンバーのリスト作成
-        list_member = new ArrayList<Room>();
+        list_member = new ArrayList<MemberInfo>();
 
         //メンバの表示
         ListView listview2 = (ListView) findViewById(R.id.ri_listview_member);
@@ -56,14 +55,14 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         switch (s[0]) {
             case "add10":
                 //add10$ユーザ名$ユーザID
-                list_member.add(room1);
+                //list_member.add();
                 Log.i("ri_receiveMessage","サーバからadd10を受け取りました");
                 break;
 
             case "del10":
                 //delete10$ユーザID
                 //while
-                list_member.remove(list_member.indexOf(room1));
+                //list_member.remove(list_member.indexOf());
                 Log.i("ri_receiveMessage","サーバからdel9を受け取りました");
                 break;
 
