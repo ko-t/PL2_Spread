@@ -51,12 +51,13 @@ public class MemberSelect extends AppCompatActivity implements View.OnClickListe
             case "add9":
                 //add9$ユーザ名$ユーザID
                 member= new MemberInfo(s[1],s[2]);
-                Client.sendMessage("accept$"+s[1]);
                 list_member.add(member);
                 Log.i("ms_onCreate","メンバリストのメンバが追加されました");
+                Client.sendMessage("accept$"+s[1]);
+                Log.i("ms_onCreate","メンバが承認されました");
                 break;
             case "del9":
-                //add9$ユーザID
+                //del9$ユーザID
                 list_member.remove(list_member.indexOf(member));
                 Log.i("ms_onCreate","メンバリストのメンバが退出しました");
                 break;
@@ -70,13 +71,20 @@ public class MemberSelect extends AppCompatActivity implements View.OnClickListe
             size=list_member.size();
             for(int i=0;i<size;i++){
                 str_cnf=str_cnf+list_member.get(i);
+                member.getName();
                 if(i==size-1){
                     break;
                 }
                 str_cnf=str_cnf+"$";
             }
             Client.sendMessage("confirm$"+size+"$"+str_cnf);
+
             Intent intent = new Intent(this,RoomInfo.class);
+            //データ渡す 人数・ユーザ名(連結)・ユーザID(連結)
+            intent.putExtra("MEMBER_NUM",size);
+            intent.putExtra("MEMBER_NAME",name);
+            intent.putExtra("MEMBER_ID",id);
+            Log.i("ms_onClick","メンバ情報が渡されました");
             Client.startActivity(intent);
         }
     }

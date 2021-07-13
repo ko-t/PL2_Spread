@@ -1,6 +1,5 @@
 package com.webserva.wings.android.pl2_spread;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,22 +17,20 @@ import java.util.List;
 
 //確定した(承認された)プレイヤの表示画面
 public class RoomInfo extends AppCompatActivity implements View.OnClickListener {
-    private static int ri_flag,ri_confirm=0,ri_broken=0;
     private static String ri_roomname,ri_tag,ri_id;
     private static Button ri_button_quit;
     private static Intent intent;
     private static List<Room> list_member;
     private static Room room1;
+    private static TextView text_name,text_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roominfo);
         ri_button_quit=(Button)findViewById(R.id.ri_button_quit);
         ri_button_quit.setOnClickListener(this);
 
-        receiveMessage("add10$room1$tag1$id1");
         Integer ri_tag1 = Integer.parseInt(ri_tag);
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
         room1 = new Room(ri_roomname, ri_tag1, ri_id);
@@ -41,11 +38,12 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         //ホストの表示
         List<Room> list_host = new ArrayList<>();
         ListView listview1 = (ListView) findViewById(R.id.ri_listview_host);
+
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);
 
         //メンバーのリスト作成
-        list_member = new ArrayList<>();
+        list_member = new ArrayList<Room>();
 
         //メンバの表示
         ListView listview2 = (ListView) findViewById(R.id.ri_listview_member);
@@ -58,14 +56,13 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         switch (s[0]) {
             case "add10":
                 //add10$ユーザ名$ユーザID
-                ri_flag=0;
                 list_member.add(room1);
                 Log.i("ri_receiveMessage","サーバからadd10を受け取りました");
                 break;
 
             case "del10":
                 //delete10$ユーザID
-                ri_flag=1;
+                //while
                 list_member.remove(list_member.indexOf(room1));
                 Log.i("ri_receiveMessage","サーバからdel9を受け取りました");
                 break;
@@ -74,7 +71,6 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
             //部屋にいた人に通知、部屋選択(RoomList.java)に遷移
             case "broken":
                 //broken
-                ri_broken=1;
                 RoomInfo ri = new RoomInfo();
                 AlertDialog.Builder builder = new AlertDialog.Builder(ri);
                 builder.setMessage("ホストの接続が切れました。\n部屋選択画面に移動します。")
@@ -101,9 +97,6 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 Client.startActivity(intent);
                 break;
         }
-        ri_roomname=s[1];
-        ri_tag=s[2];
-        ri_id=s[3];
     }
 
     @Override
