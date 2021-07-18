@@ -59,7 +59,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
                 intent = new Intent(Client.context, RoomInfo.class);
                 Client.startActivity(intent);
                 break;
-            //
+
             case "declined":
                 Log.i("rw_receiveMessage","入室を拒否されました");
                 Client.finishActivity();
