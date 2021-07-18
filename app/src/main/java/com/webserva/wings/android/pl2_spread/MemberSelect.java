@@ -15,19 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberSelect extends AppCompatActivity {
-    private static String ms_roomname,ms_tag,ms_id;
-    private Button ms_button_decision;
     private static List<MemberInfo> list_member = new ArrayList<>();
     private static MemberInfo member;
     private static int size;
-    private static String str_cnf;
+    private static String str_name,str_id;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.memberselect);
+
+        //ルームタグ設定(ゲームモード、ステータス効果、メンバー)
         Intent i = getIntent();
         int ms_tag = i.getIntExtra("TAG",101);
+
         int[] ms_tag_1 = new int[3];
         ms_tag_1[0]=ms_tag/100;
         ms_tag_1[1]=(ms_tag - (ms_tag_1[0]*100))/10;
@@ -38,7 +39,6 @@ public class MemberSelect extends AppCompatActivity {
         TextView ms_se = findViewById(R.id.ms_textview_select2);
         TextView ms_m = findViewById(R.id.ms_textview_select3);
         ms_roomname.setText("room1");
-        String str_tag = String.valueOf(ms_tag);
 
         if(ms_tag_1[0]==0){ ms_gm.setText("対戦");
         }else{ ms_gm.setText("協力"); }
@@ -47,43 +47,54 @@ public class MemberSelect extends AppCompatActivity {
         if(ms_tag_1[2]==0){ ms_m.setText("知ってる人のみ");
         }else{ ms_m.setText("知らない人もOK"); }
 
-        //決定したら画面遷移
-        ms_button_decision=findViewById(R.id.ms_button_decision);
-        ms_button_decision.setOnClickListener(v -> {
-            size=list_member.size();
-            for(int j=0;j<size;j++){
-                str_cnf=str_cnf+list_member.get(j);
-                member.getName();
-                if(j==size-1){
-                    break;
-                }
-                str_cnf=str_cnf+"$";
-            }
-            Client.sendMessage("confirm$"+size+"$"+str_cnf);
-
-            Intent intent = new Intent(this,RoomInfo.class);
-            //データ渡す 人数・ユーザ名(連結)・ユーザID(連結)
-            intent.putExtra("MEMBER_NUM",size);
-//            intent.putExtra("MEMBER_NAME",name);
-//            intent.putExtra("MEMBER_ID",id);
-            Log.i("ms_onClick","メンバ情報が渡されました");
-            Client.startActivity(intent);
-        });
-
         //ルームのインスタンスを生成
-        Room room = new Room("room1", ms_tag, "id1");
+        Room room = new Room("room1", ms_tag, "id");
+        System.out.println("roomが作成されました");
+        receiveMessage("add9$name1$id1");
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = (ListView) findViewById(R.id.ms_listview_host);
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
-        room.getHostId();
-        listview1.setAdapter(adapter_host);
+        listview1.setAdapter(adapter_host);   //listview(host)に追加
 
         //メンバの表示
         ListView listview2 = (ListView) findViewById(R.id.ms_listview_memberlist);
-        MsAdapter adapter_member = new MsAdapter(this, list_member);
-        listview1.setAdapter(adapter_member);
+        MsAdapter adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener(){
+            public void onItemButtonClick(int position, View view){
+                //承認されたときの処理
+                view.getTag();
+                i.putExtra("ms_","");
+                Log.i("ms_onCreate", view.getTag().toString());
+            }
+        });
+        listview2.setAdapter(adapter_member);
+
+
+        //メンバーが決定したら画面遷移
+        Button ms_button_decision = findViewById(R.id.ms_button_decision);
+        ms_button_decision.setOnClickListener(v -> {
+            size=list_member.size();
+            for(int j=0;j<size;j++){
+                str_name=str_name+(list_member.get(j)).getName();   //str_cnf= str_cnf + メンバ名
+                str_id=str_id+(list_member.get(j)).getId();
+                if(j==size-1){
+                    break;
+                }
+                str_name=str_name+"$";
+                str_id=str_id+"$";
+            }
+            Client.sendMessage("confirm$"+size+"$"+str_name);
+
+            Intent intent = new Intent(this,RoomInfo.class);
+            //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
+            intent.putExtra("MEMBER_NUM",size);
+            intent.putExtra("MEMBER_NAME",str_name);
+            intent.putExtra("MEMBER_ID",str_id);
+            Log.i("ms_onClick","メンバ情報が渡されました");
+            Client.startActivity(intent);
+        });
+
     }
 
     static void receiveMessage(String message) {
@@ -91,15 +102,25 @@ public class MemberSelect extends AppCompatActivity {
         switch (s[0]) {
             case "add9":
                 //add9$ユーザ名$ユーザID
+                System.out.println("add9が選択されました");
                 member= new MemberInfo(s[1],s[2]);
                 list_member.add(member);
                 Log.i("ms_onCreate","メンバリストのメンバが追加されました");
-                Client.sendMessage("accept$"+s[1]);
+                //Client.sendMessage("accept$"+s[1]);
                 Log.i("ms_onCreate","メンバが承認されました");
                 break;
             case "del9":
                 //del9$ユーザID
-                list_member.remove(list_member.indexOf(member));
+                size= list_member.size();
+                int k=0;
+                while(k<size){
+                    //ユーザID == リストk番目のid
+                    if(s[1] == (list_member.get(k)).getId() ){
+                        list_member.remove(k);
+                        break;
+                    }
+                    k++;
+                }
                 Log.i("ms_onCreate","メンバリストのメンバが退出しました");
                 break;
         }

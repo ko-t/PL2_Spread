@@ -25,9 +25,9 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
         String name = i.getStringExtra("MEMBER_NAME");
         String id = i.getStringExtra("MEMBER_ID");
         String gp = i.getStringExtra("MEMBER_GP");
-        String[] s_name = name.split("\\$");
-        String[] s_id = id.split("\\$");
-        String[] s_gp = gp.split("\\$");
+        String[] s_name = name.split("\\$");   //n1$n2$n3...
+        String[] s_id = id.split("\\$");       //i1$i2$i3...
+        String[] s_gp = gp.split("\\$");       //g$p$g...
 
         List<MemberInfo> list_rock = new ArrayList<>();
         List<MemberInfo> list_paper = new ArrayList<>();
