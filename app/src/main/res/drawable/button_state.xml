@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/button_disabled"
-        android:state_pressed="false"
-        android:state_enabled="true" />
-    <item android:drawable="@drawable/button_default"
-        android:state_enabled="false"/>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!-- 無効 -->
+    <item
+        android:state_pressed="false" android:state_focused="false"
+        android:color="@color/light_blue">
+        <shape>
+            <solid android:color= "@color/white"/>
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+<!--  押されたとき  -->
+    <item
+        android:state_pressed="true"  android:state_focused="true"
+
+        android:color="@color/white">
+        <shape>
+            <solid android:color= "@color/light_blue"/>
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+<!--  デフォルト  -->
+    <item
+        android:state_pressed="true" android:state_focused="false"
+
+        android:color="@color/white">
+        <shape>
+            <solid android:color= "@color/light_blue"/>
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
 </selector>
