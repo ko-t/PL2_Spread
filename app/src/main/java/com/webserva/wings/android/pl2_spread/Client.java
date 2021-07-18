@@ -21,9 +21,11 @@ package com.webserva.wings.android.pl2_spread;
 
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -40,17 +42,19 @@ import java.net.Socket;
 
 public class Client {
     //static String serveraddress = "10.0.2.2";
-    static String serveraddress = "172.20.10.14";
+    static String serveraddress = "192.168.1.4";
+    //static String serveraddress = "172.20.10.14";
     static int port = 38443;
     static long time = 10000;
 
     static MemberInfo myInfo;
     static GoogleMap mMap;
     static FusedLocationProviderClient fusedLocationClient;
-    static LatLng goal;
-    Sensor pedometer;
+    static LatLng start, goal;
+
     static int[] expTable;
     static PrintWriter out;
+
     static Context context;
 
 //    static enum screens{
@@ -77,17 +81,18 @@ public class Client {
 //        LevelUp
 //    }
 
-    static enum commands{
+    static enum commands {
         noConnection
     }
 
-    static void init(){
+    static void init(Context c) {
         myInfo = new MemberInfo("dummyName", "dummyId");
+        context = c;
     }
 
-    static void init_connection(){
+    static void init_connection() {
         new Thread(() -> {
-            InetSocketAddress address = new InetSocketAddress(serveraddress,port);
+            InetSocketAddress address = new InetSocketAddress(serveraddress, port);
             Log.i("Client_init", "test1");
             Socket socket = new Socket();
             try {
@@ -95,7 +100,13 @@ public class Client {
                 Log.i("Client_init", "test2");
                 BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream());
-                sendMessage("");
+                out.println(Client.myInfo.getId());
+                //初回接続の場合
+                //out.println("$" + Client.myInfo.getId() + "$" + Client.myInfo.getName());
+                while(br.readLine().equals("dup")){
+                    //id重複の処理
+                }
+                out.flush();
                 Log.i("Client_init", "sent message");
                 String s;
                 while (true) {
@@ -107,20 +118,20 @@ public class Client {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }) .start();
+        }).start();
     }
 
-    static void finishActivity(){
+    static void finishActivity() {
         ((Activity) context).finish();
     }
 
-    static void startActivity(Intent i){
+    static void startActivity(Intent i) {
         context.startActivity(i);
     }
 
-    static void sendMessage(String message){
-        String[] s=message.split("\\$");
-        switch(s[0]) {
+    static void sendMessage(String message) {
+        String[] s = message.split("\\$");
+        switch (s[0]) {
             case "startpos":
             case "goalpos":
                 message += ("$" + goal);
@@ -130,17 +141,30 @@ public class Client {
                 //wip
                 break;
         }
-        out.println(myInfo.getId() + "$" + message);
-        out.flush();
+        class Sender extends Thread {
+            String s;
+            Sender(String s) {
+                this.s = s;
+            }
+            public void run() {
+                try {
+                    out.println(myInfo.getId() + "$" + s);
+                    out.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        new Sender(message).start();
     }
 
-    static void receiveMessage(String message){
+    static void receiveMessage(String message) {
         Log.i("Client_receiveMessage", message);
-        String[] s=message.split("\\$");
-        switch(s[0]){
+        String[] s = message.split("\\$");
+        switch (s[0]) {
             case "status":
-                int[] news  = {Integer.parseInt(s[1]), Integer.parseInt(s[2]),
-                        Integer.parseInt(s[3]),Integer.parseInt(s[4])};
+                int[] news = {Integer.parseInt(s[1]), Integer.parseInt(s[2]),
+                        Integer.parseInt(s[3]), Integer.parseInt(s[4])};
                 myInfo.setStatus(news);
                 break;
             case "rank":
@@ -207,22 +231,19 @@ public class Client {
         }
     }
 
-    void moveLocation(double x, double y){
+    void moveLocation(double x, double y) {
 
     }
 
-    void playSound(String message){
+    void playSound(String message) {
 
     }
 
-    //y=204x+9796（仮）
-
-    static int calcLevel(int exp){
-
-        return (int)(Math.floor(((double)exp-9796.0))/204.0);
+    static int calcLevel(int exp) {
+        return (int) (Math.floor(((double) exp - 9796.0)) / 204.0);
     }
 
-    static int calcNextExp(int exp){
-        return 204*(calcLevel(exp)+1)+9796-exp;
+    static int calcNextExp(int exp) {
+        return 204 * (calcLevel(exp) + 1) + 9796 - exp;
     }
 }

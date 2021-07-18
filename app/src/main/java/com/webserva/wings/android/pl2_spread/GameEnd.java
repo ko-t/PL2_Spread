@@ -18,14 +18,14 @@ public class GameEnd extends AppCompatActivity {
             Client.sendMessage("resume$1");
             Client.finishActivity();
             Intent intent_to_rmn = new Intent(getApplication(), RoomMenu.class);
-            startActivity(intent_to_rmn);
+            Client.startActivity(intent_to_rmn);
         });
         Button ge_button_endGame = findViewById(R.id.ge_button_endGame);
         ge_button_endGame.setOnClickListener(v -> {
             Client.sendMessage("resume$0");
             Client.finishActivity();
             Intent intent_to_mm = new Intent(getApplication(), MainMenu.class);
-            startActivity(intent_to_mm);
+            Client.startActivity(intent_to_mm);
         });
 
     }

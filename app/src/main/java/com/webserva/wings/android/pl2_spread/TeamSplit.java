@@ -97,6 +97,7 @@ public class TeamSplit extends AppCompatActivity {
                     intent_to_tsr.putExtra("MEMBER_NAME",memberName);
                     intent_to_tsr.putExtra("MEMBER_ID",memberId);
                     intent_to_tsr.putExtra("MEMBER_GP",memberGp);
+                    Client.finishActivity();
                     Client.startActivity(intent_to_tsr);
                 }else {
                     if(limit == 0) {
@@ -115,6 +116,7 @@ public class TeamSplit extends AppCompatActivity {
                         intent_to_tsr.putExtra("MEMBER_NAME",MEMBER_NAME);
                         intent_to_tsr.putExtra("MEMBER_ID",MEMBER_ID);
                         intent_to_tsr.putExtra("MEMBER_GP",gpDefault);
+                        Client.finishActivity();
                         Client.startActivity(intent_to_tsr);
                     }else {
                         ts_textView_alert.setText(alert);

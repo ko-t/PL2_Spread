@@ -28,13 +28,13 @@ public class LevelUp extends AppCompatActivity {
         }
 
         TextView lv_textView_east = findViewById(R.id.lv_textView_east);
-        lv_textView_east.setText(newStatus[0]);
+        lv_textView_east.setText(String.valueOf(newStatus[0]));
         TextView lv_textView_south = findViewById(R.id.lv_textView_south);
-        lv_textView_south.setText(newStatus[1]);
+        lv_textView_south.setText(String.valueOf(newStatus[1]));
         TextView lv_textView_west = findViewById(R.id.lv_textView_west);
-        lv_textView_west.setText(newStatus[2]);
+        lv_textView_west.setText(String.valueOf(newStatus[2]));
         TextView lv_textView_north = findViewById(R.id.lv_textView_north);
-        lv_textView_north.setText(newStatus[3]);
+        lv_textView_north.setText(String.valueOf(newStatus[3]));
 
         ImageButton lv_imageButton_eastUp = findViewById(R.id.lv_imageButton_eastUp);
         ImageButton lv_imageButton_southUp = findViewById(R.id.lv_imageButton_southUp);
@@ -45,7 +45,7 @@ public class LevelUp extends AppCompatActivity {
         lv_imageButton_eastUp.setOnClickListener(v -> {
             statusUp -= 1;
             newStatus[0] += 1;
-            lv_textView_east.setText(newStatus[0]);
+            lv_textView_east.setText(String.valueOf(newStatus[0]));
             if(statusUp == 0) {
                 lv_imageButton_eastUp.setEnabled(false);
                 lv_imageButton_northUp.setEnabled(false);
@@ -57,7 +57,7 @@ public class LevelUp extends AppCompatActivity {
         lv_imageButton_southUp.setOnClickListener(v -> {
             statusUp -= 1;
             newStatus[1] += 1;
-            lv_textView_south.setText(newStatus[1]);
+            lv_textView_south.setText(String.valueOf(newStatus[1]));
             if(statusUp == 0) {
                 lv_imageButton_eastUp.setEnabled(false);
                 lv_imageButton_northUp.setEnabled(false);
@@ -69,7 +69,7 @@ public class LevelUp extends AppCompatActivity {
         lv_imageButton_westUp.setOnClickListener(v -> {
             statusUp -= 1;
             newStatus[2] += 1;
-            lv_textView_west.setText(newStatus[2]);
+            lv_textView_west.setText(String.valueOf(newStatus[2]));
             if(statusUp == 0) {
                 lv_imageButton_eastUp.setEnabled(false);
                 lv_imageButton_northUp.setEnabled(false);
@@ -81,7 +81,7 @@ public class LevelUp extends AppCompatActivity {
         lv_imageButton_northUp.setOnClickListener(v -> {
             statusUp -= 1;
             newStatus[3] += 1;
-            lv_textView_north.setText(newStatus[3]);
+            lv_textView_north.setText(String.valueOf(newStatus[3]));
             if(statusUp == 0) {
                 lv_imageButton_eastUp.setEnabled(false);
                 lv_imageButton_northUp.setEnabled(false);
@@ -95,7 +95,7 @@ public class LevelUp extends AppCompatActivity {
             Client.sendMessage("newstatus$" + newStatus[0] + "$" + newStatus[1] + "$"
                     + newStatus[2] + "$" + newStatus[3]);
             Intent intent_to_ge = new Intent(getApplication(), GameEnd.class);
-            startActivity(intent_to_ge);
+            Client.startActivity(intent_to_ge);
         });
 
     }
