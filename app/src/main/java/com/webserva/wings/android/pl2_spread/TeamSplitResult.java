@@ -56,15 +56,6 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
         listview_paper.setAdapter(adapter_paper);
     }
 
-    static void receiveMessage(String message) {
-        String[] s = message.split("\\$");
-        switch (s[0]) {
-            //グー(rock)：0
-            //パー(paper)：1
-
-        }
-    }
-
     //画面遷移
     @Override
     public void onClick(View v) {

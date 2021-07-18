@@ -11,18 +11,23 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RoomList extends AppCompatActivity implements View.OnClickListener {
     private static int rl_flag=-1;
-    private static List<Map<String, Integer>> players;
+    private static List<Map<String, Integer>> players, room;
     private static TextView textview_count;
     private static Room new_room;
+    private static int size;
     static List<Room> list;
 
     @Override
@@ -118,7 +123,23 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 //new_room = new Room(hostid);
                 list.remove(list.indexOf(new_room));
                 Log.i("rl_onCreate","ルームが削除されました");
+
+
+                size= list.size();
+                int k=0;
+                while(k<size){
+                    //ホストID == HostId<String,Integer>
+                    for(Map.Entry<String, Integer> entry : (list.get(k)).getHostId().entrySet()){
+                        if(entry.getKey()==s[1]){
+                            list.remove(list.indexOf(new_room));
+                            break;
+                        }
+                    }
+                }
+                Log.i("ms_onCreate","メンバリストのメンバが退出しました");
+
                 break;
+
             case "num":
                 //num$ホストのID$新しい人数
                 break;

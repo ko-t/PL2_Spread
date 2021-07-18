@@ -62,7 +62,6 @@ public class Ranking extends AppCompatActivity implements View.OnClickListener {
 
             //s[0]="best", s[1]="順位", s[2]="ベストスコア"
             case "best":
-                //ピックアップを作る技術はない
                 Log.i("rk_receiveMessage","bestを受信しました");
                 break;
 
