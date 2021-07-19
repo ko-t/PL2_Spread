@@ -23,7 +23,6 @@
         app:layout_constraintTop_toTopOf="parent"
 
 
-        android:textColor="@drawable/button_textcolor"
         app:backgroundTint="@drawable/button_state"
         android:textColor="@drawable/button_text_color" >
     </Button>
