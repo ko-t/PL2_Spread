@@ -39,6 +39,8 @@ public class TitleDebug extends AppCompatActivity {
                 useDummyLocations();
             }
 
+
+            Intent i = new Intent(getApplication(), MemberSelect.class);
             Client.startActivity(i);
         });
     }

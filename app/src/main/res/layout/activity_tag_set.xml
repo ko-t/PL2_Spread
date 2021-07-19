@@ -146,7 +146,7 @@
         android:id="@+id/tg_imageButton_gameMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#00000000"
+        android:background="@color/Transparent"
         app:srcCompat="@drawable/question_icon_32"
         app:layout_constraintTop_toTopOf="@id/tg_radioGroup_game"
         app:layout_constraintBottom_toBottomOf="@id/tg_radioGroup_game"
@@ -158,7 +158,8 @@
         android:id="@+id/tg_imageButton_statusEffect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#00000000"
+        android:background="@color/Transparent"
+        android:gravity="center"
         app:srcCompat="@drawable/question_icon_32"
         app:layout_constraintTop_toTopOf="@id/tg_radioGroup_statusEffect"
         app:layout_constraintBottom_toBottomOf="@id/tg_radioGroup_statusEffect"
@@ -166,20 +167,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"/>
 
-    <Button
-        android:id="@+id/tg_button_make"
+    <ImageButton
+        android:id="@+id/tg_imageButton_make"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.75"
+        app:srcCompat="@drawable/y_button2"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <TextView
+        android:id="@+id/tg_textView_make"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/tg_make"
-        android:backgroundTint="@color/light_blue"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintWidth_percent="0.5"
         android:autoSizeTextType="uniform"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.9"
-        app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintHeight_percent="0.08"/>
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/tg_imageButton_make"
+        app:layout_constraintEnd_toEndOf="@id/tg_imageButton_make"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@id/tg_imageButton_make"
+        app:layout_constraintTop_toTopOf="@id/tg_imageButton_make" />
+
 
     <TextView
         android:id="@+id/tg_textView_radioAlert"

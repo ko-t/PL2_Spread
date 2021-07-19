@@ -8,16 +8,22 @@
 
     <Button
         android:id="@+id/ti_button_start"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="@string/ti_start"
-        android:backgroundTint="@color/light_blue"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintWidth_percent="0.4"
-        app:layout_constraintHeight_percent="0.1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/Transparent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/ti_imageView_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/start"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

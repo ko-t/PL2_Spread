@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class HReady extends AppCompatActivity {
     private int ruleNumber = 1;
     private static String gameReady;
-    private static Button hr_button_startGame;
+    private static ImageButton hr_imageButton_startGame;
     private static TextView hr_textView_gameReady;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +64,9 @@ public class HReady extends AppCompatActivity {
             }
         });
 
-        hr_button_startGame = findViewById(R.id.hr_button_startGame);
-        hr_button_startGame.setEnabled(false);
-        hr_button_startGame.setOnClickListener(v -> {
+        hr_imageButton_startGame = findViewById(R.id.hr_imageButton_startGame);
+        hr_imageButton_startGame.setEnabled(false);
+        hr_imageButton_startGame.setOnClickListener(v -> {
             Client.sendMessage("start");
             Client.finishActivity();
             Intent intent_to_gm = new Intent(Client.context, Game.class);
@@ -80,7 +80,7 @@ public class HReady extends AppCompatActivity {
         String[] s = message.split("\\$");
         switch (s[0]) {
             case "readyall":
-                hr_button_startGame.setEnabled(true);
+                hr_imageButton_startGame.setEnabled(true);
                 hr_textView_gameReady.setText(gameReady);
                 break;
         }

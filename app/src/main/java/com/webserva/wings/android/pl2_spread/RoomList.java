@@ -11,18 +11,23 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class RoomList extends AppCompatActivity implements View.OnClickListener {
     private static int rl_flag=-1;
-    private static String rl_roomname,rl_tag,rl_id;
-    List<Map<String, Integer>> players;
-    private TextView textview_count;
+    private static List<Map<String, Integer>> players, room;
+    private static TextView textview_count;
+    private static Room new_room;
+    private static int size;
     static List<Room> list;
 
     @Override
@@ -30,32 +35,11 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roomlist);
         findViewById(R.id.rl_button_search).setOnClickListener(this);
-
-
+        textview_count = (TextView)findViewById(R.id.rl_host_textview_count);
 
         //listviewについて
         receiveMessage("add4$room1$tag1$id1");
-        Integer rl_tag1 = Integer.parseInt(rl_tag);
-        //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        Room room1 = new Room(rl_roomname, rl_tag1, rl_id);
-
-        //メンバのデータを取得
-        players=room1.getMember();
-        //メンバの人数(要素数)の取得
-        textview_count= (TextView)findViewById(R.id.rl_host_textview_count);
-        textview_count.setText(players.size());
-
         list = new ArrayList<>();
-        if(rl_flag==0) {     //追加
-            list.add(room1);
-            Log.i("rl_onCreate","ルームが追加されました");
-        }else if(rl_flag==1){    //削除
-            list.remove(list.indexOf(room1));
-            Log.i("rl_onCreate","ルームが削除されました");
-        }else if(rl_flag==-1){
-            Log.i("rl_onCreate","新しいルームのデータはありません");
-        }
-
 
         ListView listview = (ListView) findViewById(R.id.rl_listview_roominfo);
         RlAdapter rl_adapter = new RlAdapter(this, list);
@@ -65,14 +49,19 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
+                int hostid;     //listviewから持ってくる
+                String hosttag;    //同様
+                String hostname;   //同様
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
+                //intent_list.putExtra("TAG",hosttag);
+                //intent_list.putExtra("HOSTID",hostid);
+                //intent_list.putExtra("HOSTNAME",hostname);
 
                 startActivity(intent_list);
                 Log.i("rl_onCreate","RoomWait.classが開始されました");
 
             }
         });
-
 
 
         //searchviewについての処理
@@ -110,23 +99,53 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
+
+
     }
 
     static void receiveMessage(String message) {
+        //部屋リストを要求
+        Client.sendMessage("roomreq");
+        //部屋リストの情報もらう
         String[] s = message.split("\\$");
         switch (s[0]) {
-            case "add4":
-                rl_flag=0;
+            case "apply":
+                //apply$ホストID
                 Log.i("rl_receive.Message","追加するルーム情報が渡されました");
+                //new_room = new Room(hostid);
+                //メンバのデータを取得
+                players=new_room.getMember();
+                //メンバの人数(要素数)の取得
+                textview_count.setText(players.size());
+                list.add(new_room);
+                Log.i("rl_onCreate","ルームが追加されました");
                 break;
             case "del":
-                rl_flag=1;
-                Log.i("rl_receive.Message","解除するルーム情報が渡されました");
+                //del$ホストID
+                //new_room = new Room(hostid);
+                list.remove(list.indexOf(new_room));
+                Log.i("rl_onCreate","ルームが削除されました");
+
+
+                size= list.size();
+                int k=0;
+                while(k<size){
+                    //ホストID == HostId<String,Integer>
+                    for(Map.Entry<String, Integer> entry : (list.get(k)).getHostId().entrySet()){
+                        if(entry.getKey()==s[1]){
+                            list.remove(list.indexOf(new_room));
+                            break;
+                        }
+                    }
+                }
+                Log.i("ms_onCreate","メンバリストのメンバが退出しました");
+
+                break;
+
+            case "num":
+                //num$ホストのID$新しい人数
                 break;
         }
-        rl_roomname=s[1];
-        rl_tag=s[2];
-        rl_id=s[3];
     }
 
     //チェックボックスで検索をかけたとき
