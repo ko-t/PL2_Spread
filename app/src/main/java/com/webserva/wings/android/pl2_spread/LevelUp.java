@@ -40,8 +40,8 @@ public class LevelUp extends AppCompatActivity {
         ImageButton lv_imageButton_southUp = findViewById(R.id.lv_imageButton_southUp);
         ImageButton lv_imageButton_westUp = findViewById(R.id.lv_imageButton_westUp);
         ImageButton lv_imageButton_northUp = findViewById(R.id.lv_imageButton_northUp);
-        Button lv_button_decide = findViewById(R.id.lv_button_decide);
-        lv_button_decide.setEnabled(false);
+        ImageButton lv_imageButton_decide = findViewById(R.id.lv_imageButton_decide);
+        lv_imageButton_decide.setEnabled(false);
         lv_imageButton_eastUp.setOnClickListener(v -> {
             statusUp -= 1;
             newStatus[0] += 1;
@@ -51,7 +51,7 @@ public class LevelUp extends AppCompatActivity {
                 lv_imageButton_northUp.setEnabled(false);
                 lv_imageButton_westUp.setEnabled(false);
                 lv_imageButton_southUp.setEnabled(false);
-                lv_button_decide.setEnabled(true);
+                lv_imageButton_decide.setEnabled(true);
             }
         });
         lv_imageButton_southUp.setOnClickListener(v -> {
@@ -63,7 +63,7 @@ public class LevelUp extends AppCompatActivity {
                 lv_imageButton_northUp.setEnabled(false);
                 lv_imageButton_westUp.setEnabled(false);
                 lv_imageButton_southUp.setEnabled(false);
-                lv_button_decide.setEnabled(true);
+                lv_imageButton_decide.setEnabled(true);
             }
         });
         lv_imageButton_westUp.setOnClickListener(v -> {
@@ -75,7 +75,7 @@ public class LevelUp extends AppCompatActivity {
                 lv_imageButton_northUp.setEnabled(false);
                 lv_imageButton_westUp.setEnabled(false);
                 lv_imageButton_southUp.setEnabled(false);
-                lv_button_decide.setEnabled(true);
+                lv_imageButton_decide.setEnabled(true);
             }
         });
         lv_imageButton_northUp.setOnClickListener(v -> {
@@ -87,11 +87,11 @@ public class LevelUp extends AppCompatActivity {
                 lv_imageButton_northUp.setEnabled(false);
                 lv_imageButton_westUp.setEnabled(false);
                 lv_imageButton_southUp.setEnabled(false);
-                lv_button_decide.setEnabled(true);
+                lv_imageButton_decide.setEnabled(true);
             }
         });
 
-        lv_button_decide.setOnClickListener(v -> {
+        lv_imageButton_decide.setOnClickListener(v -> {
             Client.sendMessage("newstatus$" + newStatus[0] + "$" + newStatus[1] + "$"
                     + newStatus[2] + "$" + newStatus[3]);
             Intent intent_to_ge = new Intent(getApplication(), GameEnd.class);

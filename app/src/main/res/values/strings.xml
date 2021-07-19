@@ -35,7 +35,7 @@
     <string name="re_nextLevelLabel">次のレベルまで</string>
     <string name="next">次へ</string>
     <string name="lv_textView_exp">残り経験値</string>
-    <string name="lv_decide">決定する</string>
+    <string name="decide">決定</string>
     <string name="ml_statusEffect">ステータス効果</string>
     <string name="hr_gameStart">ゲームを開始する</string>
     <string name="ge_replay">もう一度遊ぶ</string>

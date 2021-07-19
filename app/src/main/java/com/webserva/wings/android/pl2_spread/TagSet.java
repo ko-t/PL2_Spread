@@ -35,8 +35,8 @@ public class TagSet extends AppCompatActivity {
         RadioButton tg_radioButton_on = findViewById(R.id.tg_radioButton_on);
         RadioButton tg_radioButton_known = findViewById(R.id.tg_radioButton_known);
 
-        Button tg_button_make = findViewById(R.id.tg_button_make);
-        tg_button_make.setOnClickListener(v -> {
+        ImageButton tg_imageButton_make = findViewById(R.id.tg_imageButton_make);
+        tg_imageButton_make.setOnClickListener(v -> {
             RoomName = tg_plainText_room.getText().toString();
             if(!RoomName.equals("")) {
                 tg_textView_inputAlert.setText("");

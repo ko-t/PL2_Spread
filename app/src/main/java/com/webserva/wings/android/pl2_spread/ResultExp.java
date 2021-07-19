@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ResultExp extends AppCompatActivity {
@@ -38,8 +38,8 @@ public class ResultExp extends AppCompatActivity {
         re_textView_nextLevel.setText(String.valueOf(Client.calcNextExp(new_exp)));
         levelup = next_level-current_level;
 
-        Button re_button_next = findViewById(R.id.re_button_next);
-        re_button_next.setOnClickListener(v -> {
+        ImageButton re_imageButton_next = findViewById(R.id.re_imageButton_next);
+        re_imageButton_next.setOnClickListener(v -> {
             Intent intent;
             if(levelup == 0) {
                 intent = new Intent(getApplication(), GameEnd.class);
