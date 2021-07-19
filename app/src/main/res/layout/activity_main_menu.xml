@@ -6,12 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".MainMenu">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/st_back_vec"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/mm_imageButton_game"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.15"
@@ -44,6 +57,7 @@
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.15"
@@ -75,6 +89,7 @@
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.15"
@@ -100,6 +115,5 @@
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="@id/mm_ImageButton_record"
         app:layout_constraintTop_toTopOf="@id/mm_ImageButton_record" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
