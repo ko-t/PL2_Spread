@@ -62,7 +62,7 @@ public class Client {
     static LatLng start, goal;
     static ListenerRegistration startListener, resultListener;
 
-    static Integer[] expTable;
+    static Integer[] expTable = new Integer[100];
     static PrintWriter out;
 
     static Context context;
@@ -92,12 +92,13 @@ public class Client {
 //    }
 
     static void init(Context c) {
-        final int lv1 = 100000;
+        final int lv1 = 90000;
         myInfo = new MemberInfo("dummyName", "dummyId");
         context = c;
         expTable[0] = lv1;
         for (int i = 1; i < 100; i++) {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
+            if(i<10) Log.d("Client#init", expTable[i] + "");
         }
     }
 
@@ -564,7 +565,7 @@ public class Client {
 
             case "otherpos19":
             case "score19":
-//                TeamResultMap.receiveMessage(message);
+                TeamResultMap.receiveMessage(message);
                 break;
 
             case "showresult":
@@ -599,10 +600,12 @@ public class Client {
     private final static double ratio = 1000000;
 
     static int calcLevel(int exp) {
-        return Arrays.binarySearch(expTable, exp, (x, y) -> x.compareTo(y) > 0 ? 1 : -1);
+        int ret = Arrays.binarySearch(expTable, exp);
+        if(ret<0) ret = ~ret + 1;
+        return ret;
     }
 
     static int calcNextExp(int exp) {
-        return expTable[calcLevel(exp) + 1] - exp;
+        return expTable[calcLevel(exp)-1] - exp;
     }
 }
