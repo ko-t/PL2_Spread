@@ -45,6 +45,7 @@ public class ResultExp extends AppCompatActivity {
                 intent = new Intent(getApplication(), GameEnd.class);
             }else {
                 intent = new Intent(getApplication(), LevelUp.class);
+                intent.putExtra("levelup", levelup);
             }
             Client.startActivity(intent);
         });
