@@ -1,47 +1,36 @@
 package com.webserva.wings.android.pl2_spread;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeMap;
 
-public class Ranking extends AppCompatActivity implements View.OnClickListener {
-    //private Button button;
-    private static TextView rk_count;
+public class Ranking extends AppCompatActivity {
     private static String rk_str_count="初期値";
-    private static List list;
+    private static List<Map<Integer,String>> rank = new ArrayList<>();
+    private static Map<Integer,String> rank_data = new TreeMap<>();
+    private static TextView rk_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ranking);
 
+        receiveMessage("rank$3$820$280$208");
         //rk_textview_countの内容をrk_countで設定
-        rk_count = (TextView) findViewById((R.id.rk_textview_count));
+        rk_count = findViewById((R.id.rk_textview_count));
         rk_count.setText(rk_str_count);
 
-        //ランキングの作成
+        ListView listview = findViewById(R.id.rk_listview_ranking);
 
-        //ランキング情報はサーバから？
-
-        ListView listview = (ListView) findViewById(R.id.rk_listview_ranking);
-
-        RkAdapter rk_adapter = new RkAdapter(this, list);
+        RkAdapter rk_adapter = new RkAdapter(this, rank);
         listview.setAdapter(rk_adapter);
     }
 
@@ -52,17 +41,23 @@ public class Ranking extends AppCompatActivity implements View.OnClickListener {
         switch (s[0]) {
             //s[0]="rank", s[1]=個数, s[2]="1位のスコア", s[3]="2位のスコア",....
             case "rank":
+                Client.sendMessage("rankreq");
                 Log.i("rk_receiveMessage","rankを受信しました");
-                Integer rank_count = Integer.parseInt(s[1]);
-                //渡された個数分リストを作成
+                int rank_count = Integer.parseInt(s[1]);
+
+                //渡されたランキングデータを Map に格納
                 for(int i=2;i<rank_count+2;i++){
-                    list.add(s[i]);
+                    rank_data.put(i-2,s[i]);         // key:i-2, 値:スコア
+                    rank.add(i-2,rank_data);   //  rank_data の i-2 を リストへ
                 }
                 break;
 
             //s[0]="best", s[1]="順位", s[2]="ベストスコア"
             case "best":
                 Log.i("rk_receiveMessage","bestを受信しました");
+                int best_rank = Integer.parseInt(s[1]);
+                rank_data.put(best_rank,s[2]);
+                rank.add(11,rank_data);    //ランクは10位まで、ベストスコアは11位の位置
                 break;
 
             //s[0]="num", s[1]="プレイ回数"
@@ -73,16 +68,4 @@ public class Ranking extends AppCompatActivity implements View.OnClickListener {
                 break;
         }
     }
-
-
-    //画面遷移
-
-    @Override
-    public void onClick(View v) {
-//        if(v==ms_button){
-//            Intent intent = new Intent(this,RoomInfo.class);
-//            Client.startActivity(intent);
-//        }
-    }
-
 }
