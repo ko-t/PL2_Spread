@@ -17,37 +17,53 @@ import java.util.List;
 
 //確定した(承認された)プレイヤの表示画面
 public class RoomInfo extends AppCompatActivity implements View.OnClickListener {
-    private static String ri_roomname,ri_tag,ri_id;
     private static Button ri_button_quit;
     private static Intent intent;
     private static List<MemberInfo> list_member;
-    private static Room room;
-    private static TextView text_name,text_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roominfo);
-        ri_button_quit=(Button)findViewById(R.id.ri_button_quit);
+        ri_button_quit=findViewById(R.id.ri_button_quit);
         ri_button_quit.setOnClickListener(this);
 
-        Integer ri_tag1 = Integer.parseInt(ri_tag);
+        Intent i = new Intent();
+        int ri_tag = i.getIntExtra("TAG",0);
+        String ri_id = i.getStringExtra("HOSTID");
+        String ri_hostname = i.getStringExtra("HOSTNAME");
+
+        //タグ取得
+        int[] ri_tag_1 = new int[3];
+        ri_tag_1[0]=ri_tag/100;
+        ri_tag_1[1]=(ri_tag - (ri_tag_1[0]*100))/10;
+        ri_tag_1[2]=ri_tag - (ri_tag_1[0]*100)-(ri_tag_1[1]*10);
+        TextView ri_roomname = findViewById(R.id.ms_textview_roomname);
+        TextView ri_gm = findViewById(R.id.rw_textview_select1);
+        TextView ri_se = findViewById(R.id.rw_textview_select2);
+        TextView ri_m = findViewById(R.id.rw_textview_select3);
+        if(ri_tag_1[0]==0){ ri_gm.setText("対戦");
+        }else{ ri_gm.setText("協力"); }
+        if(ri_tag_1[1]==0){ ri_se.setText("あり");
+        }else{ ri_se.setText("なし"); }
+        if(ri_tag_1[2]==0){ ri_m.setText("知ってる人のみ");
+        }else{ ri_m.setText("知らない人もOK"); }
+
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        room = new Room(ri_roomname, ri_tag1, ri_id);
+        Room room = new Room(ri_hostname, ri_tag, ri_id);
+        ri_roomname.setText(room.getRoomName());
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
-        ListView listview1 = (ListView) findViewById(R.id.ri_listview_host);
+        ListView listview1 = findViewById(R.id.ri_listview_host);
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);
 
         //メンバーのリスト作成
-        list_member = new ArrayList<MemberInfo>();
-
-        //メンバの表示
-        ListView listview2 = (ListView) findViewById(R.id.ri_listview_member);
+        list_member = new ArrayList<>();
+        ListView listview2 = findViewById(R.id.ri_listview_member);
         Rw_Ri_Tsr_Adapter adapter_member = new Rw_Ri_Tsr_Adapter(this, list_member);
-        listview1.setAdapter(adapter_member);
+        listview2.setAdapter(adapter_member);
     }
 
     static void receiveMessage(String message) {
@@ -55,15 +71,26 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         switch (s[0]) {
             case "add10":
                 //add10$ユーザ名$ユーザID
-                //list_member.add();
                 Log.i("ri_receiveMessage","サーバからadd10を受け取りました");
+                MemberInfo member = new MemberInfo(s[1], s[2]);
+                list_member.add(member);
+                Log.i("ri_receiveMessage","メンバリストのメンバが追加されました");
                 break;
 
             case "del10":
                 //delete10$ユーザID
-                //while
-                //list_member.remove(list_member.indexOf());
                 Log.i("ri_receiveMessage","サーバからdel9を受け取りました");
+                int size = list_member.size();
+                int k=0;
+                while(k< size){
+                    //ユーザID == リストk番目のid
+                    if(s[1].equals (list_member.get(k).getId()) ){
+                        list_member.remove(k);
+                        break;
+                    }
+                    k++;
+                }
+                Log.i("ri_receiveMessage","メンバリストのメンバが退出しました");
                 break;
 
             //ホストの接続が切れたとき

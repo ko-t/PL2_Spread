@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,8 +13,6 @@ import java.util.List;
 
 public class TeamSplitResult extends AppCompatActivity implements View.OnClickListener {
     private Button tsr_button_next;
-    private static MemberInfo member;
-    private static Room room1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +30,23 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
         List<MemberInfo> list_paper = new ArrayList<>();
         for(int j=0;j<num;j++){
             //member情報を生成
-            member = new MemberInfo(s_name[j],s_id[j]);
+            MemberInfo member = new MemberInfo(s_name[j], s_id[j]);
             //rock側のリストに add
-            if(s_gp[j]=="g"){
+            if(s_gp[j].equals("g")){
                 list_rock.add(member);
             } //paper側のリストに add
-            else if(s_gp[j]=="p"){
+            else if(s_gp[j].equals("p")){
                 list_paper.add(member);
             }
         }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teamsplitresult);
-        tsr_button_next=(Button)findViewById(R.id.tsr_button_next);
+        tsr_button_next=findViewById(R.id.tsr_button_next);
         tsr_button_next.setOnClickListener(this);
 
-        ListView listview_rock = (ListView) findViewById(R.id.tsr_listview_rock);
-        ListView listview_paper = (ListView) findViewById(R.id.tsr_listview_paper);
+        ListView listview_rock = findViewById(R.id.tsr_listview_rock);
+        ListView listview_paper = findViewById(R.id.tsr_listview_paper);
         Rw_Ri_Tsr_Adapter adapter_rock = new Rw_Ri_Tsr_Adapter(this, list_rock);
         listview_rock.setAdapter(adapter_rock);
         Rw_Ri_Tsr_Adapter adapter_paper = new Rw_Ri_Tsr_Adapter(this, list_paper);

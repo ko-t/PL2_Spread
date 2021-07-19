@@ -16,7 +16,6 @@ import java.util.List;
 
 public class MemberSelect extends AppCompatActivity {
     private static List<MemberInfo> list_member = new ArrayList<>();
-    private static MemberInfo member;
     private static int size;
     private static String str_name,str_id;
 
@@ -49,17 +48,16 @@ public class MemberSelect extends AppCompatActivity {
 
         //ルームのインスタンスを生成
         Room room = new Room("room1", ms_tag, "id");
-        System.out.println("roomが作成されました");
         receiveMessage("add9$name1$id1");
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
-        ListView listview1 = (ListView) findViewById(R.id.ms_listview_host);
+        ListView listview1 = findViewById(R.id.ms_listview_host);
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);   //listview(host)に追加
 
         //メンバの表示
-        ListView listview2 = (ListView) findViewById(R.id.ms_listview_memberlist);
+        ListView listview2 = findViewById(R.id.ms_listview_memberlist);
         MsAdapter adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener(){
             public void onItemButtonClick(int position, View view){
                 //承認されたときの処理
@@ -102,11 +100,10 @@ public class MemberSelect extends AppCompatActivity {
         switch (s[0]) {
             case "add9":
                 //add9$ユーザ名$ユーザID
-                System.out.println("add9が選択されました");
-                member= new MemberInfo(s[1],s[2]);
+                MemberInfo member = new MemberInfo(s[1], s[2]);
                 list_member.add(member);
                 Log.i("ms_onCreate","メンバリストのメンバが追加されました");
-                //Client.sendMessage("accept$"+s[1]);
+                Client.sendMessage("accept$"+s[1]);
                 Log.i("ms_onCreate","メンバが承認されました");
                 break;
             case "del9":
@@ -115,7 +112,7 @@ public class MemberSelect extends AppCompatActivity {
                 int k=0;
                 while(k<size){
                     //ユーザID == リストk番目のid
-                    if(s[1] == (list_member.get(k)).getId() ){
+                    if(s[1].equals (list_member.get(k).getId()) ){
                         list_member.remove(k);
                         break;
                     }
