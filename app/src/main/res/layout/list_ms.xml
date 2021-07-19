@@ -20,7 +20,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/list_ms_textview_playername"
         app:layout_constraintTop_toTopOf="parent"
-        android:text_color="@drawable/button_text_color">
+        android:textColor="@drawable/button_text_color" >
+        <!--text_colorからtextColorに変更-->
     </Button>
 
     <TextView
