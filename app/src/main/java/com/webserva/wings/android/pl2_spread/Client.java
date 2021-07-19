@@ -438,7 +438,7 @@ public class Client {
                     }
                 }
                 receiveMessage("best$" + myRank + "$" + myScore);
-                receiveMessage("num$" + memberList.get(memberList.indexOf(from)).getMatchHistory());
+                //receiveMessage("num$" + memberList.get(memberList.indexOf(from)).getMatchHistory());
                 break;
 
             case "roomreq":
@@ -458,10 +458,10 @@ public class Client {
                             case ADDED:
                                 List<String> sList = Arrays.asList(room.getRoomName(), String.valueOf(room.getTag()),
                                         room.getHostId().getKey(), String.valueOf(room.getHostId().getValue()), "1");
-                                StringJoiner sj = new StringJoiner("$");
-                                sj.add("add4");
-                                sList.forEach(sj::add);
-                                receiveMessage(sj.toString());
+                                StringJoiner sj2 = new StringJoiner("$");
+                                sj2.add("add4");
+                                sList.forEach(sj2::add);
+                                receiveMessage(sj2.toString());
                                 break;
                             case MODIFIED: //
                                 Log.d(TAG, "Room Modified Info:" + dc.getDocument().getData());
@@ -559,7 +559,7 @@ public class Client {
                 break;
 
             case "gps18":
-                TeamSplitResult.receiveMessage(message);
+//                TeamSplitResult.receiveMessage(message);
                 break;
 
             case "otherpos19":
