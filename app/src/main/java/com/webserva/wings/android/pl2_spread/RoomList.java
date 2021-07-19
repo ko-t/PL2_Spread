@@ -99,6 +99,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
+
+
     }
 
     static void receiveMessage(String message) {
