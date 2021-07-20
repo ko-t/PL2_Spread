@@ -18,13 +18,14 @@ import java.util.List;
 public class RoomWait extends AppCompatActivity implements View.OnClickListener {
     private Button rw_button_quit;  //退出→4 RoomListに戻る
     private static Intent intent;
+    private static String rw_hostname, rw_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent i = new Intent();
         int rw_tag = i.getIntExtra("TAG",0);
-        String rw_id = i.getStringExtra("HOSTID");
-        String rw_hostname = i.getStringExtra("HOSTNAME");
+        rw_id = i.getStringExtra("HOSTID");
+        rw_hostname = i.getStringExtra("HOSTNAME");
 
         //タグ取得
         int[] rw_tag_1 = new int[3];
@@ -68,6 +69,8 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
                 Log.i("rw_receiveMessage","入室を承認されました");
                 Client.finishActivity();
                 intent = new Intent(Client.context, RoomInfo.class);
+                intent.putExtra("HOSTID",rw_hostname);
+                intent.putExtra("HOSTNAME",rw_id);
                 Client.startActivity(intent);
                 break;
 
