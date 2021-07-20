@@ -486,7 +486,7 @@ public class Client {
                 memberInfoRef.update(
                         "state", "choosingRoom"
                 );
-                Query roomWatcher = db.collection("roomList").whereEqualTo("isOpen", true),
+                Query roomWatcher = db.collection("roomList").whereEqualTo("open", true),
                         roomMemberWatcher = db.collectionGroup("member");
                 roomWatcher.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {

@@ -101,16 +101,17 @@ public class Room {
 
         @Override
         public K getKey() {
-            return null;
+            return key;
         }
 
         @Override
         public V getValue() {
-            return null;
+            return value;
         }
 
         @Override
         public V setValue(V value) {
+            this.value = value;
             return null;
         }
     }
