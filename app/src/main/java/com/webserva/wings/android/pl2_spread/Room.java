@@ -12,8 +12,8 @@ import java.util.TreeMap;
 
 public class Room {
     private String roomName, message;
-    private int tag, memberNum=0;
-    private Entry<String, Integer> hostId; //TODO 連戦のときのhostIdの変化
+    private int tag, memberNum = 0;
+    private Entry<String, Integer> hostId = new SimpleEntry<>(null, null); //TODO 連戦のときのhostIdの変化
     // -3:非承認
     // -2:未承認（承認待ち）
     // -1:承認済み
@@ -22,9 +22,12 @@ public class Room {
     //  0:グー
     //  1:パー
     private boolean isOpen;
-    private int count = 0, gpCount=0, endCount=0;
+    private int count = 0, gpCount = 0, endCount = 0;
 
-    Room(String roomName, int tag, String hostid){
+    public Room() {
+    }
+
+    Room(String roomName, int tag, String hostid) {
         this.roomName = roomName;
         this.tag = tag;
         this.hostId = new SimpleEntry<>(hostid, 0);
@@ -82,5 +85,29 @@ public class Room {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public class myEntry<K, V> implements Entry<K, V>, java.io.Serializable {
+        private static final long serialVersionUID = -8499721149061103585L;
+        private K key;
+        private V value;
+
+        public myEntry() {
+        }
+
+        @Override
+        public K getKey() {
+            return null;
+        }
+
+        @Override
+        public V getValue() {
+            return null;
+        }
+
+        @Override
+        public V setValue(V value) {
+            return null;
+        }
     }
 }
