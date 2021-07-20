@@ -223,7 +223,7 @@ public class Client {
                 //MemberInfoのRoomIdを設定
                 myInfo.setRoomId(s[1]);
                 roomRef = db.collection("roomList").document(myInfo.getRoomId());
-                db.collection("member").document(myInfo.getId()).update(
+                db.collection("memberList").document(myInfo.getId()).update(
                         "RoomId", s[1],
                         "state", "applying"
                 );
