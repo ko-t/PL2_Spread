@@ -9,6 +9,7 @@ public class MemberInfo {
     private int[] status = {0, 0, 0, 0};
     private int matchHistory = 0;
     private int recordId = -1;
+    private String state = "offline";
 
     MemberInfo(String name, String id) {
         this.id = id;
@@ -77,5 +78,13 @@ public class MemberInfo {
 
     public void setTeam(int team) {
         this.team = team;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

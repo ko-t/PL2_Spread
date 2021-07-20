@@ -2,6 +2,7 @@ package com.webserva.wings.android.pl2_spread;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import android.text.TextUtils;
 import android.content.Intent;
@@ -34,10 +35,8 @@ public class TagSet extends AppCompatActivity {
         RadioButton tg_radioButton_on = findViewById(R.id.tg_radioButton_on);
         RadioButton tg_radioButton_known = findViewById(R.id.tg_radioButton_known);
 
-        ImageButton tg_imageButton_gameMode = findViewById(R.id.tg_imageButton_gameMode);
-
-        Button tg_button_make = findViewById(R.id.tg_button_make);
-        tg_button_make.setOnClickListener(v -> {
+        ImageButton tg_imageButton_make = findViewById(R.id.tg_imageButton_make);
+        tg_imageButton_make.setOnClickListener(v -> {
             RoomName = tg_plainText_room.getText().toString();
             if(!RoomName.equals("")) {
                 tg_textView_inputAlert.setText("");
@@ -100,5 +99,6 @@ public class TagSet extends AppCompatActivity {
                 Client.startActivity(intent_to_ms);
             }
         });
+
     }
 }
