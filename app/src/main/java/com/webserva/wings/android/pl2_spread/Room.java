@@ -2,17 +2,16 @@ package com.webserva.wings.android.pl2_spread;
 
 import android.util.Log;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
+import androidx.annotation.Keep;
+
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
 
 public class Room {
-    private String roomName, message;
+    private String roomName, message, hostId;
     private int tag, memberNum = 0;
-    private myEntry<String, Integer> hostId; //TODO 連戦のときのhostIdの変化
+    //teamの値
     // -3:非承認
     // -2:未承認（承認待ち）
     // -1:承認済み
@@ -29,8 +28,7 @@ public class Room {
     Room(String roomName, int tag, String hostid) {
         this.roomName = roomName;
         this.tag = tag;
-        this.hostId = new myEntry<>(hostid, 0);
-        Log.i("Room.java", hostId.getKey());
+        this.hostId = hostid;
         isOpen = true;
     }
 
@@ -50,11 +48,11 @@ public class Room {
         this.tag = tag;
     }
 
-    public Entry<String, Integer> getHostId() {
+    public String getHostId() {
         return hostId;
     }
 
-    public void setHostId(myEntry<String, Integer> hostId) {
+    public void setHostId(String hostId) {
         this.hostId = hostId;
     }
 
@@ -84,35 +82,5 @@ public class Room {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public class myEntry<K, V> implements Entry<K, V>, java.io.Serializable {
-        private static final long serialVersionUID = -8499721149061103585L;
-        private K key;
-        private V value;
-
-        public myEntry() {
-        }
-
-        public myEntry(K key, V value) {
-            this.key   = key;
-            this.value = value;
-        }
-
-        @Override
-        public K getKey() {
-            return key;
-        }
-
-        @Override
-        public V getValue() {
-            return value;
-        }
-
-        @Override
-        public V setValue(V value) {
-            this.value = value;
-            return null;
-        }
     }
 }

@@ -493,24 +493,36 @@ public class Client {
                         Log.w(TAG, "listen:error", e);
                         return;
                     }
-                    Room room;
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         Log.i(TAG, "roomReq");
-                        room = dc.getDocument().toObject(Room.class);
+                        Map<String, Object> room = dc.getDocument().getData();
+                        final String roomName = room.get("roomName").toString(), tag = room.get("tag").toString(), hid = room.get("hostId").toString();
                         switch (dc.getType()) {
                             case ADDED:
-                                List<String> sList = Arrays.asList(room.getRoomName(), String.valueOf(room.getTag()),
-                                        room.getHostId().getKey(), String.valueOf(room.getHostId().getValue()), "1");
-                                StringJoiner sj2 = new StringJoiner("$");
-                                sj2.add("add4");
-                                sList.forEach(sj2::add);
-                                receiveMessage(sj2.toString());
+                                db.collection("memberList").document(hid).get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                            List<String> sList = Arrays.asList(roomName, tag,
+                                                    hid, document.get("name", String.class), "1");
+                                            StringJoiner sj2 = new StringJoiner("$");
+                                            sj2.add("add4");
+                                            sList.forEach(sj2::add);
+                                            receiveMessage(sj2.toString());
+                                        } else {
+                                            Log.d(TAG, "No such document");
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                    }
+                                });
                                 break;
                             case MODIFIED: //
                                 Log.d(TAG, "Room Modified Info:" + dc.getDocument().getData());
                                 break;
                             case REMOVED:
-                                receiveMessage("del$" + room.getHostId());
+                                receiveMessage("del$" + hid);
                                 break;
                         }
                     }
@@ -698,7 +710,7 @@ public class Client {
         return expTable[calcLevel(exp) - 1] - exp;
     }
 
-    private class myEntry implements Serializable {
+    private static class myEntry implements Serializable {
         String s=null;
         Integer i=null;
         @ServerTimestamp
