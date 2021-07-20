@@ -148,7 +148,7 @@ public class Client {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String[] s = message.split("\\$");
 
-        DocumentReference roomRef = db.collection("roomList").document(myInfo.getRoomId()),
+        DocumentReference roomRef = null,
                 memberInfoRef = db.collection("memberList").document(myInfo.getId());
 
         switch (s[0]) {

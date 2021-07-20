@@ -45,7 +45,6 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         Client.sendMessage("roomreq");
 
         //listviewについて
-        receiveMessage("add4$room1$tag1$id1");
         list = new ArrayList<>();
 
         listview = (ListView) findViewById(R.id.rl_listview_roominfo);
