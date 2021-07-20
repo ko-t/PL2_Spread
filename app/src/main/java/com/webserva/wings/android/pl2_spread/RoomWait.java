@@ -22,6 +22,11 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.roomwait);
+        rw_button_quit=findViewById(R.id.rw_button_quit);
+        rw_button_quit.setOnClickListener(this);
+
         Intent i = new Intent();
         int rw_tag = i.getIntExtra("TAG",0);
         rw_id = i.getStringExtra("HOSTID");
@@ -44,10 +49,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         }else{ rw_m.setText("知らない人もOK"); }
 
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.roomwait);
-        rw_button_quit=findViewById(R.id.rw_button_quit);
-        rw_button_quit.setOnClickListener(this);
+
 
         receiveMessage("approved$room1$tag1$id1");
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成

@@ -57,7 +57,6 @@ public class TitleDebug extends AppCompatActivity {
 
     void useDummyLocations() {
         Client.myInfo.setTeam(1);
-        Client.myInfo.setRoomId("dummyHostId");
         Client.start = new LatLng(35.48116258624266, 139.58656026336882);
         Client.goal = new LatLng(35.4639497213053, 139.58540154911645);
         TeamResultMap.receiveMessage("otherpos19$3$3$" +

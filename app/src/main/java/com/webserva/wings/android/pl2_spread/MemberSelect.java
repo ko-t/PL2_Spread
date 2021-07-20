@@ -52,7 +52,7 @@ public class MemberSelect extends AppCompatActivity {
         if(ms_tag_1[2]==0){ ms_m.setText("知ってる人のみ");
         }else{ ms_m.setText("知らない人もOK"); }
 
-        receiveMessage("add9$name1$id1");
+        //receiveMessage("add9$name1$id1");
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
