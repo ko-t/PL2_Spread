@@ -29,6 +29,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
     private static Room new_room;
     private static int size;
     static List<Room> list;
+    private static ListView listview;
+    private static RlAdapter rl_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         receiveMessage("add4$room1$tag1$id1");
         list = new ArrayList<>();
 
-        ListView listview = (ListView) findViewById(R.id.rl_listview_roominfo);
-        RlAdapter rl_adapter = new RlAdapter(this, list);
+        listview = (ListView) findViewById(R.id.rl_listview_roominfo);
+        rl_adapter = new RlAdapter(this, list);
         listview.setAdapter(rl_adapter);
 
         // ListView中の要素がタップされたときの処理を記述
@@ -118,6 +120,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 //メンバの人数(要素数)の取得
                 textview_count.setText(players.size());
                 list.add(new_room);
+
                 Log.i("rl_onCreate","ルームが追加されました");
                 break;
             case "del":
