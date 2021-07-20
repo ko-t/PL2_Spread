@@ -516,9 +516,9 @@ public class Client {
                         Log.w(TAG, "listen:error", e);
                         return;
                     }
-                    HashMap memberInRoom;
+                    Map memberInRoom;
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                        memberInRoom = dc.getDocument().toObject(HashMap.class);
+                        memberInRoom = dc.getDocument().getData();
                         String roomName = dc.getDocument().getReference().getParent().getId();
                         Log.d(TAG, "MemberChange in Room " + roomName);
                         switch (dc.getType()) {

@@ -14,7 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+//import androidx.appcompat.widget.SearchView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,7 +66,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
 
         //searchviewについての処理
-        SearchView rl_search = (SearchView) findViewById(R.id.rl_searchview_name);
+        SearchView rl_search = findViewById(R.id.rl_searchview_name);
         listview.setTextFilterEnabled(true);
 
         // SearchViewの初期表示状態を設定
