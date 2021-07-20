@@ -151,6 +151,17 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             case "num":
                 //num$ホストのID$新しい人数
                 break;
+
+            case "add4":
+                //今だけ
+                Intent intent_list = new Intent(Client.context, RoomWait.class);
+                intent_list.putExtra("TAG",s[2]);
+                intent_list.putExtra("HOSTID",s[3]);
+                intent_list.putExtra("HOSTNAME",s[4]);
+
+                Client.startActivity(intent_list);
+                Log.i("rl_onCreate","RoomWait.classが開始されました");
+                break;
         }
     }
 
