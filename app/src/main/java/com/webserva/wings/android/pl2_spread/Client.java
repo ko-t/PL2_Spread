@@ -227,7 +227,7 @@ public class Client {
                 myInfo.setRoomId(s[1]);
                 roomRef = db.collection("roomList").document(myInfo.getRoomId());
                 db.collection("memberList").document(myInfo.getId()).update(
-                        "RoomId", s[1],
+                        "roomId", s[1],
                         "state", "applying"
                 );
                 db.collection("roomList").document(s[1])
