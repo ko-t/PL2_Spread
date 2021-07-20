@@ -94,8 +94,8 @@ public class Client {
 
     static void init(Context c) {
         final int lv1 = 90000;
-        myInfo = new MemberInfo("dummyName", "dummyId");
-        myInfo.setRoomId("dummyHostId");
+        myInfo = new MemberInfo("mitoma", "mitmtmtmt");
+        //myInfo.setRoomId("dummyHostId");
         context = c;
         expTable[0] = lv1;
         for (int i = 1; i < 100; i++) {
@@ -143,6 +143,8 @@ public class Client {
     }
 
     static void sendMessage(String message) {
+        Log.i(TAG, "sendMessage:" + message);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String[] s = message.split("\\$");
 
@@ -157,6 +159,7 @@ public class Client {
                 break;
             case "newroom":
                 myInfo.setRoomId(myInfo.getId());
+                roomRef = db.collection("roomList").document(myInfo.getRoomId());
                 // Roomを作成しリストに追加
                 Room newRoom = new Room(s[1], Integer.parseInt(s[2]), myInfo.getId());
                 newRoom.setMemberNum(1);
@@ -218,6 +221,8 @@ public class Client {
 
             case "apply":
                 //MemberInfoのRoomIdを設定
+                myInfo.setRoomId(s[1]);
+                roomRef = db.collection("roomList").document(myInfo.getRoomId());
                 db.collection("member").document(myInfo.getId()).update(
                         "RoomId", s[1],
                         "state", "applying"
@@ -380,7 +385,7 @@ public class Client {
                     if (snapshot != null && snapshot.exists()) {
                         Log.d(TAG, "Current data: " + snapshot.getData());
                         if (snapshot.get("gpCount", Integer.class).equals(snapshot.get("memberNum", Integer.class))) {
-                            roomRef.collection("member").get()
+                            db.collection("roomList").document(myInfo.getRoomId()).collection("member").get()
                                     .addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
                                             StringJoiner sj = new StringJoiner("$");
@@ -563,7 +568,7 @@ public class Client {
                                 Score newScore = new Score();
                                 newScore.setScore(Integer.parseInt(s[1]));
                                 newScore.setScoreId(num);
-                                roomRef.get().addOnCompleteListener(task1 -> {
+                                db.collection("roomList").document(myInfo.getRoomId()).get().addOnCompleteListener(task1 -> {
                                     if (task1.isSuccessful()) {
                                         DocumentSnapshot document1 = task1.getResult();
                                         if (document1.exists()) {
