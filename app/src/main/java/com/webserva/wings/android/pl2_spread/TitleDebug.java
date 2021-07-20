@@ -19,7 +19,7 @@ public class TitleDebug extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_titledebug);
 
-        Intent i = new Intent(getApplication(), RoomList.class);
+        Intent i = new Intent(getApplication(), RoomMenu.class);
         i.putExtra("levelup", 2);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
