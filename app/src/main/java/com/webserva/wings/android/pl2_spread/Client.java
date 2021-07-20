@@ -176,7 +176,7 @@ public class Client {
                         return;
                     }
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                       // com.google.firebase.database.GenericTypeIndicator
+                        // com.google.firebase.database.GenericTypeIndicator
                         String name = dc.getDocument().getId();
                         switch (dc.getType()) {
                             case ADDED:
@@ -233,7 +233,8 @@ public class Client {
                 db.collection("roomList").document(s[1])
                         .collection("member").document(myInfo.getId()).set(
                         new SimpleEntry<>("team", -2)
-                );
+                ).addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written in apply!"))
+                        .addOnFailureListener(e -> Log.w(TAG, "Error writing document in apply", e));
 
                 //承認非承認をリッスン
                 final DocumentReference docRef = db.collection("roomList").document(myInfo.getRoomId()).collection("member").document(myInfo.getId());
@@ -562,12 +563,12 @@ public class Client {
                 break;
 
             case "newscore": //新しいスコアが自分のベストか確認、またホストならランキングに登録
-                if(myInfo.getId().equals(myInfo.getRoomId())){
+                if (myInfo.getId().equals(myInfo.getRoomId())) {
                     db.collection("ranking").orderBy("scoreid", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                int num = document.toObject(Score.class).getScoreId()+1;
+                                int num = document.toObject(Score.class).getScoreId() + 1;
                                 Score newScore = new Score();
                                 newScore.setScore(Integer.parseInt(s[1]));
                                 newScore.setScoreId(num);
@@ -596,7 +597,7 @@ public class Client {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            if(document.toObject(Score.class).getScore() < Integer.parseInt(s[1])){
+                            if (document.toObject(Score.class).getScore() < Integer.parseInt(s[1])) {
 
                             }
                         } else {
@@ -719,23 +720,24 @@ public class Client {
     }
 
     private static class myEntry implements Serializable {
-        String s=null;
-        Integer i=null;
+        String s = null;
+        Integer i = null;
         @ServerTimestamp
         private Date time;
 
-        myEntry(){}
+        myEntry() {
+        }
 
-        myEntry(String s, Integer i){
+        myEntry(String s, Integer i) {
             this.s = s;
             this.i = i;
         }
 
-        String getKey(){
+        String getKey() {
             return s;
         }
 
-        int getValue(){
+        int getValue() {
             return i;
         }
 
