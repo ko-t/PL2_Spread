@@ -483,6 +483,9 @@ public class Client {
             case "roomreq":
                 // 部屋探し中のリストに追加
                 myInfo.setState("choosingRoom");
+                memberInfoRef.update(
+                        "state", "choosingRoom"
+                );
                 Query roomWatcher = db.collection("roomList").whereEqualTo("isOpen", true),
                         roomMemberWatcher = db.collectionGroup("member");
                 roomWatcher.addSnapshotListener((snapshots, e) -> {
@@ -492,6 +495,7 @@ public class Client {
                     }
                     Room room;
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                        Log.i(TAG, "roomReq");
                         room = dc.getDocument().toObject(Room.class);
                         switch (dc.getType()) {
                             case ADDED:

@@ -38,6 +38,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         findViewById(R.id.rl_button_search).setOnClickListener(this);
         textview_count = (TextView)findViewById(R.id.rl_host_textview_count);
 
+        Client.sendMessage("roomreq");
+
         //listviewについて
         receiveMessage("add4$room1$tag1$id1");
         list = new ArrayList<>();
@@ -106,7 +108,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
     static void receiveMessage(String message) {
         //部屋リストを要求
-        Client.sendMessage("roomreq");
+        //Client.sendMessage("roomreq");
         //部屋リストの情報もらう
         String[] s = message.split("\\$");
         switch (s[0]) {
