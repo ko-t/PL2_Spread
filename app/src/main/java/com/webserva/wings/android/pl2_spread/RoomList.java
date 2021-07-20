@@ -6,29 +6,22 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class RoomList extends AppCompatActivity implements View.OnClickListener {
-    private static int rl_flag=-1;
-    private static List<Map<String, Integer>> players, room;
     private static TextView textview_count;
     private static Room new_room;
     private static int size;
-    static List<Room> list;
+    static List<Room> list = new ArrayList<>();;
     private static ListView listview;
     private static RlAdapter rl_adapter;
 
@@ -41,7 +34,6 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
         //listviewについて
         receiveMessage("add4$room1$tag1$id1");
-        list = new ArrayList<>();
 
         listview = (ListView) findViewById(R.id.rl_listview_roominfo);
         rl_adapter = new RlAdapter(this, list);
@@ -107,44 +99,56 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         //部屋リストを要求
         Client.sendMessage("roomreq");
         //部屋リストの情報もらう
+
+
+
         String[] s = message.split("\\$");
         switch (s[0]) {
-            case "apply":
-                //apply$ホストID
+            case "add4":
+                //add4$ルーム名$タグ$ホストID$ホスト名$現在の人数
                 Log.i("rl_receive.Message","追加するルーム情報が渡されました");
-                //new_room = new Room(hostid);
-                //メンバのデータを取得
-                players=new_room.getMember();
-                //メンバの人数(要素数)の取得
-                textview_count.setText(players.size());
+                Integer tag = Integer.parseInt(s[2]);
+                new_room = new Room(s[1],tag,s[3]);
                 list.add(new_room);
-
+                rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate","ルームが追加されました");
+
+                //申し込むルーム
+                Client.sendMessage("apply$"+s[3]);
                 break;
+
             case "del":
                 //del$ホストID
-                //new_room = new Room(hostid);
-                list.remove(list.indexOf(new_room));
-                Log.i("rl_onCreate","ルームが削除されました");
-
-
                 size= list.size();
                 int k=0;
                 while(k<size){
                     //ホストID == HostId<String,Integer>
                     for(Map.Entry<String, Integer> entry : (list.get(k)).getHostId().entrySet()){
-                        if(entry.getKey()==s[1]){
-                            list.remove(list.indexOf(new_room));
+                        if(entry.getKey().equals(s[1])){
+                            list.remove(list.indexOf(s[1]));
                             break;
                         }
                     }
                 }
-                Log.i("ms_onCreate","メンバリストのメンバが退出しました");
-
+                rl_adapter.notifyDataSetChanged();
+                Log.i("rl_onCreate","ルームが削除されました");
                 break;
 
             case "num":
                 //num$ホストのID$新しい人数
+                size= list.size();
+                int l=0;
+                int item_position=0;
+                for(Map.Entry<String, Integer> entry : (list.get(l)).getHostId().entrySet()){
+                    if(entry.getKey().equals(s[1])){
+                        item_position = list.indexOf(s[1]);
+                        break;
+                    }
+                }
+                rl_adapter = (RlAdapter)listview.getAdapter();
+                Room item = rl_adapter.getItem(item_position);
+                item.setMemberNum(s[2]);
+                rl_adapter.notifyDataSetChanged();
                 break;
         }
     }
