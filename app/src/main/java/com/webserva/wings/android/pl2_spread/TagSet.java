@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment;
 import android.text.TextUtils;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,6 +38,7 @@ public class TagSet extends AppCompatActivity {
 
         ImageButton tg_imageButton_make = findViewById(R.id.tg_imageButton_make);
         tg_imageButton_make.setOnClickListener(v -> {
+            Log.d("ts_onClick", "test1");
             RoomName = tg_plainText_room.getText().toString();
             if(!RoomName.equals("")) {
                 tg_textView_inputAlert.setText("");
@@ -73,7 +75,9 @@ public class TagSet extends AppCompatActivity {
                 tg_textView_radioAlert.setText(radio_alert);
             }
 
+            Log.d("ts_onClick", "test2");
             if(transitionFlag) {
+                Log.d("ts_onClick", "test3");
                 if(tg_radioButton_battle.isChecked()) {
                     tagStatus[0] = 0;
                 }else {
@@ -93,6 +97,7 @@ public class TagSet extends AppCompatActivity {
                 }
                 tag = tagStatus[0]*4+tagStatus[1]*2+tagStatus[2];
                 Client.sendMessage("newroom$" + RoomName + "$" + tag);
+                Log.d("ts_onClick", "test4");
                 Intent intent_to_ms = new Intent(getApplication(), MemberSelect.class);
                 intent_to_ms.putExtra("tag",tag);
                 Client.startActivity(intent_to_ms);

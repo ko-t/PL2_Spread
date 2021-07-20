@@ -22,10 +22,12 @@ public class Ranking extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ranking);
+        rk_count = findViewById((R.id.rk_textview_count));
 
         receiveMessage("rank$3$820$280$208");
+        receiveMessage("num$" + Client.myInfo.getMatchHistory());
         //rk_textview_countの内容をrk_countで設定
-        rk_count = findViewById((R.id.rk_textview_count));
+
         rk_count.setText(rk_str_count);
 
         ListView listview = findViewById(R.id.rk_listview_ranking);

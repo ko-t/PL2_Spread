@@ -19,12 +19,12 @@ package com.webserva.wings.android.pl2_spread;
 
  */
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -43,6 +43,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.AbstractMap.SimpleEntry;
@@ -94,12 +95,14 @@ public class Client {
     static void init(Context c) {
         final int lv1 = 90000;
         myInfo = new MemberInfo("dummyName", "dummyId");
+        myInfo.setRoomId("dummyHostId");
         context = c;
         expTable[0] = lv1;
         for (int i = 1; i < 100; i++) {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
-            if(i<10) Log.d("Client#init", expTable[i] + "");
+            if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
+        sendMessage("register");
     }
 
 //    static void init_connection() {
@@ -147,6 +150,11 @@ public class Client {
                 memberInfoRef = db.collection("memberList").document(myInfo.getId());
 
         switch (s[0]) {
+            case "register":
+                memberInfoRef.set(myInfo)
+                        .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                        .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+                break;
             case "newroom":
                 myInfo.setRoomId(myInfo.getId());
                 // Roomを作成しリストに追加
@@ -154,8 +162,41 @@ public class Client {
                 newRoom.setMemberNum(1);
                 roomRef.set(newRoom);
                 roomRef.collection("member").document(myInfo.getId()).set(new SimpleEntry("team", 0));
-                // ルームリストを表示しているユーザに通知　TODO
-                //updateRoomListOfClient("add", from);
+                // ルームリストを表示しているユーザに通知（isOpenで通知されるはず）
+                //申し込みのリスナー
+                roomRef.collection("member").addSnapshotListener((snapshots, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "listen:error", e);
+                        return;
+                    }
+                    for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                       // com.google.firebase.database.GenericTypeIndicator
+                        String name = dc.getDocument().getId();
+                        switch (dc.getType()) {
+                            case ADDED:
+                                Log.d(TAG, "New city: " + dc.getDocument().getData());
+                                db.collection("memberList").whereEqualTo("id", name).get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                            MemberInfo mi = document.toObject(MemberInfo.class);
+                                            receiveMessage("add9$" + mi.getName() + "$" + mi.getId());
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                });
+                                break;
+                            case MODIFIED:
+                                Log.d(TAG, "Modified city: " + dc.getDocument().getData());
+                                break;
+                            case REMOVED:
+                                Log.d(TAG, "Removed city: " + dc.getDocument().getData());
+                                receiveMessage("delete9$" + name);
+                                break;
+                        }
+                    }
+                });
 
                 //countの通知をこの時点で追加しておく
                 roomRef.addSnapshotListener((snapshot, e) -> {
@@ -182,17 +223,10 @@ public class Client {
                         "state", "applying"
                 );
                 db.collection("roomList").document(s[1])
-                        .collection("member").document(myInfo.getId()).update(
-                        "team", -2
+                        .collection("member").document(myInfo.getId()).set(
+                        new SimpleEntry<>("team", -2)
                 );
-                //ホストの画面に表示 TODO
-//                tmp = roomList.indexOf(s[1]);
-//                if (tmp == -1)
-//                    sendMessage(from, "roomNotFound");
-//                roomList.get(tmp).getMember().put(from, 0);
-//                memberList.get(memberList.indexOf(from)).setRoomId(s[2]);
-//                sendMessage(roomList.get(tmp).getHostId().getKey(),
-//                        "add9$" + memberList.get(memberList.indexOf(from)).getName() + "$" + from);
+
                 //承認非承認をリッスン
                 final DocumentReference docRef = db.collection("roomList").document(myInfo.getRoomId()).collection("member").document(myInfo.getId());
                 docRef.addSnapshotListener((snapshot, e) -> {
@@ -298,7 +332,7 @@ public class Client {
                     }
                     if (snapshot != null && snapshot.exists()) {
                         Log.d(TAG, "Current data: " + snapshot.getData());
-                        if(snapshot.get("message").equals("start")) {
+                        if (snapshot.get("message").equals("start")) {
                             receiveMessage("start");
                             startListener.remove();
                         }
@@ -353,7 +387,7 @@ public class Client {
                                             sj.add("gps17");
                                             for (QueryDocumentSnapshot document : task.getResult()) {
                                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                                SimpleEntry<String, Integer> member = document.toObject(SimpleEntry.class);
+                                                myEntry member = document.toObject(myEntry.class);
                                                 sj.add(String.valueOf(member.getKey()));
                                                 sj.add(String.valueOf(member.getValue()));
                                             }
@@ -370,7 +404,7 @@ public class Client {
                 break;
 
             case "move":
-                goal = moveLocation(goal, (Integer.parseInt(s[1]) - 1) * 90, myInfo.getStatus()[Integer.parseInt(s[1])]);
+                goal = moveLocation(goal, (Integer.parseInt(s[1]) - 1) * 90, myInfo.getStatus().get(Integer.parseInt(s[1])));
                 break;
 
 //            case "end": TODO リスナー
@@ -384,9 +418,11 @@ public class Client {
 //                break;
 
             case "newstatus":
-                int[] tmp = {Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4])};
-                memberInfoRef.update("status", tmp);
-                myInfo.setStatus(tmp);
+                Integer[] tmp = {Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4])};
+                memberInfoRef.update("status", Arrays.asList(tmp))
+                        .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                        .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+                myInfo.setStatus(Arrays.asList(tmp));
                 break;
 
             case "rankreq":
@@ -410,35 +446,37 @@ public class Client {
                             counter++;
                         }
                         receiveMessage(sj.toString());
+                        if (myRank == -1) {
+                            rankCounter = reqNum * 10;
+                            while (rankCounter <= 10000) {
+                                db.collection("ranking")
+                                        .orderBy("score", Query.Direction.DESCENDING).limit(rankCounter)
+                                        .orderBy("score", Query.Direction.ASCENDING).limit(1)
+                                        .get().addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task1.getResult()) {
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
+                                            Score score = document.toObject(Score.class);
+                                            if (score.getScore() <= myScore) {
+                                                myRank = rankCounter;
+                                                myScore = score.getScore();
+                                            }
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting ranking ", task1.getException());
+                                    }
+                                });
+                                if (myRank != -1) break;
+                                rankCounter *= 10;
+                            }
+                        }
+                        receiveMessage("best$" + myRank + "$" + myScore);
                     } else {
                         Log.d(TAG, "Error getting ranking ", task.getException());
                     }
                 });
-                if (myRank == -1) {
-                    rankCounter = reqNum * 10;
-                    while (rankCounter <= 10000) {
-                        db.collection("ranking")
-                                .orderBy("score", Query.Direction.DESCENDING).limit(rankCounter)
-                                .orderBy("score", Query.Direction.ASCENDING).limit(1)
-                                .get().addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-                                    Score score = document.toObject(Score.class);
-                                    if (score.getScore() <= myScore) {
-                                        myRank = rankCounter;
-                                        myScore = score.getScore();
-                                    }
-                                }
-                            } else {
-                                Log.d(TAG, "Error getting ranking ", task.getException());
-                            }
-                        });
-                        if (myRank != -1) break;
-                        rankCounter *= 10;
-                    }
-                }
-                receiveMessage("best$" + myRank + "$" + myScore);
+
+
                 //receiveMessage("num$" + memberList.get(memberList.indexOf(from)).getMatchHistory());
                 break;
 
@@ -498,6 +536,53 @@ public class Client {
                     }
                 });
                 break;
+
+            case "newscore": //新しいスコアが自分のベストか確認、またホストならランキングに登録
+                if(myInfo.getId().equals(myInfo.getRoomId())){
+                    db.collection("ranking").orderBy("scoreid", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                int num = document.toObject(Score.class).getScoreId()+1;
+                                Score newScore = new Score();
+                                newScore.setScore(Integer.parseInt(s[1]));
+                                newScore.setScoreId(num);
+                                roomRef.get().addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        DocumentSnapshot document1 = task1.getResult();
+                                        if (document1.exists()) {
+                                            Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
+                                            newScore.setTeamName(document1.toObject(Room.class).getRoomName());
+                                        } else {
+                                            Log.d(TAG, "No such document");
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task1.getException());
+                                    }
+                                });
+                                db.collection("ranking").document(String.valueOf(num)).set(newScore);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting ranking ", task.getException());
+                        }
+                    });
+                }
+                db.collection("ranking").document(String.valueOf(myInfo.getRecordId())).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            if(document.toObject(Score.class).getScore() < Integer.parseInt(s[1])){
+
+                            }
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                });
+                break;
         }
     }
 
@@ -506,9 +591,9 @@ public class Client {
         String[] s = message.split("\\$");
         switch (s[0]) {
             case "status":
-                int[] news = {Integer.parseInt(s[1]), Integer.parseInt(s[2]),
+                Integer[] news = {Integer.parseInt(s[1]), Integer.parseInt(s[2]),
                         Integer.parseInt(s[3]), Integer.parseInt(s[4])};
-                myInfo.setStatus(news);
+                myInfo.setStatus(Arrays.asList(news));
                 break;
             case "rank":
             case "best":
@@ -601,11 +686,49 @@ public class Client {
 
     static int calcLevel(int exp) {
         int ret = Arrays.binarySearch(expTable, exp);
-        if(ret<0) ret = ~ret + 1;
+        if (ret < 0) ret = ~ret + 1;
         return ret;
     }
 
     static int calcNextExp(int exp) {
-        return expTable[calcLevel(exp)-1] - exp;
+        return expTable[calcLevel(exp) - 1] - exp;
+    }
+
+    private class myEntry implements Serializable {
+        String s=null;
+        Integer i=null;
+        @ServerTimestamp
+        private Date time;
+
+        myEntry(){}
+
+        myEntry(String s, Integer i){
+            this.s = s;
+            this.i = i;
+        }
+
+        String getKey(){
+            return s;
+        }
+
+        int getValue(){
+            return i;
+        }
+
+        public String getS() {
+            return s;
+        }
+
+        public void setS(String s) {
+            this.s = s;
+        }
+
+        public Integer getI() {
+            return i;
+        }
+
+        public void setI(Integer i) {
+            this.i = i;
+        }
     }
 }

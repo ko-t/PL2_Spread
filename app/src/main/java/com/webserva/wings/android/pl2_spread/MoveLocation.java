@@ -16,13 +16,13 @@ public class MoveLocation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_move_location);
         TextView ml_textView_east = findViewById(R.id.ml_textView_east);
-        ml_textView_east.setText(Client.myInfo.getStatus()[0]);
+        ml_textView_east.setText(Client.myInfo.getStatus().get(0));
         TextView ml_textView_south = findViewById(R.id.ml_textView_south);
-        ml_textView_south.setText(Client.myInfo.getStatus()[1]);
+        ml_textView_south.setText(Client.myInfo.getStatus().get(1));
         TextView ml_textView_west = findViewById(R.id.ml_textView_west);
-        ml_textView_west.setText(Client.myInfo.getStatus()[2]);
+        ml_textView_west.setText(Client.myInfo.getStatus().get(2));
         TextView ml_textView_north = findViewById(R.id.ml_textView_north);
-        ml_textView_north.setText(Client.myInfo.getStatus()[3]);
+        ml_textView_north.setText(Client.myInfo.getStatus().get(3));
 
         RadioGroup ml_radioGroup_direction = findViewById(R.id.ml_radioGroup_direction);
         RadioButton ml_radioButton_east = findViewById(R.id.ml_radioButton_east);

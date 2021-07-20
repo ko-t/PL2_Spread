@@ -68,7 +68,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
         button.setOnClickListener(v -> {
             Client.finishActivity();
             intent_to_re = new Intent(getApplication(), ResultExp.class);
-            intent_to_re.putExtra("SCORE", Client.myInfo.getTeam() == 0 ? leftScore : rightScore);
+            intent_to_re.putExtra("SCORE", Client.myInfo.getTeam() == 0 ? (int)leftScore : (int)rightScore);
             Client.startActivity(intent_to_re);
         });
 
