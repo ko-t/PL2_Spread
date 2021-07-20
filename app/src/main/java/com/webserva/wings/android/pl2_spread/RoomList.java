@@ -114,7 +114,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 Log.i("rl_receive.Message","追加するルーム情報が渡されました");
                 //new_room = new Room(hostid);
                 //メンバのデータを取得
-                players=new_room.getMember();
+                //players=new_room.getMember();
                 //メンバの人数(要素数)の取得
                 textview_count.setText(players.size());
                 list.add(new_room);
@@ -131,12 +131,12 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 int k=0;
                 while(k<size){
                     //ホストID == HostId<String,Integer>
-                    for(Map.Entry<String, Integer> entry : (list.get(k)).getHostId().entrySet()){
-                        if(entry.getKey()==s[1]){
-                            list.remove(list.indexOf(new_room));
-                            break;
-                        }
-                    }
+//                    for(Map.Entry<String, Integer> entry : (list.get(k)).getHostId().entrySet()){
+//                        if(entry.getKey()==s[1]){
+//                            list.remove(list.indexOf(new_room));
+//                            break;
+//                        }
+//                    }
                 }
                 Log.i("ms_onCreate","メンバリストのメンバが退出しました");
 
