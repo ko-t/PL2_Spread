@@ -156,10 +156,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
             case "add4":
                 //今だけ
-                new AlertDialog.Builder(Client.context)
-                        .setTitle("title")
-                        .setMessage("message")
-                        .setPositiveButton("OK", (dialog, which) -> {
+
                             Intent intent_list = new Intent(Client.context, RoomWait.class);
                             intent_list.putExtra("TAG",s[2]);
                             intent_list.putExtra("HOSTID",s[3]);
@@ -167,10 +164,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
                             Client.startActivity(intent_list);
                             Log.i("rl_onCreate","RoomWait.classが開始されました");
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .show();
-                break;
+
         }
     }
 
