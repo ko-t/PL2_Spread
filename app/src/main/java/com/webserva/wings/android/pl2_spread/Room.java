@@ -3,7 +3,6 @@ package com.webserva.wings.android.pl2_spread;
 import android.util.Log;
 
 import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.TreeMap;
 public class Room {
     private String roomName, message;
     private int tag, memberNum = 0;
-    private Entry<String, Integer> hostId = new SimpleEntry<>(null, null); //TODO 連戦のときのhostIdの変化
+    private myEntry<String, Integer> hostId; //TODO 連戦のときのhostIdの変化
     // -3:非承認
     // -2:未承認（承認待ち）
     // -1:承認済み
@@ -30,7 +29,7 @@ public class Room {
     Room(String roomName, int tag, String hostid) {
         this.roomName = roomName;
         this.tag = tag;
-        this.hostId = new SimpleEntry<>(hostid, 0);
+        this.hostId = new myEntry<>(hostid, 0);
         Log.i("Room.java", hostId.getKey());
         isOpen = true;
     }
@@ -55,7 +54,7 @@ public class Room {
         return hostId;
     }
 
-    public void setHostId(SimpleEntry<String, Integer> hostId) {
+    public void setHostId(myEntry<String, Integer> hostId) {
         this.hostId = hostId;
     }
 
@@ -93,6 +92,11 @@ public class Room {
         private V value;
 
         public myEntry() {
+        }
+
+        public myEntry(K key, V value) {
+            this.key   = key;
+            this.value = value;
         }
 
         @Override
