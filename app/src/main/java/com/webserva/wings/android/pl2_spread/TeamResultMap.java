@@ -1,55 +1,53 @@
 package com.webserva.wings.android.pl2_spread;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
+public class TeamResultMap extends FragmentActivity implements OnMapReadyCallback {
     static Object lock = new Object();
     static int flag = 0;
-    static List<LatLng> others_pos = new ArrayList<>(), others_original = new ArrayList<>();
+    static List<LatLng> others_pos1 = new ArrayList<>(), others_pos2 = new ArrayList<>(), others_original = new ArrayList<>();
     Button button;
-    TextView textView;
+    TextView textViewLeft, textViewRight, textViewResult;
     Intent intent_to_re;
     double area = 0, tmp;
+    long leftScore, rightScore;
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
-        int num = Integer.parseInt(s[1]);
+        int num1 = Integer.parseInt(s[1]), num2 = Integer.parseInt(s[2]);
         switch (s[0]) {
-            case "otherpos12":
-                for (int i = 0; i < num; i++) {
-                    //others_original.add(new LatLng(Double.parseDouble(s[4 * i + 2]), Double.parseDouble(s[4 * i + 3])));
-                    //others_original.add(new LatLng(Double.parseDouble(s[4 * i + 4]), Double.parseDouble(s[4 * i + 5])));
-                    others_pos.add(moveWithVector(Client.start,
-                            new LatLng(Double.parseDouble(s[4 * i + 2]), Double.parseDouble(s[4 * i + 3])),
-                            new LatLng(Double.parseDouble(s[4 * i + 4]), Double.parseDouble(s[4 * i + 5]))));
+            case "otherpos19":
+                for (int i = 0; i < num1; i++) {
+                    others_pos1.add(moveWithVector(Client.start,
+                            new LatLng(Double.parseDouble(s[4 * i + 3]), Double.parseDouble(s[4 * i + 4])),
+                            new LatLng(Double.parseDouble(s[4 * i + 5]), Double.parseDouble(s[4 * i + 6]))));
+                }
+                for (int i = num1; i < num1 + num2; i++) {
+                    others_pos2.add(moveWithVector(Client.start,
+                            new LatLng(Double.parseDouble(s[4 * i + 3]), Double.parseDouble(s[4 * i + 4])),
+                            new LatLng(Double.parseDouble(s[4 * i + 5]), Double.parseDouble(s[4 * i + 6]))));
                 }
                 synchronized (lock) {
                     lock.notifyAll();
@@ -60,20 +58,22 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.resultmap);
+        setContentView(R.layout.teamresultmap);
 
-        button = findViewById(R.id.rm_button);
-        textView = findViewById(R.id.rm_textView_value);
+        button = findViewById(R.id.trm_button);
+        textViewLeft = findViewById(R.id.trm_textView_valueLeft);
+        textViewRight = findViewById(R.id.trm_textView_valueRight);
+        textViewResult = findViewById(R.id.trm_textView_winlose);
 
         button.setOnClickListener(v -> {
             Client.finishActivity();
             intent_to_re = new Intent(getApplication(), ResultExp.class);
-            intent_to_re.putExtra("SCORE", (int) area);
+            intent_to_re.putExtra("SCORE", Client.myInfo.getTeam() == 0 ? leftScore : rightScore);
             Client.startActivity(intent_to_re);
         });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.rm_map);
+                .findFragmentById(R.id.trm_map);
         mapFragment.getMapAsync(this);
     }
 
@@ -100,20 +100,30 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 //            }
 //        }
 
+        String winlose = null;
+        leftScore = draw(others_pos1, Color.BLUE, textViewLeft);
+        rightScore = draw(others_pos2, Color.MAGENTA, textViewRight);
+        if (leftScore == rightScore) winlose = "引き分け";
+        else
+            winlose = leftScore < rightScore ^ Client.myInfo.getTeam() == 0 ? "勝ち" : "負け";
+        textViewResult.setText(winlose);
 
+    }
+
+    private long draw(List<LatLng> others_pos, int color, TextView textView) {
         //直線
+        area = 0;
         for (int i = 0; i < others_pos.size(); i++) {
             Client.mMap.addMarker(new MarkerOptions().position(others_pos.get(i)));
             Polyline polyline = Client.mMap.addPolyline(new PolylineOptions()
                     .add(Client.start, others_pos.get(i))
                     .width(15)
-                    .color(Color.BLUE)
+                    .color(color)
                     .geodesic(true));
         }
 
         //三角形と面積
         List<LatLng> triangle;
-
 
         int[] index = new int[3];
         for (int i = 0; i < others_pos.size(); i++) {
@@ -138,8 +148,10 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 
         Client.mMap.addPolygon(new PolygonOptions()
                 .addAll(triangle)
-                .strokeColor(Color.BLUE)
-                .fillColor(Color.argb(64, 128, 128, 255)));
+                .strokeColor(color)
+                .fillColor(Color.argb(64, Color.red(color), Color.green(color), Color.blue(color))));
+
+        return Math.round(area);
     }
 
     static private double calcAngle(LatLng ll1, LatLng ll2) {
@@ -201,10 +213,10 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         Log.i("rm_moveWithVector", String.valueOf(deltaLat));
 
         double earth_radius_at_longitude = R * Math.cos(newLat * Math.PI / 180.0),
-        earth_circle_at_longitude = 2.0 * Math.PI * earth_radius_at_longitude,
-        longitude_per_meter = 360.0 / earth_circle_at_longitude;
+                earth_circle_at_longitude = 2.0 * Math.PI * earth_radius_at_longitude,
+                longitude_per_meter = 360.0 / earth_circle_at_longitude;
 
-        double newLng = target.longitude +  dist * Math.sin(angle) * longitude_per_meter;
+        double newLng = target.longitude + dist * Math.sin(angle) * longitude_per_meter;
 
         return new LatLng(newLat, newLng);
     }

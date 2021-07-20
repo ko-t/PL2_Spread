@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".TeamSplit">
 
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/st_back_vec"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/ts_textView_splitLabel"
         android:layout_width="0dp"
@@ -42,10 +55,10 @@
         android:id="@+id/ts_imageButton_g"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         android:background="@color/Transparent"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintWidth_percent="0.35"
         app:srcCompat="@drawable/team_g"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,10 +71,10 @@
         android:id="@+id/ts_imageButton_p"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         android:background="@color/Transparent"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintWidth_percent="0.35"
         app:srcCompat="@drawable/team_p"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

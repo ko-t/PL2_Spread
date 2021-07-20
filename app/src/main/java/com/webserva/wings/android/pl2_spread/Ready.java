@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,10 +61,10 @@ public class Ready extends AppCompatActivity {
             }
         });
 
-        Button rd_button_ready = findViewById(R.id.rd_button_ready);
-        rd_button_ready.setOnClickListener(v -> {
+        ImageButton rd_imageButton_ready = findViewById(R.id.rd_imageButton_ready);
+        rd_imageButton_ready.setOnClickListener(v -> {
             Client.sendMessage("ready");
-            rd_button_ready.setEnabled(false);
+            rd_imageButton_ready.setEnabled(false);
             rd_textView_waiting.setText(waiting);
         });
     }

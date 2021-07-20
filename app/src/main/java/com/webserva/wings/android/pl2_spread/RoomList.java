@@ -93,6 +93,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
+
+
     }
 
     static void receiveMessage(String message) {
@@ -107,8 +109,10 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             case "add4":
                 //add4$ルーム名$タグ$ホストID$ホスト名$現在の人数
                 Log.i("rl_receive.Message","追加するルーム情報が渡されました");
+
                 Integer tag = Integer.parseInt(s[2]);
                 new_room = new Room(s[1],tag,s[3]);
+
                 list.add(new_room);
                 rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate","ルームが追加されました");
@@ -123,12 +127,14 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 int k=0;
                 while(k<size){
                     //ホストID == HostId<String,Integer>
+
                     for(Map.Entry<String, Integer> entry : (list.get(k)).getHostId().entrySet()){
                         if(entry.getKey().equals(s[1])){
                             list.remove(list.indexOf(s[1]));
                             break;
                         }
                     }
+
                 }
                 rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate","ルームが削除されました");

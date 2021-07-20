@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class GameEnd extends AppCompatActivity {
 
@@ -13,15 +13,15 @@ public class GameEnd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_end);
 
-        Button ge_button_replay = findViewById(R.id.ge_button_replay);
-        ge_button_replay.setOnClickListener(v -> {
+        ImageButton ge_imageButton_replay = findViewById(R.id.ge_imageButton_replay);
+        ge_imageButton_replay.setOnClickListener(v -> {
             Client.sendMessage("resume$1");
             Client.finishActivity();
             Intent intent_to_rmn = new Intent(getApplication(), RoomMenu.class);
             Client.startActivity(intent_to_rmn);
         });
-        Button ge_button_endGame = findViewById(R.id.ge_button_endGame);
-        ge_button_endGame.setOnClickListener(v -> {
+        ImageButton ge_imageButton_endGame = findViewById(R.id.ge_imageButton_endGame);
+        ge_imageButton_endGame.setOnClickListener(v -> {
             Client.sendMessage("resume$0");
             Client.finishActivity();
             Intent intent_to_mm = new Intent(getApplication(), MainMenu.class);

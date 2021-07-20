@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ResultExp">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/st_back_vec"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/re_textView_levelLabel"
         android:layout_width="0dp"
@@ -97,6 +109,7 @@
         android:id="@+id/re_imageView_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="fitXY"
         app:srcCompat="@drawable/tmp_status_img"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -168,18 +181,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/re_imageView_status" />
 
-    <Button
-        android:id="@+id/re_button_next"
+    <ImageButton
+        android:id="@+id/re_imageButton_next"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.08"
-        app:layout_constraintWidth_percent="0.7"
-        android:backgroundTint="@color/light_blue"
-        android:autoSizeTextType="uniform"
-        android:text="@string/next"
-        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.95"/>
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.75"
+        app:srcCompat="@drawable/y_button2"
+        app:layout_constraintVertical_bias="0.95" />
+
+    <TextView
+        android:id="@+id/re_textView_next"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintWidth_percent="0.5"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/re_imageButton_next"
+        app:layout_constraintEnd_toEndOf="@id/re_imageButton_next"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@id/re_imageButton_next"
+        app:layout_constraintTop_toTopOf="@id/re_imageButton_next" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

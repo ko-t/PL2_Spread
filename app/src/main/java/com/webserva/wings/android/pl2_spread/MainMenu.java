@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -13,20 +13,20 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        Button mm_button_game = findViewById(R.id.mm_button_game);
-        mm_button_game.setOnClickListener(v -> {
+        ImageButton mm_imageButton_game = findViewById(R.id.mm_imageButton_game);
+        mm_imageButton_game.setOnClickListener(v -> {
             Intent intent_to_rmn = new Intent(getApplication(), RoomMenu.class);
             Client.startActivity(intent_to_rmn);
         });
 
-        Button mm_button_profile = findViewById(R.id.mm_button_profile);
-        mm_button_profile.setOnClickListener(v -> {
+        ImageButton mm_ImageButton_profile = findViewById(R.id.mm_ImageButton_profile);
+        mm_ImageButton_profile.setOnClickListener(v -> {
             Intent intent_to_pr = new Intent(getApplication(), Profile.class);
             Client.startActivity(intent_to_pr);
         });
 
-        Button mm_button_recode = findViewById(R.id.mm_button_recode);
-        mm_button_recode.setOnClickListener(v -> {
+        ImageButton mm_ImageButton_record = findViewById(R.id.mm_ImageButton_record);
+        mm_ImageButton_record.setOnClickListener(v -> {
             Intent intent_to_rmn = new Intent(getApplication(), Ranking.class);
             Client.startActivity(intent_to_rmn);
         });

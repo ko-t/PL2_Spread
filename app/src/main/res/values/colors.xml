@@ -12,4 +12,7 @@
     <color name="Transparent">#00000000</color>
     <color name="light_red">#F1A9A4</color>
     <color name="red">#F12B1C</color>
+    <color name="yellow">#F1DA07</color>
+    <color name="blue">#052DF1</color>
+
 </resources>
