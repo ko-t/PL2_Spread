@@ -100,6 +100,7 @@ public class TagSet extends AppCompatActivity {
                 Log.d("ts_onClick", "test4");
                 Intent intent_to_ms = new Intent(getApplication(), MemberSelect.class);
                 intent_to_ms.putExtra("tag",tag);
+                intent_to_ms.putExtra("HOSTNAME",RoomName);
                 Client.startActivity(intent_to_ms);
             }
         });

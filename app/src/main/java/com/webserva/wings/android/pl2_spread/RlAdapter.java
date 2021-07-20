@@ -5,14 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class RlAdapter extends ArrayAdapter<Room> {
     private LayoutInflater mInflater;
-    private TextView list_rl_roomname, list_rl_setting,list_rl_count;
 
     public RlAdapter(Context context, List<Room> objects) {
         super(context, 0, objects);
@@ -25,15 +23,34 @@ public class RlAdapter extends ArrayAdapter<Room> {
         }
         final Room item = this.getItem(position);
         if (item != null) {
-            list_rl_roomname = (TextView) convertView.findViewById(R.id.rl_host_textview_roomname);
-            //list_rl_roomname.setText(item.getRoomName());
-            list_rl_setting = (TextView) convertView.findViewById(R.id.rl_host_textview_settting);
-            //list_rl_setting.setText(String.valueOf(item.getHostId()));
+            TextView list_rl_roomname = (TextView) convertView.findViewById(R.id.rl_host_textview_roomname);
+            list_rl_roomname.setText(item.getRoomName());
+
+            //タグの設定
+            TextView list_rl_setting = (TextView) convertView.findViewById(R.id.rl_host_textview_settting);
+            int tag = item.getTag();
+            int[] tag_1 = new int[3];
+            tag_1[0]=tag/100;
+            tag_1[1]=(tag - (tag_1[0]*100))/10;
+            tag_1[2]=tag - (tag_1[0]*100)-(tag_1[1]*10);
+            String str_tag="";
+            if(tag_1[0]==0){ str_tag=str_tag+"対戦";
+            }else{ str_tag=str_tag+"協力"; }
+            str_tag=str_tag+"/";
+            if(tag_1[1]==0){ str_tag=str_tag+"あり";
+            }else{ str_tag=str_tag+"なし"; }
+            str_tag=str_tag+"/";
+            if(tag_1[2]==0){ str_tag=str_tag+"知ってる人のみ";
+            }else{ str_tag=str_tag+"知らない人もOK"; }
+            list_rl_setting.setText(str_tag);
 
             //メンバーの人数
-            list_rl_count = (TextView) convertView.findViewById(R.id.rl_host_textview_count);
-            //list_rl_count.setText(String.valueOf());
-
+            TextView list_rl_count = (TextView) convertView.findViewById(R.id.rl_host_textview_count);
+            int num = (item.getMember()).size();
+            String str_num= String.valueOf(num);
+            String str;
+            str="現在"+str_num+"人";
+            list_rl_count.setText(str);
         }
         return convertView;
     }

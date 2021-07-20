@@ -27,6 +27,8 @@ public class MemberSelect extends AppCompatActivity {
         //ルームタグ設定(ゲームモード、ステータス効果、メンバー)
         Intent i = getIntent();
         int ms_tag = i.getIntExtra("TAG",101);
+        String ms_id = i.getStringExtra("HOSTID");
+        String ms_hostname = i.getStringExtra("HOSTNAME");
 
         int[] ms_tag_1 = new int[3];
         ms_tag_1[0]=ms_tag/100;
@@ -37,7 +39,11 @@ public class MemberSelect extends AppCompatActivity {
         TextView ms_gm = findViewById(R.id.ms_textview_select1);
         TextView ms_se = findViewById(R.id.ms_textview_select2);
         TextView ms_m = findViewById(R.id.ms_textview_select3);
-        ms_roomname.setText("room1");
+
+        Room room = new Room(ms_hostname, ms_tag, ms_id);
+        ms_roomname.setText(room.getRoomName());
+
+        ms_roomname.setText(ms_hostname);
 
         if(ms_tag_1[0]==0){ ms_gm.setText("対戦");
         }else{ ms_gm.setText("協力"); }
@@ -46,8 +52,6 @@ public class MemberSelect extends AppCompatActivity {
         if(ms_tag_1[2]==0){ ms_m.setText("知ってる人のみ");
         }else{ ms_m.setText("知らない人もOK"); }
 
-        //ルームのインスタンスを生成
-        Room room = new Room("room1", ms_tag, "id");
         receiveMessage("add9$name1$id1");
 
         //ホストの表示
@@ -106,6 +110,7 @@ public class MemberSelect extends AppCompatActivity {
                 Client.sendMessage("accept$"+s[1]);
                 Log.i("ms_onCreate","メンバが承認されました");
                 break;
+
             case "del9":
                 //del9$ユーザID
                 size= list_member.size();
