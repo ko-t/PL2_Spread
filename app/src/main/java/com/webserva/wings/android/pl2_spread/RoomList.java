@@ -160,6 +160,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                             intent_list.putExtra("TAG",s[2]);
                             intent_list.putExtra("HOSTID",s[3]);
                             intent_list.putExtra("HOSTNAME",s[4]);
+                            Client.sendMessage("apply$" + s[4]);
 
                             Client.startActivity(intent_list);
                             Log.i("rl_onCreate","RoomWait.classが開始されました");
