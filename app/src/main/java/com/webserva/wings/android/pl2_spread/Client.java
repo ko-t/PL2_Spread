@@ -160,6 +160,9 @@ public class Client {
             case "newroom":
                 myInfo.setRoomId(myInfo.getId());
                 roomRef = db.collection("roomList").document(myInfo.getRoomId());
+                db.collection("memberList").document(Client.myInfo.getId()).update(
+                        "teamId", myInfo.getId()
+                );
                 // Roomを作成しリストに追加
                 Room newRoom = new Room(s[1], Integer.parseInt(s[2]), myInfo.getId());
                 newRoom.setMemberNum(1);
