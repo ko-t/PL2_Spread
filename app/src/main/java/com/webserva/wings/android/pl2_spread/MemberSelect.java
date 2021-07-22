@@ -18,6 +18,7 @@ public class MemberSelect extends AppCompatActivity {
     private static List<MemberInfo> list_member = new ArrayList<>();
     private static int size;
     private static String str_name,str_id;
+    private static MsAdapter adapter_member;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MemberSelect extends AppCompatActivity {
 
         //メンバの表示
         ListView listview2 = findViewById(R.id.ms_listview_memberlist);
-        MsAdapter adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener(){
+        adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener(){
             public void onItemButtonClick(int position, View view){
                 //承認されたときの処理
                 //String userId = (list_host.get(position)).getName();
@@ -127,6 +128,8 @@ public class MemberSelect extends AppCompatActivity {
                 Log.i("ms_onCreate","メンバリストのメンバが退出しました");
                 break;
         }
+        adapter_member.notifyDataSetChanged();
+
     }
 
 }
