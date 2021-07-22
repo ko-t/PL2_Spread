@@ -94,7 +94,7 @@ public class Client {
 
     static void init(Context c) {
         final int lv1 = 90000;
-        myInfo = new MemberInfo("mitoma", "mitmtmtmt");
+        myInfo = new MemberInfo("mitoma", "tmt");
         //myInfo.setRoomId("dummyHostId");
         context = c;
         expTable[0] = lv1;
@@ -514,7 +514,7 @@ public class Client {
                                         if (document.exists()) {
                                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                             List<String> sList = Arrays.asList(roomName, tag,
-                                                    hid, document.get("name", String.class), "1");
+                                                    hid, document.get("id", String.class), "1");
                                             StringJoiner sj2 = new StringJoiner("$");
                                             sj2.add("add4");
                                             sList.forEach(sj2::add);
