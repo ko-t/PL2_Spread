@@ -181,7 +181,7 @@ public class Client {
                         switch (dc.getType()) {
                             case ADDED:
                                 Log.d(TAG, "New Member: " + name + "/" + dc.getDocument().getData());
-                                db.collection("memberList")/*.whereEqualTo("state", "applying")*/.get().addOnCompleteListener(task -> {
+                                db.collection("memberList").whereEqualTo("state", "applying").get().addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             if (!document.getId().equals(myInfo.getId())) {
