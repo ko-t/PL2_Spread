@@ -65,6 +65,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 intent_list.putExtra("HOSTID",hostid);
                 intent_list.putExtra("HOSTNAME",hostname);
 
+                Client.sendMessage("apply$" + hostid);
+
                 Log.i("RoomList_onItemClick", intent_list.toString());
 
                 startActivity(intent_list);
@@ -197,7 +199,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 Log.i("rl_onCreate", "ルームが追加されました");
 
                 //申し込むルーム
-                Client.sendMessage("apply$" + s[3]);
+                //Client.sendMessage("apply$" + s[3]);
                 break;
 
             case "del":
