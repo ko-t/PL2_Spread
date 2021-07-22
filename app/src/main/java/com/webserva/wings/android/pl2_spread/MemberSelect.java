@@ -109,8 +109,8 @@ public class MemberSelect extends AppCompatActivity {
                 MemberInfo member = new MemberInfo(s[1], s[2]);
                 list_member.add(member);
                 Log.i("ms_onCreate","メンバリストのメンバが追加されました");
-                Client.sendMessage("accept$"+s[1]);
-                Log.i("ms_onCreate","メンバが承認されました");
+//                Client.sendMessage("accept$"+s[1]);
+//                Log.i("ms_onCreate","メンバが承認されました");
                 break;
 
             case "del9":
