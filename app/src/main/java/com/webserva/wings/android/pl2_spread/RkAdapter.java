@@ -32,7 +32,7 @@ public class RkAdapter extends ArrayAdapter<Map<Integer,String>> {
         if (item != null) {
             count_rank++;
             list_rk_rank = (TextView) convertView.findViewById(R.id.list_rk_textview_rank);
-            list_rk_rank.setText(count_rank);
+            list_rk_rank.setText(String.valueOf(count_rank));
             list_rk_score = (TextView) convertView.findViewById(R.id.list_rk_textview_score);
             list_rk_score.setText(item.get(count_rank));
         }

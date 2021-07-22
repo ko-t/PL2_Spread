@@ -17,20 +17,25 @@ public class Ranking extends AppCompatActivity {
     private static List<Map<Integer,String>> rank = new ArrayList<>();
     private static Map<Integer,String> rank_data = new TreeMap<>();
     private static TextView rk_count;
+    private static RkAdapter rk_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ranking);
-
-        receiveMessage("rank$3$820$280$208");
-        //rk_textview_countの内容をrk_countで設定
         rk_count = findViewById((R.id.rk_textview_count));
+        rk_adapter = new RkAdapter(this, rank);
+
+        //receiveMessage("rank$3$820$280$208");
+        receiveMessage("num$" + Client.myInfo.getMatchHistory());
+        Client.sendMessage("rankreq");
+        //rk_textview_countの内容をrk_countで設定
+
         rk_count.setText(rk_str_count);
 
         ListView listview = findViewById(R.id.rk_listview_ranking);
 
-        RkAdapter rk_adapter = new RkAdapter(this, rank);
+
         listview.setAdapter(rk_adapter);
     }
 
@@ -41,7 +46,6 @@ public class Ranking extends AppCompatActivity {
         switch (s[0]) {
             //s[0]="rank", s[1]=個数, s[2]="1位のスコア", s[3]="2位のスコア",....
             case "rank":
-                Client.sendMessage("rankreq");
                 Log.i("rk_receiveMessage","rankを受信しました");
                 int rank_count = Integer.parseInt(s[1]);
 
@@ -57,7 +61,7 @@ public class Ranking extends AppCompatActivity {
                 Log.i("rk_receiveMessage","bestを受信しました");
                 int best_rank = Integer.parseInt(s[1]);
                 rank_data.put(best_rank,s[2]);
-                rank.add(11,rank_data);    //ランクは10位まで、ベストスコアは11位の位置
+                rank.add(rank_data);    //ランクは10位まで、ベストスコアは11位の位置
                 break;
 
             //s[0]="num", s[1]="プレイ回数"
@@ -67,5 +71,6 @@ public class Ranking extends AppCompatActivity {
                 rk_count.setText(rk_str_count);
                 break;
         }
+        rk_adapter.notifyDataSetChanged();
     }
 }

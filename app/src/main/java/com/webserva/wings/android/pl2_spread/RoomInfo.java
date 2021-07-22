@@ -38,10 +38,10 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         ri_tag_1[0]=ri_tag/100;
         ri_tag_1[1]=(ri_tag - (ri_tag_1[0]*100))/10;
         ri_tag_1[2]=ri_tag - (ri_tag_1[0]*100)-(ri_tag_1[1]*10);
-        TextView ri_roomname = findViewById(R.id.ms_textview_roomname);
-        TextView ri_gm = findViewById(R.id.rw_textview_select1);
-        TextView ri_se = findViewById(R.id.rw_textview_select2);
-        TextView ri_m = findViewById(R.id.rw_textview_select3);
+        TextView ri_roomname = findViewById(R.id.ri_textview_roomname);
+        TextView ri_gm = findViewById(R.id.ri_textview_select1);
+        TextView ri_se = findViewById(R.id.ri_textview_select2);
+        TextView ri_m = findViewById(R.id.ri_textview_select3);
         if(ri_tag_1[0]==0){ ri_gm.setText("対戦");
         }else{ ri_gm.setText("協力"); }
         if(ri_tag_1[1]==0){ ri_se.setText("あり");
@@ -50,7 +50,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         }else{ ri_m.setText("知らない人もOK"); }
 
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        Room room = new Room(ri_hostname, ri_tag, ri_id);
+        Room room = new Room(ri_hostname, ri_tag, ri_id, ri_hostname);
         ri_roomname.setText(room.getRoomName());
 
         //ホストの表示

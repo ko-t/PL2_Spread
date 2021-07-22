@@ -8,6 +8,7 @@ import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class TitleDebug extends AppCompatActivity {
 
@@ -18,7 +19,18 @@ public class TitleDebug extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_titledebug);
 
-        Intent i = new Intent(getApplication(), Game.class);
+        Intent i = new Intent(getApplication(), RoomMenu.class);
+        i.putExtra("levelup", 2);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        for(int j=0; j<15; j++){
+//            Score s = new Score();
+//            s.setScore(j*12345);
+//            s.setScoreId(j);
+//            db.collection("ranking").document("dummyRank" + j).set(
+//                    s
+//            );
+//        }
 
         sw = findViewById(R.id.tid_switch);
         sw2 = findViewById(R.id.tid_switch2);
@@ -27,7 +39,7 @@ public class TitleDebug extends AppCompatActivity {
         ti_button_start.setOnClickListener(v -> {
             Client.init(this);
             if (sw.isChecked()) {
-                Client.init_connection();
+                //Client.init_connection();
                 try {
                     Thread.sleep(3000);
                 } catch (Exception e) {
@@ -39,16 +51,15 @@ public class TitleDebug extends AppCompatActivity {
                 useDummyLocations();
             }
 
-
-            Intent i = new Intent(getApplication(), MemberSelect.class);
             Client.startActivity(i);
         });
     }
 
     void useDummyLocations() {
+        Client.myInfo.setTeam(1);
         Client.start = new LatLng(35.48116258624266, 139.58656026336882);
         Client.goal = new LatLng(35.4639497213053, 139.58540154911645);
-        ResultMap.receiveMessage("otherpos12$6$" +
+        TeamResultMap.receiveMessage("otherpos19$3$3$" +
                 "35.473150761836074$139.5898111005647$" +
                 "35.470206193894484$139.59149552789043$" +
                 "35.47275757651042$139.58385659675125$" +

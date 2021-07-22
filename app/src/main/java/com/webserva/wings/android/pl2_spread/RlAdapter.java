@@ -46,7 +46,7 @@ public class RlAdapter extends ArrayAdapter<Room> {
 
             //メンバーの人数
             TextView list_rl_count = (TextView) convertView.findViewById(R.id.rl_host_textview_count);
-            int num = (item.getMember()).size();
+            int num = item.getMemberNum();
             String str_num= String.valueOf(num);
             String str;
             str="現在"+str_num+"人";

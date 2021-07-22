@@ -18,6 +18,7 @@ public class MemberSelect extends AppCompatActivity {
     private static List<MemberInfo> list_member = new ArrayList<>();
     private static int size;
     private static String str_name,str_id;
+    private static MsAdapter adapter_member;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class MemberSelect extends AppCompatActivity {
         TextView ms_se = findViewById(R.id.ms_textview_select2);
         TextView ms_m = findViewById(R.id.ms_textview_select3);
 
-        Room room = new Room(ms_hostname, ms_tag, ms_id);
+        Room room = new Room(ms_hostname, ms_tag, ms_id, ms_hostname);
         ms_roomname.setText(room.getRoomName());
 
         ms_roomname.setText(ms_hostname);
@@ -52,7 +53,7 @@ public class MemberSelect extends AppCompatActivity {
         if(ms_tag_1[2]==0){ ms_m.setText("知ってる人のみ");
         }else{ ms_m.setText("知らない人もOK"); }
 
-        receiveMessage("add9$name1$id1");
+        //receiveMessage("add9$name1$id1");
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
@@ -62,10 +63,11 @@ public class MemberSelect extends AppCompatActivity {
 
         //メンバの表示
         ListView listview2 = findViewById(R.id.ms_listview_memberlist);
-        MsAdapter adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener(){
+        adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener(){
             public void onItemButtonClick(int position, View view){
                 //承認されたときの処理
-                String userId = (list_host.get(position)).getName();
+                //String userId = (list_host.get(position)).getName();
+                String userId = (list_member.get(position)).getId();
                 Client.sendMessage("accept$"+userId);
                 Log.i("ms_onCreate", userId+"を承認しました");
             }
@@ -107,8 +109,8 @@ public class MemberSelect extends AppCompatActivity {
                 MemberInfo member = new MemberInfo(s[1], s[2]);
                 list_member.add(member);
                 Log.i("ms_onCreate","メンバリストのメンバが追加されました");
-                Client.sendMessage("accept$"+s[1]);
-                Log.i("ms_onCreate","メンバが承認されました");
+//                Client.sendMessage("accept$"+s[1]);
+//                Log.i("ms_onCreate","メンバが承認されました");
                 break;
 
             case "del9":
@@ -126,6 +128,8 @@ public class MemberSelect extends AppCompatActivity {
                 Log.i("ms_onCreate","メンバリストのメンバが退出しました");
                 break;
         }
+        adapter_member.notifyDataSetChanged();
+
     }
 
 }

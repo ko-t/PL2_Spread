@@ -24,7 +24,7 @@ public class LevelUp extends AppCompatActivity {
         statusUp = levelup*3;
 
         for(int i=0;i<4;i++) {
-            newStatus[i] = Client.myInfo.getStatus()[i];
+            newStatus[i] = Client.myInfo.getStatus().get(i);
         }
 
         TextView lv_textView_east = findViewById(R.id.lv_textView_east);
