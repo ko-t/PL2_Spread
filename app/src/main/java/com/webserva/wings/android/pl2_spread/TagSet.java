@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -103,9 +104,11 @@ public class TagSet extends AppCompatActivity {
         ImageButton tg_imageButton_gameMode = findViewById(R.id.tg_imageButton_gameMode);
         tg_imageButton_gameMode.setOnClickListener(v -> {
             new AlertDialog.Builder(TagSet.this)
-                    .setTitle("title")
+                    .setTitle("ゲームモード")
                     .setMessage(gameMode)
-                    .setPositiveButton("OK", null)
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        dialog.cancel();
+                    })
                     .show();
         });
 
@@ -113,9 +116,11 @@ public class TagSet extends AppCompatActivity {
         ImageButton tg_imageButton_statusEffect = findViewById(R.id.tg_imageButton_statusEffect);
         tg_imageButton_statusEffect.setOnClickListener(v -> {
             new AlertDialog.Builder(TagSet.this)
-                    .setTitle("title")
+                    .setTitle("ステータス効果")
                     .setMessage(effect)
-                    .setPositiveButton("OK", null)
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        dialog.cancel();
+                    })
                     .show();
         });
 
