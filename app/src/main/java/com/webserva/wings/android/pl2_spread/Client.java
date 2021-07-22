@@ -617,7 +617,7 @@ public class Client {
                 break;
             case "rank":
             case "best":
-            case "num":
+            case "numrank":
                 Ranking.receiveMessage(message);
                 break;
 
@@ -635,6 +635,7 @@ public class Client {
             case "delete10":
             case "broken":
             case "confirm":
+            case "num":
                 RoomInfo.receiveMessage(message);
                 break;
 
