@@ -94,7 +94,7 @@ public class Client {
 
     static void init(Context c) {
         final int lv1 = 90000;
-        myInfo = new MemberInfo("mitoma", "tmt");
+        myInfo = new MemberInfo("NAME_mitmoa", "ID_tmt722");
         //myInfo.setRoomId("dummyHostId");
         context = c;
         expTable[0] = lv1;
@@ -245,7 +245,7 @@ public class Client {
                     }
                     if (snapshot != null && snapshot.exists()) {
                         Log.d(TAG, "Current data: " + snapshot.getData());
-                        switch (snapshot.get("team", Integer.class)) {
+                        switch (Integer.valueOf(snapshot.getData().get("team").toString())) {
                             case 0: //承認
                                 receiveMessage("confirm");
                                 break;

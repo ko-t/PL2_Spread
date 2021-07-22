@@ -65,7 +65,8 @@ public class MemberSelect extends AppCompatActivity {
         MsAdapter adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener(){
             public void onItemButtonClick(int position, View view){
                 //承認されたときの処理
-                String userId = (list_host.get(position)).getName();
+                //String userId = (list_host.get(position)).getName();
+                String userId = (list_member.get(position)).getName();
                 Client.sendMessage("accept$"+userId);
                 Log.i("ms_onCreate", userId+"を承認しました");
             }
