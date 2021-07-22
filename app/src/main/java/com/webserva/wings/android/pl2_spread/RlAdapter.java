@@ -31,7 +31,7 @@ public class RlAdapter extends ArrayAdapter<Room> {
             int tag = item.getTag();
             int[] tag_1 = new int[3];
             for (int j = 0; j < 3; j++) {
-                tag_1[j] = tag & (1 << j);
+                tag_1[2-j] = tag & (1 << j);
             }
             String str_tag="";
             if(tag_1[0]==0){ str_tag=str_tag+"対戦";
