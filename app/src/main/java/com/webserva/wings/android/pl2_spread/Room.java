@@ -84,4 +84,12 @@ public class Room {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
 }

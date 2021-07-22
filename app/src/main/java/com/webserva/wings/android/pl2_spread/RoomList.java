@@ -58,12 +58,14 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             public void onItemClick(AdapterView parent, View view, int position, long id) {
 
                 String hostid  = list.get(position).getHostId(),
-                        hostname = "dummy";
+                        hostname = list.get(position).getHostName();
                 int hosttag = list.get(position).getTag();
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
                 intent_list.putExtra("TAG",hosttag);
                 intent_list.putExtra("HOSTID",hostid);
                 intent_list.putExtra("HOSTNAME",hostname);
+
+                Log.i("RoomList_onItemClick", intent_list.toString());
 
                 startActivity(intent_list);
                 Log.i("rl_onCreate", "RoomWait.classが開始されました");

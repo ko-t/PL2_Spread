@@ -182,10 +182,10 @@ public class Client {
                         switch (dc.getType()) {
                             case ADDED:
                                 Log.d(TAG, "New Member: " + name + "/" + dc.getDocument().getData());
-                                db.collection("memberList").whereEqualTo("status", "choosingRoom").get().addOnCompleteListener(task -> {
+                                db.collection("memberList")/*.whereEqualTo("state", "applying")*/.get().addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if (document.getId().equals(myInfo.getId())) {
+                                            if (!document.getId().equals(myInfo.getId())) {
                                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                                 receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
                                             }
@@ -197,6 +197,18 @@ public class Client {
                                 break;
                             case MODIFIED:
                                 Log.d(TAG, "Modified city: " + dc.getDocument().getData());
+                                db.collection("memberList").whereEqualTo("state", "applying").get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if (document.getId().equals(myInfo.getId())) {
+                                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                                receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
+                                            }
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                                });
                                 break;
                             case REMOVED:
                                 Log.d(TAG, "Removed city: " + dc.getDocument().getData());
