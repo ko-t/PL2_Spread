@@ -40,7 +40,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         TextView rw_roomname = findViewById(R.id.rw_textview_roomname);
         TextView rw_gm = findViewById(R.id.rw_textview_select1);
         TextView rw_se = findViewById(R.id.rw_textview_select2);
-        TextView rw_m = findViewById(R.id.rw_textview_select3);
+        TextView rw_m = findViewById(R.id.rw_textvigitew_select3);
         if(rw_tag_1[0]==0){ rw_gm.setText("対戦");
         }else{ rw_gm.setText("協力"); }
         if(rw_tag_1[1]==0){ rw_se.setText("あり");
