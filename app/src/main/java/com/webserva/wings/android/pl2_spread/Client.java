@@ -186,8 +186,7 @@ public class Client {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Log.d(TAG, document.getId() + " => " + document.getData());
-                                            MemberInfo mi = document.toObject(MemberInfo.class);
-                                            receiveMessage("add9$" + mi.getName() + "$" + mi.getId());
+                                            receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
                                         }
                                     } else {
                                         Log.d(TAG, "Error getting documents: ", task.getException());
@@ -245,14 +244,7 @@ public class Client {
                         return;
                     }
                     if (snapshot != null && snapshot.exists()) {
-                        Log.d(TAG, "Current data: " + snapshot.getData());
-                        Map<String, Object> testMap = snapshot.getData();
-                        Log.d(TAG, "testMap" + testMap.get("team"));
-                        Log.d(TAG, "testMap2" + snapshot.get("team"));
-                        for(String x : snapshot.getData().keySet()){
-                            Log.d(TAG, "testKeyset:" + x);
-                        }
-                        switch (Integer.valueOf(snapshot.getData().get("team").toString())) {
+                        switch (Math.toIntExact((Long)snapshot.getData().get("value"))) {
                             case 0: //承認
                                 receiveMessage("confirm");
                                 break;
