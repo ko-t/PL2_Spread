@@ -30,9 +30,9 @@ public class RlAdapter extends ArrayAdapter<Room> {
             TextView list_rl_setting = (TextView) convertView.findViewById(R.id.rl_host_textview_settting);
             int tag = item.getTag();
             int[] tag_1 = new int[3];
-            tag_1[0]=tag/100;
-            tag_1[1]=(tag - (tag_1[0]*100))/10;
-            tag_1[2]=tag - (tag_1[0]*100)-(tag_1[1]*10);
+            for (int j = 0; j < 3; j++) {
+                tag_1[j] = tag & (1 << j);
+            }
             String str_tag="";
             if(tag_1[0]==0){ str_tag=str_tag+"対戦";
             }else{ str_tag=str_tag+"協力"; }

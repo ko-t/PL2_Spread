@@ -34,9 +34,9 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
 
         //タグ取得
         int[] rw_tag_1 = new int[3];
-        rw_tag_1[0]=rw_tag/100;
-        rw_tag_1[1]=(rw_tag - (rw_tag_1[0]*100))/10;
-        rw_tag_1[2]=rw_tag - (rw_tag_1[0]*100)-(rw_tag_1[1]*10);
+        for (int j = 0; j < 3; j++) {
+            rw_tag_1[j] = rw_tag & (1 << j);
+        }
         TextView rw_roomname = findViewById(R.id.rw_textview_roomname);
         TextView rw_gm = findViewById(R.id.rw_textview_select1);
         TextView rw_se = findViewById(R.id.rw_textview_select2);
