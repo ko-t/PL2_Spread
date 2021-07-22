@@ -65,6 +65,7 @@ public class MemberSelect extends AppCompatActivity {
         ListView listview2 = findViewById(R.id.ms_listview_memberlist);
         adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener(){
             public void onItemButtonClick(int position, View view){
+                ((Button)view).setEnabled(false);
                 //承認されたときの処理
                 //String userId = (list_host.get(position)).getName();
                 String userId = (list_member.get(position)).getId();

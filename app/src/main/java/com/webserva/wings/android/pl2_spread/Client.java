@@ -181,12 +181,14 @@ public class Client {
                         String name = dc.getDocument().getId();
                         switch (dc.getType()) {
                             case ADDED:
-                                Log.d(TAG, "New Member: " +  name+ "/"+ dc.getDocument().getData());
-                                db.collection("memberList").whereEqualTo("id", name).get().addOnCompleteListener(task -> {
+                                Log.d(TAG, "New Member: " + name + "/" + dc.getDocument().getData());
+                                db.collection("memberList").whereEqualTo("status", "choosingRoom").get().addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            Log.d(TAG, document.getId() + " => " + document.getData());
-                                            receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
+                                            if (document.getId().equals(myInfo.getId())) {
+                                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                                receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
+                                            }
                                         }
                                     } else {
                                         Log.d(TAG, "Error getting documents: ", task.getException());
@@ -244,7 +246,7 @@ public class Client {
                         return;
                     }
                     if (snapshot != null && snapshot.exists()) {
-                        switch (Math.toIntExact((Long)snapshot.getData().get("value"))) {
+                        switch (Math.toIntExact((Long) snapshot.getData().get("value"))) {
                             case 0: //承認
                                 receiveMessage("confirm");
                                 break;
@@ -272,11 +274,11 @@ public class Client {
 
             case "leave":
                 //roomListから削除
-                db.collection("roomList").document(myInfo.getRoomId()).delete();
+                db.collection("roomList").document(myInfo.getRoomId())
+                        .collection("member").document(myInfo.getId()).delete();
                 //myInfoを更新
                 myInfo.setRoomId(null);
                 //roomのmemberに通知 TODO
-                //updateMemberList("del", from);
                 break;
 
             case "confirm":

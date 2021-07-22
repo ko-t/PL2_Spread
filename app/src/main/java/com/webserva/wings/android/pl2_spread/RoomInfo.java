@@ -131,7 +131,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         if(v==ri_button_quit){
             Client.sendMessage("leave");
             Intent intent = new Intent(this,RoomList.class);
-            startActivity(intent);
+            Client.startActivity(intent);
         }
     }
 
