@@ -9,7 +9,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 import java.util.List;
 
 public class Room {
-    private String roomName, message, hostId;
+    private String roomName, message, hostId, hostName;
     private int tag, memberNum = 0;
     //teamの値
     // -3:非承認
@@ -25,10 +25,11 @@ public class Room {
     public Room() {
     }
 
-    Room(String roomName, int tag, String hostid) {
+    Room(String roomName, int tag, String hostid, String hostName) {
         this.roomName = roomName;
         this.tag = tag;
         this.hostId = hostid;
+        this.hostName = hostName;
         isOpen = true;
     }
 

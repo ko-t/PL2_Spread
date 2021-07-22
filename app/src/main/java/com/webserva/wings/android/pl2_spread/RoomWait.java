@@ -53,7 +53,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
 
         //receiveMessage("approved$room1$tag1$id1");
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        Room room1 = new Room(rw_hostname, rw_tag, rw_id);
+        Room room1 = new Room(rw_hostname, rw_tag, rw_id, rw_hostname);
         rw_roomname.setText(room1.getRoomName());
 
         //ホストの表示

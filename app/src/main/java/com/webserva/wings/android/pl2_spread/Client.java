@@ -165,7 +165,7 @@ public class Client {
                         "status", "hosting"
                 );
                 // Roomを作成しリストに追加
-                Room newRoom = new Room(s[1], Integer.parseInt(s[2]), myInfo.getId());
+                Room newRoom = new Room(s[1], Integer.parseInt(s[2]), myInfo.getId(), myInfo.getName());
                 newRoom.setMemberNum(1);
                 roomRef.set(newRoom);
                 roomRef.collection("member").document(myInfo.getId()).set(new SimpleEntry("team", 0));

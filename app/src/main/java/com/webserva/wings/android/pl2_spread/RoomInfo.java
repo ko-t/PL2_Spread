@@ -50,7 +50,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         }else{ ri_m.setText("知らない人もOK"); }
 
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        Room room = new Room(ri_hostname, ri_tag, ri_id);
+        Room room = new Room(ri_hostname, ri_tag, ri_id, ri_hostname);
         ri_roomname.setText(room.getRoomName());
 
         //ホストの表示

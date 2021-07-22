@@ -41,7 +41,7 @@ public class MemberSelect extends AppCompatActivity {
         TextView ms_se = findViewById(R.id.ms_textview_select2);
         TextView ms_m = findViewById(R.id.ms_textview_select3);
 
-        Room room = new Room(ms_hostname, ms_tag, ms_id);
+        Room room = new Room(ms_hostname, ms_tag, ms_id, ms_hostname);
         ms_roomname.setText(room.getRoomName());
 
         ms_roomname.setText(ms_hostname);

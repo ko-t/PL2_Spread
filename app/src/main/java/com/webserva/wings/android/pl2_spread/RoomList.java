@@ -187,7 +187,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 Log.i("rl_receive.Message", "追加するルーム情報が渡されました");
 
                 Integer tag = Integer.parseInt(s[2]);
-                new_room = new Room(s[1], tag, s[3]);
+                new_room = new Room(s[1], tag, s[3], s[4]);
 
                 list.add(new_room);
                 rl_adapter.notifyDataSetChanged();
