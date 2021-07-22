@@ -62,7 +62,7 @@ public class MemberSelect extends AppCompatActivity {
             ms_m.setText("知らない人もOK");
         }
 
-        //receiveMessage("add9$name1$id1");
+
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
@@ -109,6 +109,7 @@ public class MemberSelect extends AppCompatActivity {
             Client.startActivity(intent);
         });
 
+        receiveMessage("add9$name1$id1");
     }
 
     static void receiveMessage(String message) {
