@@ -23,9 +23,11 @@
 
     <ListView
         android:id="@+id/rw_listview_hostname"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="41dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="110dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/rw_textview_now"
         app:layout_constraintEnd_toEndOf="parent"
