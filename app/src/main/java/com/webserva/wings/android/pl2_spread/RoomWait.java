@@ -45,8 +45,8 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         }else{ rw_gm.setText("協力"); }
         if(rw_tag_1[1]==0){ rw_se.setText("あり");
         }else{ rw_se.setText("なし"); }
-        if(rw_tag_1[2]==0){ rw_m.setText("知ってる人のみ");
-        }else{ rw_m.setText("知らない人もOK"); }
+        if(rw_tag_1[2]==0){ rw_m.setText("知っている人\nのみ");
+        }else{ rw_m.setText("知らない人も\nOK"); }
 
 
 
