@@ -108,4 +108,6 @@
     <string name="list_rl_name">name</string>
     <string name="ms_button_ok">承認</string>
     <string name="gm_message">メッセージ</string>
+    <string name="tg_dialog_mode">協力：チームで協力して一つの大きい三角形を作るモード<br></br>対戦：複数のチームで作った三角形の大きさを競うモード</string>
+    <string name="tg_dialog_effect">ゲームの最後に指定した方角に、ステータスに応じた距離を移動出来る</string>
 </resources>

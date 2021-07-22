@@ -2,12 +2,10 @@ package com.webserva.wings.android.pl2_spread;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 
-import android.text.TextUtils;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
@@ -37,6 +35,7 @@ public class TagSet extends AppCompatActivity {
 
         ImageButton tg_imageButton_make = findViewById(R.id.tg_imageButton_make);
         tg_imageButton_make.setOnClickListener(v -> {
+            transitionFlag = true;
             RoomName = tg_plainText_room.getText().toString();
             if(!RoomName.equals("")) {
                 tg_textView_inputAlert.setText("");
@@ -97,6 +96,26 @@ public class TagSet extends AppCompatActivity {
                 intent_to_ms.putExtra("tag",tag);
                 Client.startActivity(intent_to_ms);
             }
+        });
+
+        String gameMode = getString(R.string.tg_dialog_mode);
+        ImageButton tg_imageButton_gameMode = findViewById(R.id.tg_imageButton_gameMode);
+        tg_imageButton_gameMode.setOnClickListener(v -> {
+            new AlertDialog.Builder(TagSet.this)
+                    .setTitle("title")
+                    .setMessage(gameMode)
+                    .setPositiveButton("OK", null)
+                    .show();
+        });
+
+        String effect = getString(R.string.tg_dialog_effect);
+        ImageButton tg_imageButton_statusEffect = findViewById(R.id.tg_imageButton_statusEffect);
+        tg_imageButton_statusEffect.setOnClickListener(v -> {
+            new AlertDialog.Builder(TagSet.this)
+                    .setTitle("title")
+                    .setMessage(effect)
+                    .setPositiveButton("OK", null)
+                    .show();
         });
 
     }
