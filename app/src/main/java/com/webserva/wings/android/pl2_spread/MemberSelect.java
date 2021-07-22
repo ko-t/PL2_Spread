@@ -33,7 +33,7 @@ public class MemberSelect extends AppCompatActivity {
 
         int[] ms_tag_1 = new int[3];
         for (int j = 0; j < 3; j++) {
-            ms_tag_1[j] = ms_tag & (1 << j);
+            ms_tag_1[2-j] = ms_tag & (1 << j);
         }
 
         TextView ms_roomname = findViewById(R.id.ms_textview_roomname);

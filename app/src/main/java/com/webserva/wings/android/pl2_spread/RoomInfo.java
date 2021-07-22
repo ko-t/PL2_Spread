@@ -36,7 +36,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         //タグ取得
         int[] ri_tag_1 = new int[3];
         for (int j = 0; j < 3; j++) {
-            ri_tag_1[j] = ri_tag & (1 << j);
+            ri_tag_1[2-j] = ri_tag & (1 << j);
         }
         TextView ri_roomname = findViewById(R.id.ri_textview_roomname);
         TextView ri_gm = findViewById(R.id.ri_textview_select1);
