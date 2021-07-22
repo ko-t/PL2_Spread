@@ -161,9 +161,11 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         });
 
                 Client.finishActivity();
-                //if (Client.myInfo.getTeam() == -1)
-                Client.startActivity(new Intent(getApplication(), ResultMap.class));
-                //else Client.finishActivity();startActivity(new Intent(Game.this, TeamResultMap.class));
+                if (Client.myInfo.getTeam() == -1)
+                    Client.startActivity(new Intent(getApplication(), ResultMap.class));
+                else {
+                    Client.startActivity(new Intent(getApplication(), TeamResultMap.class));
+                }
 
             }
         };

@@ -2,10 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.webserva.wings.android.pl2_spread">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,9 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PL2_Spread">
 
-        <meta-data
-            android:name="com.google.android.gms.version"/>
-<!--            android:value="@integer/google_play_services_version" -->
+
+        <meta-data android:name="com.google.android.gms.version" /> <!-- android:value="@integer/google_play_services_version" -->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -35,28 +35,21 @@
         <activity android:name=".RoomMenu" />
         <activity android:name=".MainMenu" />
         <activity android:name=".MainActivity" />
-
-        <activity android:name=".TeamSplitResult"/>
-        <activity android:name=".MemberSelect"/>
-        <activity android:name=".Ranking"/>
-        <activity android:name=".RoomInfo"/>
-
-
-        <activity android:name=".RoomWait"/>
-        <activity android:name=".Title"/>
-
-        <activity
-            android:name=".TitleDebug">
+        <activity android:name=".TeamSplitResult" />
+        <activity android:name=".MemberSelect" />
+        <activity android:name=".Ranking" />
+        <activity android:name=".RoomInfo" />
+        <activity android:name=".RoomWait" />
+        <activity android:name=".Title" />
+        <activity android:name=".TitleDebug">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".RoomList">
-
-        </activity>
+        <activity android:name=".RoomList" />
         <activity android:name=".ResultMap" />
+        <activity android:name=".TeamResultMap" />
 
     </application>
 

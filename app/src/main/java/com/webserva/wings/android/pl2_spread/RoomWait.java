@@ -1,50 +1,62 @@
 package com.webserva.wings.android.pl2_spread;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.nio.channels.InterruptedByTimeoutException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 public class RoomWait extends AppCompatActivity implements View.OnClickListener {
     private Button rw_button_quit;  //退出→4 RoomListに戻る
     private static Intent intent;
+    private static String rw_hostname, rw_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent i = new Intent();
-        int rw_tag1 = i.getIntExtra("TAG",0);
-        String rw_id = i.getStringExtra("HOSTID");
-        String rw_hostname = i.getStringExtra("HOSTNAME");
+        int rw_tag = i.getIntExtra("TAG",0);
+        rw_id = i.getStringExtra("HOSTID");
+        rw_hostname = i.getStringExtra("HOSTNAME");
+
+        //タグ取得
+        int[] rw_tag_1 = new int[3];
+        rw_tag_1[0]=rw_tag/100;
+        rw_tag_1[1]=(rw_tag - (rw_tag_1[0]*100))/10;
+        rw_tag_1[2]=rw_tag - (rw_tag_1[0]*100)-(rw_tag_1[1]*10);
+        TextView rw_roomname = findViewById(R.id.ms_textview_roomname);
+        TextView rw_gm = findViewById(R.id.rw_textview_select1);
+        TextView rw_se = findViewById(R.id.rw_textview_select2);
+        TextView rw_m = findViewById(R.id.rw_textview_select3);
+        if(rw_tag_1[0]==0){ rw_gm.setText("対戦");
+        }else{ rw_gm.setText("協力"); }
+        if(rw_tag_1[1]==0){ rw_se.setText("あり");
+        }else{ rw_se.setText("なし"); }
+        if(rw_tag_1[2]==0){ rw_m.setText("知ってる人のみ");
+        }else{ rw_m.setText("知らない人もOK"); }
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roomwait);
-        rw_button_quit=(Button)findViewById(R.id.rw_button_quit);
+        rw_button_quit=findViewById(R.id.rw_button_quit);
         rw_button_quit.setOnClickListener(this);
 
         receiveMessage("approved$room1$tag1$id1");
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        Room room1 = new Room(rw_hostname, rw_tag1, rw_id);
+        Room room1 = new Room(rw_hostname, rw_tag, rw_id);
+        rw_roomname.setText(room1.getRoomName());
 
         //ホストの表示
         List<MemberInfo> list = new ArrayList<>();
-        ListView listview = (ListView) findViewById(R.id.rw_listview_hostname);
+        ListView listview = findViewById(R.id.rw_listview_hostname);
         Rw_Ri_Tsr_Adapter rw_ri_tsr_adapter = new Rw_Ri_Tsr_Adapter(this, list);
         listview.setAdapter(rw_ri_tsr_adapter);
     }
@@ -57,9 +69,11 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
                 Log.i("rw_receiveMessage","入室を承認されました");
                 Client.finishActivity();
                 intent = new Intent(Client.context, RoomInfo.class);
+                intent.putExtra("HOSTID",rw_hostname);
+                intent.putExtra("HOSTNAME",rw_id);
                 Client.startActivity(intent);
                 break;
-            //
+
             case "declined":
                 Log.i("rw_receiveMessage","入室を拒否されました");
                 Client.finishActivity();

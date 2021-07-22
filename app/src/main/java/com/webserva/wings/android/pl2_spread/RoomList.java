@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -22,14 +22,16 @@ import java.util.List;
 import java.util.Map;
 
 public class RoomList extends AppCompatActivity implements View.OnClickListener {
-    private static int rl_flag=-1;
-    private static List<Map<String, Integer>> players;
     private static TextView textview_count;
     private static Room new_room;
     static List<Room> list;
     private int[] tagStatus = {0,0,0};
     private int tag;
     private boolean searchFlag = false;
+    private static int size;
+    static List<Room> list = new ArrayList<>();;
+    private static ListView listview;
+    private static RlAdapter rl_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +42,9 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
         //listviewについて
         receiveMessage("add4$room1$tag1$id1");
-        list = new ArrayList<>();
 
-        ListView listview = (ListView) findViewById(R.id.rl_listview_roominfo);
-        RlAdapter rl_adapter = new RlAdapter(this, list);
+        listview = (ListView) findViewById(R.id.rl_listview_roominfo);
+        rl_adapter = new RlAdapter(this, list);
         listview.setAdapter(rl_adapter);
 
         // ListView中の要素がタップされたときの処理を記述
@@ -171,27 +172,60 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         //部屋リストを要求
         Client.sendMessage("roomreq");
         //部屋リストの情報もらう
+
+
+
         String[] s = message.split("\\$");
         switch (s[0]) {
-            case "apply":
-                //apply$ホストID
+            case "add4":
+                //add4$ルーム名$タグ$ホストID$ホスト名$現在の人数
                 Log.i("rl_receive.Message","追加するルーム情報が渡されました");
-                //new_room = new Room(hostid);
-                //メンバのデータを取得
-                players=new_room.getMember();
-                //メンバの人数(要素数)の取得
-                textview_count.setText(players.size());
+
+                Integer tag = Integer.parseInt(s[2]);
+                new_room = new Room(s[1],tag,s[3]);
+
                 list.add(new_room);
+                rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate","ルームが追加されました");
+
+                //申し込むルーム
+                Client.sendMessage("apply$"+s[3]);
                 break;
+
             case "del":
                 //del$ホストID
-                //new_room = new Room(hostid);
-                list.remove(list.indexOf(new_room));
+                size= list.size();
+                int k=0;
+                while(k<size){
+                    //ホストID == HostId<String,Integer>
+
+                    for(Map.Entry<String, Integer> entry : (list.get(k)).getHostId().entrySet()){
+                        if(entry.getKey().equals(s[1])){
+                            list.remove(list.indexOf(s[1]));
+                            break;
+                        }
+                    }
+
+                }
+                rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate","ルームが削除されました");
                 break;
+
             case "num":
                 //num$ホストのID$新しい人数
+                size= list.size();
+                int l=0;
+                int item_position=0;
+                for(Map.Entry<String, Integer> entry : (list.get(l)).getHostId().entrySet()){
+                    if(entry.getKey().equals(s[1])){
+                        item_position = list.indexOf(s[1]);
+                        break;
+                    }
+                }
+                rl_adapter = (RlAdapter)listview.getAdapter();
+                Room item = rl_adapter.getItem(item_position);
+                item.setMemberNum(s[2]);
+                rl_adapter.notifyDataSetChanged();
                 break;
         }
     }

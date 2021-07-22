@@ -25,7 +25,9 @@ public class Rw_Ri_Tsr_Adapter extends ArrayAdapter<MemberInfo> {
         final MemberInfo item = this.getItem(position);
         if (item != null) {
             list_rw_ri_tsr_playername = (TextView) convertView.findViewById(R.id.list_rw_ri_tsr_textview_playername);
+            list_rw_ri_tsr_playername.setText(item.getName());
             list_rw_ri_tsr_id = (TextView) convertView.findViewById(R.id.list_rw_ri_tsr_textview_id);
+            list_rw_ri_tsr_id.setText(item.getId());
         }
         return convertView;
     }
