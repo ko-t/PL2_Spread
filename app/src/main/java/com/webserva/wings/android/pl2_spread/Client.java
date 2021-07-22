@@ -180,7 +180,7 @@ public class Client {
                         String name = dc.getDocument().getId();
                         switch (dc.getType()) {
                             case ADDED:
-                                Log.d(TAG, "New city: " + dc.getDocument().getData());
+                                Log.d(TAG, "New Member: " +  name+ "/"+ dc.getDocument().getData());
                                 db.collection("memberList").whereEqualTo("id", name).get().addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
@@ -267,12 +267,8 @@ public class Client {
             case "accept":
                 // memberのvalueを-1にする（＝全員に表示させる）TODO
                 db.collection("roomList").document(myInfo.getId())
-                        .collection("member").document(myInfo.getId())
+                        .collection("member").document(s[1])
                         .set(new SimpleEntry<>("team", -1));
-
-                // 許可された人に通知 TODO
-//                sendMessage(s[1], "approved");
-//                updateMemberList("add10", s[1]);
                 break;
 
             case "leave":
