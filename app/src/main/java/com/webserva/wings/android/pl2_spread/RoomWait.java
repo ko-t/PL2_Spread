@@ -32,6 +32,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         rw_id = i.getStringExtra("HOSTID");
         rw_hostname = i.getStringExtra("HOSTNAME");
 
+
         //タグ取得
         int[] rw_tag_1 = new int[3];
         for (int j = 0; j < 3; j++) {
