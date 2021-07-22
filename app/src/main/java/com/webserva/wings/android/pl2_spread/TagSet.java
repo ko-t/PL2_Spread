@@ -100,12 +100,13 @@ public class TagSet extends AppCompatActivity {
             }
         });
 
-        String gameMode = getString(R.string.tg_dialog_mode);
+        String coop = getString(R.string.tg_dialog_coop);
+        String battle = getString(R.string.tg_dialog_battle);
         ImageButton tg_imageButton_gameMode = findViewById(R.id.tg_imageButton_gameMode);
         tg_imageButton_gameMode.setOnClickListener(v -> {
             new AlertDialog.Builder(TagSet.this)
                     .setTitle("ゲームモード")
-                    .setMessage(gameMode)
+                    .setMessage(coop + "\n\n" + battle)
                     .setPositiveButton("OK", (dialog, which) -> {
                         dialog.cancel();
                     })

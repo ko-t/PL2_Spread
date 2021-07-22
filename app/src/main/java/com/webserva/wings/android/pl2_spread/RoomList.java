@@ -24,7 +24,6 @@ import java.util.Map;
 public class RoomList extends AppCompatActivity implements View.OnClickListener {
     private static TextView textview_count;
     private static Room new_room;
-    static List<Room> list;
     private int[] tagStatus = {0,0,0};
     private int tag;
     private boolean searchFlag = false;
