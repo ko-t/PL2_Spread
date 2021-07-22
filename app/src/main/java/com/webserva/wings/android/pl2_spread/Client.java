@@ -92,9 +92,8 @@ public class Client {
 //        LevelUp
 //    }
 
-    static void init(Context c) {
+    static void init(Context c, String id) {
         final int lv1 = 90000;
-        myInfo = new MemberInfo("NAME_mitmoa", "ID_tmt722");
         //myInfo.setRoomId("dummyHostId");
         context = c;
         expTable[0] = lv1;
@@ -514,7 +513,7 @@ public class Client {
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         Log.i(TAG, "roomReq");
                         Map<String, Object> room = dc.getDocument().getData();
-                        final String roomName = room.get("roomName").toString(), tag = room.get("tag").toString(), hid = room.get("hostId").toString();
+                        String roomName = room.get("roomName").toString(), tag = room.get("tag").toString(), hid = room.get("hostId").toString();
                         switch (dc.getType()) {
                             case ADDED:
                                 db.collection("memberList").document(hid).get().addOnCompleteListener(task -> {
