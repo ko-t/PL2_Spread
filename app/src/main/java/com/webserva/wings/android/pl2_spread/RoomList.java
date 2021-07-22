@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RoomList extends AppCompatActivity implements View.OnClickListener {
+public class RoomList extends AppCompatActivity {
     private static TextView textview_count;
     private static Room new_room;
     private int[] tagStatus = {0,0,0};
@@ -32,7 +32,6 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
     private boolean searchFlag = false;
     private static int size;
     static List<Room> list = new ArrayList<>();
-    ;
     private static ListView listview;
     private static RlAdapter rl_adapter;
 
@@ -40,7 +39,6 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roomlist);
-        findViewById(R.id.rl_button_search).setOnClickListener(this);
         textview_count = (TextView) findViewById(R.id.rl_host_textview_count);
 
         Client.sendMessage("roomreq");
@@ -112,7 +110,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         RadioGroup rl_radiogroup_s1 = findViewById(R.id.rl_radiogroup_s1);
         RadioGroup rl_radiogroup_s2 = findViewById(R.id.rl_radiogroup_s2);
         RadioGroup rl_radiogroup_s3 = findViewById(R.id.rl_radiogroup_s3);
-        RadioButton rl_radiobutton_coop = findViewById(R.id.rl_radiobutton_coop);
+        RadioButton rl_radiobutton_versus = findViewById(R.id.rl_radiobutton_versus);
         RadioButton rl_radiobutton_on = findViewById(R.id.rl_radiobutton_on);
         RadioButton rl_radioButton_known = findViewById(R.id.rl_radioButton_known);
 
@@ -141,7 +139,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             }
 
             if(searchFlag) {
-                if(rl_radiobutton_coop.isChecked()) {
+                if(rl_radiobutton_versus.isChecked()) {
                     tagStatus[0] = 0;
                 }else {
                     tagStatus[0] = 1;
@@ -159,7 +157,6 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                     tagStatus[2] = 1;
                 }
                 tag = tagStatus[0]*4+tagStatus[1]*2+tagStatus[2];
-
                 List<Room> tempList = new ArrayList<Room>();
                 for(Room item : list) {
                     if(item.getTag() == tag) {
@@ -171,7 +168,6 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 rl_adapter.notifyDataSetChanged();
             }
         });
-
 
     }
 
@@ -249,10 +245,5 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
-    //チェックボックスで検索をかけたとき
-    @Override
-    public void onClick(View v) {
-
-    }
 }
 

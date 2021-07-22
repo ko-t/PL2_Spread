@@ -90,16 +90,17 @@
         app:layout_constraintTop_toBottomOf="@+id/rl_searchview_name">
 
         <RadioButton
+            android:id="@+id/rl_radiobutton_versus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rl_checkbox_versus" />
+
+        <RadioButton
             android:id="@+id/rl_radiobutton_coop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rl_checkbox_coop" />
 
-        <RadioButton
-            android:id="@+id/rl_radiobutton_versus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rl_checkbox_versus" />
     </RadioGroup>
 
     <RadioGroup
