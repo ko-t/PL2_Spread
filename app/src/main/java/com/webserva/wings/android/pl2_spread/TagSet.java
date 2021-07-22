@@ -2,9 +2,9 @@ package com.webserva.wings.android.pl2_spread;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 
-import android.text.TextUtils;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +38,7 @@ public class TagSet extends AppCompatActivity {
 
         ImageButton tg_imageButton_make = findViewById(R.id.tg_imageButton_make);
         tg_imageButton_make.setOnClickListener(v -> {
-            Log.d("ts_onClick", "test1");
+            transitionFlag = true;
             RoomName = tg_plainText_room.getText().toString();
             if(!RoomName.equals("")) {
                 tg_textView_inputAlert.setText("");
@@ -103,6 +103,31 @@ public class TagSet extends AppCompatActivity {
                 intent_to_ms.putExtra("HOSTNAME",RoomName);
                 Client.startActivity(intent_to_ms);
             }
+        });
+
+        String coop = getString(R.string.tg_dialog_coop);
+        String battle = getString(R.string.tg_dialog_battle);
+        ImageButton tg_imageButton_gameMode = findViewById(R.id.tg_imageButton_gameMode);
+        tg_imageButton_gameMode.setOnClickListener(v -> {
+            new AlertDialog.Builder(TagSet.this)
+                    .setTitle("ゲームモード")
+                    .setMessage(coop + "\n\n" + battle)
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        dialog.cancel();
+                    })
+                    .show();
+        });
+
+        String effect = getString(R.string.tg_dialog_effect);
+        ImageButton tg_imageButton_statusEffect = findViewById(R.id.tg_imageButton_statusEffect);
+        tg_imageButton_statusEffect.setOnClickListener(v -> {
+            new AlertDialog.Builder(TagSet.this)
+                    .setTitle("ステータス効果")
+                    .setMessage(effect)
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        dialog.cancel();
+                    })
+                    .show();
         });
 
     }

@@ -9,12 +9,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-//import androidx.appcompat.widget.SearchView;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,9 @@ import java.util.Map;
 public class RoomList extends AppCompatActivity implements View.OnClickListener {
     private static TextView textview_count;
     private static Room new_room;
+    private int[] tagStatus = {0,0,0};
+    private int tag;
+    private boolean searchFlag = false;
     private static int size;
     static List<Room> list = new ArrayList<>();
     ;
@@ -97,6 +103,69 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             public boolean onQueryTextChange(String newText) {
                 Log.i("rl_onQueryTextChange", "ルーム名検索が実行されました");
                 return false;
+            }
+        });
+
+        RadioGroup rl_radiogroup_s1 = findViewById(R.id.rl_radiogroup_s1);
+        RadioGroup rl_radiogroup_s2 = findViewById(R.id.rl_radiogroup_s2);
+        RadioGroup rl_radiogroup_s3 = findViewById(R.id.rl_radiogroup_s3);
+        RadioButton rl_radiobutton_coop = findViewById(R.id.rl_radiobutton_coop);
+        RadioButton rl_radiobutton_on = findViewById(R.id.rl_radiobutton_on);
+        RadioButton rl_radioButton_known = findViewById(R.id.rl_radioButton_known);
+
+        Button rl_button_search = findViewById(R.id.rl_button_search);
+        rl_button_search.setOnClickListener(v -> {
+            searchFlag = true;
+            if(rl_radiogroup_s1.getCheckedRadioButtonId() != -1) {
+                rl_radiogroup_s1.setBackgroundColor(ContextCompat.getColor(this, R.color.Transparent));
+            }else {
+                searchFlag = false;
+                rl_radiogroup_s1.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red));
+            }
+
+            if(rl_radiogroup_s2.getCheckedRadioButtonId() != -1) {
+                rl_radiogroup_s2.setBackgroundColor(ContextCompat.getColor(this, R.color.Transparent));
+            }else {
+                searchFlag = false;
+                rl_radiogroup_s2.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red));
+            }
+
+            if(rl_radiogroup_s3.getCheckedRadioButtonId() != -1) {
+                rl_radiogroup_s3.setBackgroundColor(ContextCompat.getColor(this, R.color.Transparent));
+            }else {
+                searchFlag = false;
+                rl_radiogroup_s3.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red));
+            }
+
+            if(searchFlag) {
+                if(rl_radiobutton_coop.isChecked()) {
+                    tagStatus[0] = 0;
+                }else {
+                    tagStatus[0] = 1;
+                }
+
+                if(rl_radiobutton_on.isChecked()) {
+                    tagStatus[1] = 0;
+                }else {
+                    tagStatus[1] = 1;
+                }
+
+                if(rl_radioButton_known.isChecked()) {
+                    tagStatus[2] = 0;
+                }else {
+                    tagStatus[2] = 1;
+                }
+                tag = tagStatus[0]*4+tagStatus[1]*2+tagStatus[2];
+
+                List<Room> tempList = new ArrayList<Room>();
+                for(Room item : list) {
+                    if(item.getTag() == tag) {
+                        tempList.add(item);
+                    }
+                }
+                rl_adapter.clear();
+                rl_adapter.addAll(tempList);
+                rl_adapter.notifyDataSetChanged();
             }
         });
 
