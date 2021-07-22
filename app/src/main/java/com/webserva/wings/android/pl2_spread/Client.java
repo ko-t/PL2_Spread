@@ -199,7 +199,7 @@ public class Client {
                                 db.collection("memberList").whereEqualTo("state", "applying").get().addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if (document.getId().equals(myInfo.getId())) {
+                                            if (!document.getId().equals(myInfo.getId())) {
                                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                                 receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
                                             }
@@ -513,30 +513,25 @@ public class Client {
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         Log.i(TAG, "roomReq");
                         Map<String, Object> room = dc.getDocument().getData();
-                        String roomName = room.get("roomName").toString(), tag = room.get("tag").toString(), hid = room.get("hostId").toString();
+                        String roomName = room.get("roomName").toString(), tag = room.get("tag").toString(),
+                                hid = room.get("hostId").toString(), hname = room.get("hostName").toString();
+                        StringJoiner sj2;
+                        List<String> sList;
                         switch (dc.getType()) {
                             case ADDED:
-                                db.collection("memberList").document(hid).get().addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                            List<String> sList = Arrays.asList(roomName, tag,
-                                                    hid, document.get("id", String.class), "1");
-                                            StringJoiner sj2 = new StringJoiner("$");
-                                            sj2.add("add4");
-                                            sList.forEach(sj2::add);
-                                            receiveMessage(sj2.toString());
-                                        } else {
-                                            Log.d(TAG, "No such document");
-                                        }
-                                    } else {
-                                        Log.d(TAG, "get failed with ", task.getException());
-                                    }
-                                });
+                                sList = Arrays.asList(roomName, tag, hid, hname, "1");
+                                sj2 = new StringJoiner("$");
+                                sj2.add("add4");
+                                sList.forEach(sj2::add);
+                                receiveMessage(sj2.toString());
                                 break;
                             case MODIFIED: //
-                                Log.d(TAG, "Room Modified Info:" + dc.getDocument().getData());
+                                sList = Arrays.asList(roomName, tag, hid, hname, "1");
+                                sj2 = new StringJoiner("$");
+                                sj2.add("add4");
+                                sList.forEach(sj2::add);
+                                receiveMessage("del$" + hid);
+                                receiveMessage(sj2.toString());
                                 break;
                             case REMOVED:
                                 receiveMessage("del$" + hid);

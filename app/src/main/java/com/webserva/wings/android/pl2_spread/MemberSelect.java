@@ -109,7 +109,7 @@ public class MemberSelect extends AppCompatActivity {
             Client.startActivity(intent);
         });
 
-        receiveMessage("add9$name1$id1");
+        //receiveMessage("add9$name1$id1");
     }
 
     static void receiveMessage(String message) {
