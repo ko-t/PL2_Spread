@@ -24,7 +24,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
     private static TextView textview_count;
     private static Room new_room;
     private static int size;
-    static List<Room> list = new ArrayList<>();;
+    static List<Room> list = new ArrayList<>();
+    ;
     private static ListView listview;
     private static RlAdapter rl_adapter;
 
@@ -33,7 +34,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roomlist);
         findViewById(R.id.rl_button_search).setOnClickListener(this);
-        textview_count = (TextView)findViewById(R.id.rl_host_textview_count);
+        textview_count = (TextView) findViewById(R.id.rl_host_textview_count);
 
         Client.sendMessage("roomreq");
 
@@ -48,16 +49,17 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                int hostid;     //listviewから持ってくる
-                String hosttag;    //同様
-                String hostname;   //同様
+
+                String hostid  = list.get(position).getHostId(),
+                        hostname = "dummy";
+                int hosttag = list.get(position).getTag();
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
-                //intent_list.putExtra("TAG",hosttag);
-                //intent_list.putExtra("HOSTID",hostid);
-                //intent_list.putExtra("HOSTNAME",hostname);
+                intent_list.putExtra("TAG",hosttag);
+                intent_list.putExtra("HOSTID",hostid);
+                intent_list.putExtra("HOSTNAME",hostname);
 
                 startActivity(intent_list);
-                Log.i("rl_onCreate","RoomWait.classが開始されました");
+                Log.i("rl_onCreate", "RoomWait.classが開始されました");
 
             }
         });
@@ -76,7 +78,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         rl_search.setQueryHint("検索するルーム名を入力");
 
         // SearchViewにOnQueryChangeListenerを設定
-        rl_search.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+        rl_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // SearchViewにテキストを入力する度に呼ばれるイベント
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -93,11 +95,10 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             //submitボタンは使用不可中
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.i("rl_onQueryTextChange","ルーム名検索が実行されました");
+                Log.i("rl_onQueryTextChange", "ルーム名検索が実行されました");
                 return false;
             }
         });
-
 
 
     }
@@ -107,72 +108,71 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
         //Client.sendMessage("roomreq");
         //部屋リストの情報もらう
 
+        String hostId;
 
 
         String[] s = message.split("\\$");
         switch (s[0]) {
             case "add4":
                 //add4$ルーム名$タグ$ホストID$ホスト名$現在の人数
-                Log.i("rl_receive.Message","追加するルーム情報が渡されました");
+                Log.i("rl_receive.Message", "追加するルーム情報が渡されました");
 
                 Integer tag = Integer.parseInt(s[2]);
-                new_room = new Room(s[1],tag,s[3]);
+                new_room = new Room(s[1], tag, s[3]);
 
                 list.add(new_room);
                 rl_adapter.notifyDataSetChanged();
-                Log.i("rl_onCreate","ルームが追加されました");
+                Log.i("rl_onCreate", "ルームが追加されました");
 
                 //申し込むルーム
-                Client.sendMessage("apply$"+s[3]);
+                Client.sendMessage("apply$" + s[3]);
                 break;
 
             case "del":
                 //del$ホストID
-                size= list.size();
-                int k=0;
-                while(k<size){
+                size = list.size();
+                int k = 0;
+                while (k < size) {
                     //ホストID == HostId<String,Integer>
+                    //変更ホストIDをStringにしました（三苫）
 
-                    for(Map.Entry<String, Integer> entry : (list.get(k)).getHostId().entrySet()){
-                        if(entry.getKey().equals(s[1])){
-                            list.remove(list.indexOf(s[1]));
-                            break;
-                        }
+                    hostId = (list.get(k)).getHostId();
+                    if (hostId.equals(s[1])) {
+                        list.remove(list.indexOf(s[1]));
+                        break;
                     }
-
                 }
                 rl_adapter.notifyDataSetChanged();
-                Log.i("rl_onCreate","ルームが削除されました");
+                Log.i("rl_onCreate", "ルームが削除されました");
                 break;
 
             case "num":
                 //num$ホストのID$新しい人数
-                size= list.size();
-                int l=0;
-                int item_position=0;
-                for(Map.Entry<String, Integer> entry : (list.get(l)).getHostId().entrySet()){
-                    if(entry.getKey().equals(s[1])){
-                        item_position = list.indexOf(s[1]);
-                        break;
-                    }
+                size = list.size();
+                int l = 0;
+                int item_position = 0;
+                hostId = (list.get(l)).getHostId();
+                if (hostId.equals(s[1])) {
+                    item_position = list.indexOf(s[1]);
+                    break;
                 }
-                rl_adapter = (RlAdapter)listview.getAdapter();
+                rl_adapter = (RlAdapter) listview.getAdapter();
                 Room item = rl_adapter.getItem(item_position);
-                item.setMemberNum(s[2]);
+                item.setMemberNum(Integer.valueOf(s[2]));
                 rl_adapter.notifyDataSetChanged();
                 break;
 
-            case "add4":
-                //今だけ
-
-                            Intent intent_list = new Intent(Client.context, RoomWait.class);
-                            intent_list.putExtra("TAG",s[2]);
-                            intent_list.putExtra("HOSTID",s[3]);
-                            intent_list.putExtra("HOSTNAME",s[4]);
-                            Client.sendMessage("apply$" + s[4]);
-
-                            Client.startActivity(intent_list);
-                            Log.i("rl_onCreate","RoomWait.classが開始されました");
+//            case "add4":
+//                //今だけ
+//
+//                Intent intent_list = new Intent(Client.context, RoomWait.class);
+//                intent_list.putExtra("TAG", s[2]);
+//                intent_list.putExtra("HOSTID", s[3]);
+//                intent_list.putExtra("HOSTNAME", s[4]);
+//                Client.sendMessage("apply$" + s[3]);
+//
+//                Client.startActivity(intent_list);
+//                Log.i("rl_onCreate", "RoomWait.classが開始されました");
 
         }
     }
