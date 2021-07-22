@@ -245,6 +245,12 @@ public class Client {
                     }
                     if (snapshot != null && snapshot.exists()) {
                         Log.d(TAG, "Current data: " + snapshot.getData());
+                        Map<String, Object> testMap = snapshot.getData();
+                        Log.d(TAG, "testMap" + testMap.get("team"));
+                        Log.d(TAG, "testMap2" + snapshot.get("team"));
+                        for(String x : snapshot.getData().keySet()){
+                            Log.d(TAG, "testKeyset:" + x);
+                        }
                         switch (Integer.valueOf(snapshot.getData().get("team").toString())) {
                             case 0: //承認
                                 receiveMessage("confirm");
