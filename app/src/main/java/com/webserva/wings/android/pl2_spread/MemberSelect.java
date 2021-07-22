@@ -67,7 +67,7 @@ public class MemberSelect extends AppCompatActivity {
             public void onItemButtonClick(int position, View view){
                 //承認されたときの処理
                 //String userId = (list_host.get(position)).getName();
-                String userId = (list_member.get(position)).getName();
+                String userId = (list_member.get(position)).getId();
                 Client.sendMessage("accept$"+userId);
                 Log.i("ms_onCreate", userId+"を承認しました");
             }
