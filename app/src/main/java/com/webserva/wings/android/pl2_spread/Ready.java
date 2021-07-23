@@ -24,6 +24,8 @@ public class Ready extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ready);
 
+        Intent intent_from_ri = getIntent();
+        int status_tag = intent_from_ri.getIntExtra("status_tag",0);
         ImageView rd_imageView_rule = findViewById(R.id.rd_imageView_rule);
         rd_imageView_rule.setImageResource(R.drawable.rule1);
         TextView rd_textView_rule = findViewById(R.id.rd_textView_rule);
