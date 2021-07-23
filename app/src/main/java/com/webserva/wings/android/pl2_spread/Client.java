@@ -269,24 +269,21 @@ public class Client {
 
                             case -1: //承認
                                 db.collection("roomList").document(myInfo.getRoomId()).collection("member")
-                                        .whereEqualTo("team", -1).get().addOnCompleteListener(task -> {
+                                        .whereEqualTo("value", -1).get().addOnCompleteListener(task -> {
                                     Log.i(TAG, "approved");
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            db.collection("memberList").document(document.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        DocumentSnapshot document1 = task.getResult();
-                                                        if (document1.exists()) {
-                                                            Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
-                                                            receiveMessage("add10$"+ document1.get("name", String.class)+ "$" + document.getId());
-                                                        } else {
-                                                            Log.d(TAG, "No such document");
-                                                        }
+                                            db.collection("memberList").document(document.getId()).get().addOnCompleteListener(task12 -> {
+                                                if (task12.isSuccessful()) {
+                                                    DocumentSnapshot document1 = task12.getResult();
+                                                    if (document1.exists()) {
+                                                        Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
+                                                        receiveMessage("add10$"+ document1.get("name", String.class)+ "$" + document.getId());
                                                     } else {
-                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                        Log.d(TAG, "No such document");
                                                     }
+                                                } else {
+                                                    Log.d(TAG, "get failed with ", task12.getException());
                                                 }
                                             });
                                         }
@@ -316,6 +313,7 @@ public class Client {
             case "accept":
                 // memberのvalueを-1にする（＝全員に表示させる）TODO
                 batch.set(roomRef.collection("member").document(s[1]), new SimpleEntry<>("team", -1));
+                batch.update(roomRef, "memberNum", FieldValue.increment(1));
                 batch.update(db.collection("memberList").document(s[1]), "state", "approved");
                 batch.commit();
                 break;

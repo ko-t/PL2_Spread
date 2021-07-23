@@ -89,6 +89,8 @@ public class MemberSelect extends AppCompatActivity {
         Button ms_button_decision = findViewById(R.id.ms_button_decision);
         ms_button_decision.setOnClickListener(v -> {
             size = list_member.size();
+
+            /* 一時保管
             for (int j = 0; j < size; j++) {
                 str_name = str_name + (list_member.get(j)).getName();   //str_cnf= str_cnf + メンバ名
                 str_id = str_id + (list_member.get(j)).getId();
@@ -99,6 +101,9 @@ public class MemberSelect extends AppCompatActivity {
                 str_id = str_id + "$";
             }
             Client.sendMessage("confirm$" + size + "$" + str_name);
+            */
+
+            Client.sendMessage("confirm");
 
             Intent intent = new Intent(this, RoomInfo.class);
             //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
