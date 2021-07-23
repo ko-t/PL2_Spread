@@ -110,7 +110,7 @@ public class MemberSelect extends AppCompatActivity {
             intent.putExtra("MEMBER_NUM", size);
             intent.putExtra("MEMBER_NAME", str_name);
             intent.putExtra("MEMBER_ID", str_id);
-            intent.putExtra("status_tag",ms_tag_1[1]);
+            intent.putExtra("STATUS_TAG",ms_tag_1[1]);
             Log.i("ms_onClick", "メンバ情報が渡されました");
             Client.startActivity(intent);
         });

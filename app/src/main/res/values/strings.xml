@@ -23,9 +23,6 @@
     <string name="rule1">制限時間内に地図上に<br></br>大きい三角形を作る。</string>
     <string name="rule2">チーム内で描けた一番大きな<br></br>三角形を記録とする。</string>
     <string name="rule3">制限時間終了後に、プレイヤの<br></br>ステータスに応じて座標を少し<br></br>動かすことができる。</string>
-    <string name="ruleNumber1">1/3</string>
-    <string name="ruleNumber2">2/3</string>
-    <string name="ruleNumber3">3/3</string>
     <string name="rd_ready">準備0K</string>
     <string name="rd_waiting">待機中...</string>
     <string name="pr_playerName">プレイヤ名</string>
