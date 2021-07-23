@@ -20,6 +20,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     private static Button ri_button_quit;
     private static Intent intent;
     private static List<MemberInfo> list_member;
+    private int tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         for (int j = 0; j < 3; j++) {
             ri_tag_1[2-j] = ri_tag & (1 << j);
         }
+        tag = ri_tag_1[0]*4 + ri_tag_1[1]*2 + ri_tag_1[2];
         TextView ri_roomname = findViewById(R.id.ri_textview_roomname);
         TextView ri_gm = findViewById(R.id.ri_textview_select1);
         TextView ri_se = findViewById(R.id.ri_textview_select2);
