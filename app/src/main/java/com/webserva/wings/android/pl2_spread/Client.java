@@ -173,7 +173,7 @@ public class Client {
                 newRoom.setMemberNum(1);
                 roomRef.set(newRoom);
                 roomRef.collection("member").document(myInfo.getId()).set(new SimpleEntry("team", 0));
-                // ルームリストを表示しているユーザに通知（isOpenで通知されるはず）
+                // ルームリストを表示しているユーザに通知（openで通知されるはず）
                 //申し込みのリスナー
                 roomRef.collection("member").addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
@@ -362,10 +362,10 @@ public class Client {
                 // roomをcloseする
                 // 下のreadyと連動して、ホスト分カウントしておく
                 db.collection("roomList").document(myInfo.getId()).update(
-                        "isOpen", false,
+                        "open", false,
                         "count", FieldValue.increment(1),
                         "gpCount", 0
-                ).addOnFailureListener(e -> Log.w(TAG, "Error updating \"isOpen\"", e));
+                ).addOnFailureListener(e -> Log.w(TAG, "Error updating \"open\"", e));
                 break;
 
             case "ready":
@@ -414,7 +414,7 @@ public class Client {
 
             case "resume":
                 // 部屋をopenにする
-                roomRef.update("isOpen", true);
+                roomRef.update("open", true);
                 break;
 
             case "gp":
@@ -537,7 +537,7 @@ public class Client {
                 memberInfoRef.update(
                         "state", "choosingRoom"
                 );
-                Query roomWatcher = db.collection("roomList").whereEqualTo("isOpen", true),
+                Query roomWatcher = db.collection("roomList").whereEqualTo("open", true),
                         roomMemberWatcher = db.collectionGroup("member");
                 roomWatcher.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
