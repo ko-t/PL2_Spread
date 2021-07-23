@@ -15,6 +15,7 @@ public class HReady extends AppCompatActivity {
     private static String gameReady;
     private static ImageButton hr_imageButton_startGame;
     private static TextView hr_textView_gameReady;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -19,6 +19,7 @@ import static java.lang.System.exit;
 
 public class Ready extends AppCompatActivity {
     private int ruleNumber = 1;
+    private int ruletotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,43 +35,68 @@ public class Ready extends AppCompatActivity {
         String rule3 = getString(R.string.rule3);
         rd_textView_rule.setText(rule1);
         TextView rd_textView_ruleNumber = findViewById(R.id.rd_textView_ruleNumber);
-        String ruleNumber1 = getString(R.string.ruleNumber1);
-        String ruleNumber2 = getString(R.string.ruleNumber2);
-        String ruleNumber3 = getString(R.string.ruleNumber3);
-        rd_textView_ruleNumber.setText(ruleNumber1);
         TextView rd_textView_waiting = findViewById(R.id.rd_textView_waiting);
         String waiting = getString(R.string.rd_waiting);
         ImageButton rd_imageButton_left = findViewById(R.id.rd_imageButton_left);
         ImageButton rd_imageButton_right = findViewById(R.id.rd_imageButton_right);
         rd_imageButton_left.setEnabled(false);
-        rd_imageButton_left.setOnClickListener(v -> {
-            ruleNumber -= 1;
-            if(ruleNumber == 1) {
-                rd_imageButton_left.setEnabled(false);
-                rd_imageView_rule.setImageResource(R.drawable.rule1);
-                rd_textView_rule.setText(rule1);
-                rd_textView_ruleNumber.setText(ruleNumber1);
-            }else if(ruleNumber == 2) {
-                rd_imageView_rule.setImageResource(R.drawable.rule2);
-                rd_textView_rule.setText(rule2);
-                rd_textView_ruleNumber.setText(ruleNumber2);
-                rd_imageButton_right.setEnabled(true);
-            }
-        });
-        rd_imageButton_right.setOnClickListener(v -> {
-            ruleNumber += 1;
-            if(ruleNumber == 2) {
-                rd_imageView_rule.setImageResource(R.drawable.rule2);
-                rd_textView_rule.setText(rule2);
-                rd_textView_ruleNumber.setText(ruleNumber2);
-                rd_imageButton_left.setEnabled(true);
-            }else if(ruleNumber == 3) {
-                rd_imageView_rule.setImageResource(R.drawable.rule3);
-                rd_textView_rule.setText(rule3);
-                rd_textView_ruleNumber.setText(ruleNumber3);
-                rd_imageButton_right.setEnabled(false);
-            }
-        });
+
+        if(status_tag == 0) {
+            ruletotal = 3;
+            rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+            rd_imageButton_left.setOnClickListener(v -> {
+                ruleNumber -= 1;
+                if(ruleNumber == 1) {
+                    rd_imageButton_left.setEnabled(false);
+                    rd_imageView_rule.setImageResource(R.drawable.rule1);
+                    rd_textView_rule.setText(rule1);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                }else if(ruleNumber == 2) {
+                    rd_imageView_rule.setImageResource(R.drawable.rule2);
+                    rd_textView_rule.setText(rule2);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_imageButton_right.setEnabled(true);
+                }
+            });
+            rd_imageButton_right.setOnClickListener(v -> {
+                ruleNumber += 1;
+                if(ruleNumber == 2) {
+                    rd_imageView_rule.setImageResource(R.drawable.rule2);
+                    rd_textView_rule.setText(rule2);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_imageButton_left.setEnabled(true);
+                }else if(ruleNumber == 3) {
+                    rd_imageView_rule.setImageResource(R.drawable.rule3);
+                    rd_textView_rule.setText(rule3);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_imageButton_right.setEnabled(false);
+                }
+            });
+        }else {
+            ruletotal = 2;
+            rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+            rd_imageButton_left.setOnClickListener(v -> {
+                ruleNumber -= 1;
+                if(ruleNumber == 1) {
+                    rd_imageButton_left.setEnabled(false);
+                    rd_imageView_rule.setImageResource(R.drawable.rule1);
+                    rd_textView_rule.setText(rule1);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_imageButton_right.setEnabled(true);
+                }
+            });
+            rd_imageButton_right.setOnClickListener(v -> {
+                ruleNumber += 1;
+                if(ruleNumber == 2) {
+                    rd_imageButton_right.setEnabled(false);
+                    rd_imageView_rule.setImageResource(R.drawable.rule2);
+                    rd_textView_rule.setText(rule2);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_imageButton_left.setEnabled(true);
+                }
+            });
+        }
+
 
         ImageButton rd_imageButton_ready = findViewById(R.id.rd_imageButton_ready);
         rd_imageButton_ready.setOnClickListener(v -> {
