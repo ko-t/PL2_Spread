@@ -65,6 +65,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 intent_list.putExtra("HOSTID",hostid);
                 intent_list.putExtra("HOSTNAME",hostname);
 
+                Log.i("roomList", hosttag + "/" + hostid + "/" + hostname);
+
                 Client.sendMessage("apply$" + hostid);
 
                 Log.i("RoomList_onItemClick", intent_list.toString());

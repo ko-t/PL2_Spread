@@ -331,13 +331,13 @@ public class Client {
                 batch = db.batch();
                 // 非承認だった人をroomlist画面に戻すために-3を設定
                 Query noApproval = db.collection("roomList").document(myInfo.getId())
-                        .collection("member").whereEqualTo("team", -2);
+                        .collection("member").whereEqualTo("value", -2);
                 noApproval.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
                             document.getReference().update(
-                                    "team", -3
+                                    "value", -3
                             );
                         }
                     } else {
@@ -346,14 +346,13 @@ public class Client {
                 });
 
                 // メンバーに通知
-                Query approval = db.collection("roomList").document(myInfo.getId())
-                        .collection("member").whereEqualTo("team", -1);
+                Query approval = roomRef.collection("member").whereEqualTo("value", -1);
                 approval.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
                             document.getReference().update(
-                                    "team", 0
+                                    "value", 0
                             );
                         }
                     } else {
@@ -421,7 +420,7 @@ public class Client {
             case "gp":
                 // データを保存
                 roomRef.collection("member").document(myInfo.getId())
-                        .update("team", Integer.parseInt(s[1]));
+                        .update("value", Integer.parseInt(s[1]));
                 roomRef.update("gpCount", FieldValue.increment(1));
                 // もし全員集まったらそれぞれに送る
                 roomRef.addSnapshotListener((snapshot, e) -> {
@@ -538,7 +537,7 @@ public class Client {
                 memberInfoRef.update(
                         "state", "choosingRoom"
                 );
-                Query roomWatcher = db.collection("roomList").whereEqualTo("open", true),
+                Query roomWatcher = db.collection("roomList").whereEqualTo("isOpen", true),
                         roomMemberWatcher = db.collectionGroup("member");
                 roomWatcher.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
