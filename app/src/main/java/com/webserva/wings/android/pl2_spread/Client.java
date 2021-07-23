@@ -94,7 +94,7 @@ public class Client {
 
     static void init(Context c) {
         final int lv1 = 90000;
-        myInfo = new MemberInfo("NAME_mitmoa", "ID_tmt722");
+        myInfo = new MemberInfo("NAME_yamakawa", "ID_yam332");
         //myInfo.setRoomId("dummyHostId");
         context = c;
         expTable[0] = lv1;
