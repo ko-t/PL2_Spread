@@ -193,6 +193,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
                 Integer tag = Integer.parseInt(s[2]);
                 new_room = new Room(s[1], tag, s[3], s[4]);
+                new_room.setMemberNum(Integer.parseInt(s[5]));
 
                 list.add(new_room);
                 rl_adapter.notifyDataSetChanged();

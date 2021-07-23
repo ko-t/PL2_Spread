@@ -62,6 +62,7 @@ public class Client {
     static FusedLocationProviderClient fusedLocationClient;
     static LatLng start, goal;
     static ListenerRegistration startListener, resultListener;
+    static FirebaseFirestore db;
 
     static Integer[] expTable = new Integer[100];
     static PrintWriter out;
@@ -93,6 +94,7 @@ public class Client {
 //    }
 
     static void init(Context c, String id) {
+        db = FirebaseFirestore.getInstance();
         final int lv1 = 90000;
         //myInfo.setRoomId("dummyHostId");
         context = c;
@@ -141,14 +143,15 @@ public class Client {
         context.startActivity(i);
     }
 
+    static DocumentReference roomRef=null,
+            memberInfoRef = db.collection("memberList").document(myInfo.getId());
+
     static void sendMessage(String message) {
         Log.i(TAG, "sendMessage:" + message);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         String[] s = message.split("\\$");
 
-        DocumentReference roomRef = null,
-                memberInfoRef = db.collection("memberList").document(myInfo.getId());
         WriteBatch batch = db.batch();
 
         switch (s[0]) {
