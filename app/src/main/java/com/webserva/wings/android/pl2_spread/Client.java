@@ -430,7 +430,7 @@ public class Client {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         sj.add(String.valueOf(document.get("startLat", Double.class)));
-                                        sj.add(String.valueOf(document.get("startLat", Double.class)));
+                                        sj.add(String.valueOf(document.get("startLng", Double.class)));
                                         sj.add(String.valueOf(document.get("goalLat", Double.class)));
                                         sj.add(String.valueOf(document.get("goalLng", Double.class)));
                                     }
