@@ -429,10 +429,10 @@ public class Client {
                             db.collection("memberList").whereEqualTo("roomId", Client.myInfo.getRoomId()).get().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        sj.add(String.valueOf(document.get("start", LatLng.class).latitude));
-                                        sj.add(String.valueOf(document.get("start", LatLng.class).longitude));
-                                        sj.add(String.valueOf(document.get("goal", LatLng.class).latitude));
-                                        sj.add(String.valueOf(document.get("goal", LatLng.class).longitude));
+                                        sj.add(String.valueOf(document.get("start", Map.class).get("latitude")));
+                                        sj.add(String.valueOf(document.get("start", Map.class).get("longitude")));
+                                        sj.add(String.valueOf(document.get("goal", Map.class).get("latitude")));
+                                        sj.add(String.valueOf(document.get("goal", Map.class).get("longitude")));
                                     }
                                     receiveMessage(sj.toString());
                                 } else {
