@@ -95,6 +95,7 @@ public class Client {
 
     static void init(Context c, String id) {
         db = FirebaseFirestore.getInstance();
+        memberInfoRef = db.collection("memberList").document(myInfo.getId());
         final int lv1 = 90000;
         //myInfo.setRoomId("dummyHostId");
         context = c;
@@ -143,8 +144,8 @@ public class Client {
         context.startActivity(i);
     }
 
-    static DocumentReference roomRef=null,
-            memberInfoRef = db.collection("memberList").document(myInfo.getId());
+    static DocumentReference roomRef,
+            memberInfoRef;
 
     static void sendMessage(String message) {
         Log.i(TAG, "sendMessage:" + message);
