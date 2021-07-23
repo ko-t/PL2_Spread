@@ -410,6 +410,7 @@ public class Client {
 
             case "goalpos":
                 //終点を記録、タイマー終了、リスナ追加
+                roomRef.update("count", FieldValue.increment(1));
                 resultListener = roomRef.addSnapshotListener((snapshot, e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen failed.", e);
@@ -437,7 +438,6 @@ public class Client {
                                     Log.d(TAG, "Error getting positions: ", task.getException());
                                 }
                             });
-
                             resultListener.remove();
                         }
                     } else {
@@ -445,7 +445,6 @@ public class Client {
                     }
                 });
                 memberInfoRef.update("goal", goal);
-                roomRef.update("count", FieldValue.increment(1));
                 break;
 
             case "resume":
