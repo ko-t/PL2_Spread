@@ -38,11 +38,12 @@ import static java.lang.System.exit;
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     //long time = 3 * 60 * 1000;
-    long time = 5000;
+    long time = 15000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
     TextView speed, step;
+    boolean speedy = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,10 @@ public class Game extends ComponentActivity implements SensorEventListener {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                if (speedy) {
+                    Client.sendMessage("startpos");
+                    speedy = false;
+                }
                 if (locationResult == null) {
                     return;
                 }
@@ -105,13 +110,6 @@ public class Game extends ComponentActivity implements SensorEventListener {
                             }
                         });
 
-                Client.finishActivity();
-                if (Client.myInfo.getTeam() == -1)
-                    Client.startActivity(new Intent(getApplication(), ResultMap.class));
-                else {
-                    Client.startActivity(new Intent(getApplication(), TeamResultMap.class));
-                }
-
             }
         };
         Client.fusedLocationClient.getLastLocation()
@@ -121,7 +119,9 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         Client.sendMessage("startpos");
                         Log.i("gm_action", "test");
                     } else {
-                        Toast.makeText(Game.this, "位置情報がありません", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Game.this, "開始地点を受信できませんでした。\n再受信中...", Toast.LENGTH_SHORT).show();
+                        speedy = true;
+                        locationRequest.setInterval(1000);
                     }
                 });
         cdt.start();
@@ -173,5 +173,19 @@ public class Game extends ComponentActivity implements SensorEventListener {
     private LocationRequest locationRequest = LocationRequest.create()
             .setInterval(5000)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+    static void receiveMessage(String message) {
+        String[] s = message.split("\\$");
+        switch (s[0]) {
+            case "result":
+                Client.finishActivity();
+                if (Client.myInfo.getTeam() == -1)
+                    Client.startActivity(new Intent(Client.context, ResultMap.class));
+                else {
+                    Client.startActivity(new Intent(Client.context, TeamResultMap.class));
+                }
+                break;
+        }
+    }
 }
 
