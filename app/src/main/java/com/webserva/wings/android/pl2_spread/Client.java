@@ -405,7 +405,8 @@ public class Client {
 
             case "startpos":
                 //始点を記録
-                memberInfoRef.update("start", start);
+                memberInfoRef.update("startLat", start.latitude);
+                memberInfoRef.update("startLng", start.longitude);
                 break;
 
             case "goalpos":
@@ -425,14 +426,13 @@ public class Client {
                             StringJoiner sj = new StringJoiner("$");
                             sj.add("otherpos12");
                             sj.add(snapshot.get("memberNum").toString());
-
                             db.collection("memberList").whereEqualTo("roomId", Client.myInfo.getRoomId()).get().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        sj.add(String.valueOf(document.get("start", Map.class).get("latitude")));
-                                        sj.add(String.valueOf(document.get("start", Map.class).get("longitude")));
-                                        sj.add(String.valueOf(document.get("goal", Map.class).get("latitude")));
-                                        sj.add(String.valueOf(document.get("goal", Map.class).get("longitude")));
+                                        sj.add(String.valueOf(document.get("startLat", Double.class)));
+                                        sj.add(String.valueOf(document.get("startLng", Double.class)));
+                                        sj.add(String.valueOf(document.get("goalLat", Double.class)));
+                                        sj.add(String.valueOf(document.get("goalLng", Double.class)));
                                     }
                                     receiveMessage(sj.toString());
                                 } else {
@@ -459,7 +459,8 @@ public class Client {
                         Log.d(TAG, "Current data: null");
                     }
                 });
-                memberInfoRef.update("goal", goal);
+                memberInfoRef.update("goalLat", goal.latitude);
+                memberInfoRef.update("goalLng", goal.longitude);
                 break;
 
             case "resume":
