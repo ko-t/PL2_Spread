@@ -768,8 +768,8 @@ public class Client {
                 TeamResultMap.receiveMessage(message);
                 break;
 
-            case "showresult":
-//                Game.receiveMesage(message);
+            case "result":
+                Game.receiveMessage(message);
                 break;
         }
     }
