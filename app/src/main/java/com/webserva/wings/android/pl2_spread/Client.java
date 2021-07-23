@@ -425,7 +425,8 @@ public class Client {
                             StringJoiner sj = new StringJoiner("$");
                             sj.add("otherpos12");
                             sj.add(snapshot.get("memberNum").toString());
-                            roomRef.collection("member").get().addOnCompleteListener(task -> {
+
+                            db.collection("memberList").whereEqualTo("roomId", Client.myInfo.getRoomId()).get().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         sj.add(String.valueOf(document.get("start", LatLng.class).latitude));
@@ -438,6 +439,20 @@ public class Client {
                                     Log.d(TAG, "Error getting positions: ", task.getException());
                                 }
                             });
+
+//                            roomRef.collection("member").get().addOnCompleteListener(task -> {
+//                                if (task.isSuccessful()) {
+//                                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                                        sj.add(String.valueOf(document.get("start", LatLng.class).latitude));
+//                                        sj.add(String.valueOf(document.get("start", LatLng.class).longitude));
+//                                        sj.add(String.valueOf(document.get("goal", LatLng.class).latitude));
+//                                        sj.add(String.valueOf(document.get("goal", LatLng.class).longitude));
+//                                    }
+//                                    receiveMessage(sj.toString());
+//                                } else {
+//                                    Log.d(TAG, "Error getting positions: ", task.getException());
+//                                }
+//                            });
                             resultListener.remove();
                         }
                     } else {
