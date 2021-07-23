@@ -149,6 +149,7 @@ public class Client {
 
         DocumentReference roomRef = null,
                 memberInfoRef = db.collection("memberList").document(myInfo.getId());
+        WriteBatch batch = db.batch();
 
         switch (s[0]) {
             case "register":
@@ -196,18 +197,18 @@ public class Client {
                                 break;
                             case MODIFIED:
                                 Log.d(TAG, "Modified city: " + dc.getDocument().getData());
-                                db.collection("memberList").whereEqualTo("state", "applying").get().addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if (!document.getId().equals(myInfo.getId())) {
-                                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                                receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
-                                            }
-                                        }
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                });
+//                                db.collection("memberList").whereEqualTo("state", "applying").get().addOnCompleteListener(task -> {
+//                                    if (task.isSuccessful()) {
+//                                        for (QueryDocumentSnapshot document : task.getResult()) {
+//                                            if (!document.getId().equals(myInfo.getId())) {
+//                                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                                receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
+//                                            }
+//                                        }
+//                                    } else {
+//                                        Log.d(TAG, "Error getting documents: ", task.getException());
+//                                    }
+//                                });
                                 break;
                             case REMOVED:
                                 Log.d(TAG, "Removed city: " + dc.getDocument().getData());
@@ -263,11 +264,43 @@ public class Client {
                                 break;
 
                             case -1: //承認
+                                db.collection("roomList").document(myInfo.getRoomId()).collection("member")
+                                        .whereEqualTo("team", -1).get().addOnCompleteListener(task -> {
+                                    Log.i(TAG, "approved");
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            db.collection("memberList").document(document.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DocumentSnapshot document1 = task.getResult();
+                                                        if (document1.exists()) {
+                                                            Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
+                                                            receiveMessage("add10$"+ document1.get("name", String.class)+ "$" + document.getId());
+                                                        } else {
+                                                            Log.d(TAG, "No such document");
+                                                        }
+                                                    } else {
+                                                        Log.d(TAG, "get failed with ", task.getException());
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error getting -1 members ", task.getException());
+                                    }
+                                });
                                 receiveMessage("approved");
                                 break;
 
                             case -3: //非承認
                                 receiveMessage("declined");
+                                break;
+
+                            case -4:
+                                db.collection("roomList").document(myInfo.getRoomId())
+                                        .collection("member").document(myInfo.getId()).delete();
+                                receiveMessage("broken");
                                 break;
                         }
                     } else {
@@ -278,9 +311,9 @@ public class Client {
 
             case "accept":
                 // memberのvalueを-1にする（＝全員に表示させる）TODO
-                db.collection("roomList").document(myInfo.getId())
-                        .collection("member").document(s[1])
-                        .set(new SimpleEntry<>("team", -1));
+                batch.set(roomRef.collection("member").document(s[1]), new SimpleEntry<>("team", -1));
+                batch.update(db.collection("memberList").document(s[1]), "state", "approved");
+                batch.commit();
                 break;
 
             case "leave":
@@ -293,7 +326,7 @@ public class Client {
                 break;
 
             case "confirm":
-                WriteBatch batch = db.batch();
+                batch = db.batch();
                 // 非承認だった人をroomlist画面に戻すために-3を設定
                 Query noApproval = db.collection("roomList").document(myInfo.getId())
                         .collection("member").whereEqualTo("team", -2);
