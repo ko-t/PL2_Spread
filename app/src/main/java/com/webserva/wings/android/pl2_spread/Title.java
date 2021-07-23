@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.animation.AlphaAnimation;
-import android.widget.Button;
-import android.widget.ImageView;
 
 public class Title extends AppCompatActivity {
 
