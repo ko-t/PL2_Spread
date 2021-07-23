@@ -6,19 +6,16 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.*;
 import com.google.firebase.firestore.*;
 
 public class TitleDebug extends AppCompatActivity {
 
-    String id = "ID_YOURS";
+    String id = "ID_Mitoma", name = "NAME_tmt";
 
     Switch sw2;
     EditText idText;
@@ -35,7 +32,7 @@ public class TitleDebug extends AppCompatActivity {
         i = new Intent(getApplication(), Title.class);
         i.putExtra("levelup", 2);
 
-        Client.myInfo = new MemberInfo("NAME_here", id);
+        Client.myInfo = new MemberInfo(name, id);
 
         idText = findViewById(R.id.tid_editText_id);
         idText.setText(Client.myInfo.getId());
@@ -88,12 +85,32 @@ public class TitleDebug extends AppCompatActivity {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     Log.d(TAG, "Document Exists: " + document.getData());
+                    Toast.makeText(getApplication(), "重複しています", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
                     Toast.makeText(getApplication(), "重複していません", Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Log.d(TAG, "get failed with ", task.getException());
-                Toast.makeText(getApplication(), "重複しています", Toast.LENGTH_LONG).show();
             }
         });
     }
+
+//    @Override
+//    protected void onStop() {
+//        Log.i(TAG, "onStop");
+//        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+//        super.onStop();
+//    }
+
+//    @Override
+//    protected void onDestroy() {
+//        Log.i(TAG, "onDestroy");
+//        db.collection("memberList").document(Client.myInfo.getId()).update("state", "offline");
+//        if(Client.myInfo.getId().equals(Client.myInfo.getRoomId())){
+//            db.collection("roomList").document(Client.myInfo.getId()).delete();
+//        } else if(!Client.myInfo.getRoomId().isEmpty()){
+//            db.collection("roomList").document(Client.myInfo.getRoomId())
+//                    .collection("member").document(Client.myInfo.getId()).update("team", -9);
+//        }
+//        super.onDestroy();
+//    }
 }
