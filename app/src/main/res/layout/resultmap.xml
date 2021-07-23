@@ -10,7 +10,7 @@
         android:id="@+id/rm_button"
         android:layout_width="256dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="次へ"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +20,7 @@
         android:id="@+id/rm_textView_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:text="計算中..."
         android:textColor="#000000"
         android:textSize="48sp"
@@ -40,13 +40,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <fragment
-        android:name="com.google.android.gms.maps.MapFragment"
         android:id="@+id/rm_map"
+        android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/rm_textView_notation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".ResultMap"  />
+        tools:context=".ResultMap" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
