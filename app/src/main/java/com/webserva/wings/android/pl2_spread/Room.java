@@ -12,6 +12,8 @@ public class Room {
     private String roomName, message, hostId, hostName;
     private int tag, memberNum = 0;
     //teamの値
+    // -9:オフライン
+    // -4:部屋が破壊される
     // -3:非承認
     // -2:未承認（承認待ち）
     // -1:承認済み

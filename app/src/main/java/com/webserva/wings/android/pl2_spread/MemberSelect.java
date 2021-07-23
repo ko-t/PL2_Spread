@@ -62,7 +62,7 @@ public class MemberSelect extends AppCompatActivity {
             ms_m.setText("知らない人もOK");
         }
 
-        //receiveMessage("add9$name1$id1");
+
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
@@ -89,6 +89,8 @@ public class MemberSelect extends AppCompatActivity {
         Button ms_button_decision = findViewById(R.id.ms_button_decision);
         ms_button_decision.setOnClickListener(v -> {
             size = list_member.size();
+
+            /* 一時保管
             for (int j = 0; j < size; j++) {
                 str_name = str_name + (list_member.get(j)).getName();   //str_cnf= str_cnf + メンバ名
                 str_id = str_id + (list_member.get(j)).getId();
@@ -99,8 +101,11 @@ public class MemberSelect extends AppCompatActivity {
                 str_id = str_id + "$";
             }
             Client.sendMessage("confirm$" + size + "$" + str_name);
+            */
 
-            Intent intent = new Intent(this, RoomInfo.class);
+            Client.sendMessage("confirm");
+
+            Intent intent = new Intent(this, HReady.class);
             //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
             intent.putExtra("MEMBER_NUM", size);
             intent.putExtra("MEMBER_NAME", str_name);
@@ -109,6 +114,7 @@ public class MemberSelect extends AppCompatActivity {
             Client.startActivity(intent);
         });
 
+        //receiveMessage("add9$name1$id1");
     }
 
     static void receiveMessage(String message) {
