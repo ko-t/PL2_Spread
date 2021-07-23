@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 
 public class Title extends AppCompatActivity {
@@ -12,11 +13,14 @@ public class Title extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         Button ti_button_start = findViewById(R.id.ti_button_start);
+
         ti_button_start.setOnClickListener(v -> {
             Intent intent_to_mm = new Intent(getApplication(), MainMenu.class);
             Client.startActivity(intent_to_mm);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
     }
 }
