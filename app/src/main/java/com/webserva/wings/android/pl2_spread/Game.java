@@ -38,7 +38,7 @@ import static java.lang.System.exit;
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     //long time = 3 * 60 * 1000;
-    long time = 5000;
+    long time = 15000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
