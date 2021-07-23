@@ -105,7 +105,7 @@ public class MemberSelect extends AppCompatActivity {
 
             Client.sendMessage("confirm");
 
-            Intent intent = new Intent(this, RoomInfo.class);
+            Intent intent = new Intent(this, HReady.class);
             //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
             intent.putExtra("MEMBER_NUM", size);
             intent.putExtra("MEMBER_NAME", str_name);
