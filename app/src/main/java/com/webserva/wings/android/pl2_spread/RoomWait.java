@@ -19,6 +19,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
     private Button rw_button_quit;  //退出→4 RoomListに戻る
     private static Intent intent;
     private static String rw_hostname, rw_id;
+    private static int rw_tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +29,11 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         rw_button_quit.setOnClickListener(this);
 
         Intent i = new Intent();
-        int rw_tag = i.getIntExtra("TAG",0);
+        rw_tag = i.getIntExtra("TAG",0);
         rw_id = i.getStringExtra("HOSTID");
         rw_hostname = i.getStringExtra("HOSTNAME");
+
+        Log.i("roomWait", rw_tag + "/" + rw_id + "/" + rw_hostname);
 
         //タグ取得
         int[] rw_tag_1 = new int[3];
@@ -73,6 +76,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
                 intent = new Intent(Client.context, RoomInfo.class);
                 intent.putExtra("HOSTID",rw_hostname);
                 intent.putExtra("HOSTNAME",rw_id);
+                intent.putExtra("TAG", rw_tag);
                 Client.startActivity(intent);
                 break;
 

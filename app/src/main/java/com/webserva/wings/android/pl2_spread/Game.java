@@ -66,63 +66,8 @@ public class Game extends ComponentActivity implements SensorEventListener {
         speed = findViewById(R.id.gm_tv_speedvalue);
         step = findViewById(R.id.gm_tv_stepvalue);
 
-        if (ActivityCompat.checkSelfPermission(
-                Game.this, Manifest.permission.ACTIVITY_RECOGNITION) ==
-                PackageManager.PERMISSION_GRANTED) {
-        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACTIVITY_RECOGNITION)) {
-            // In an educational UI, explain to the user why your app requires this
-            // permission for a specific feature to behave as expected. In this UI,
-            // include a "cancel" or "no thanks" button that allows the user to
-            // continue using your app without granting the permission.
-            if (Build.VERSION.SDK_INT >= 29) {
-                new AlertDialog.Builder(Client.context)
-                        .setTitle("メッセージ")
-                        .setMessage("このゲームを遊ぶには、歩行を検知するために身体活動の権限を許可する必要があります。")
-                        .setPositiveButton("OK", null)
-                        .show();
-                requestPermissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION);
-            }
-        } else {
-            // You can directly ask for the permission.
-            // The registered ActivityResultCallback gets the result of this request.
-            if (Build.VERSION.SDK_INT >= 29) {
-                requestPermissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION);
-            }
-        }
-
-        if (ActivityCompat.checkSelfPermission(
-                Game.this, Manifest.permission.ACCESS_FINE_LOCATION) ==
-                PackageManager.PERMISSION_GRANTED) {
-            action();
-        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            new AlertDialog.Builder(Client.context)
-                    .setTitle("メッセージ")
-                    .setMessage("このゲームを遊ぶには、位置情報の権限を許可する必要があります。")
-                    .setPositiveButton("OK", null)
-                    .show();
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
+        action();
     }
-
-    private ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    action();
-                } else {
-                    new AlertDialog.Builder(this)
-                            .setTitle(R.string.gm_message)
-                            .setMessage("このゲームは位置情報と身体活動の取得を利用しないとプレイすることができません。")
-                            .setPositiveButton("許可する", (dialog, which) -> {
-                                Game.this.requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-                            })
-                            .setNegativeButton("キャンセル", (dialog, which) -> {
-                                exit(0);
-                            })
-                            .show();
-                }
-            });
 
     private void action() {
         Client.fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -144,7 +89,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
                 if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(Game.this)
-                            .setTitle(R.string.gm_message)
+                            .setTitle(R.string.general_message)
                             .setMessage("位置情報が利用できません。")
                             .setPositiveButton("OK", null)
                             .show();
@@ -195,7 +140,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Toast.makeText(this, "acc changed", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "acc changed", Toast.LENGTH_SHORT).show();
     }
 
     protected void onResume() {
@@ -213,7 +158,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             new AlertDialog.Builder(Game.this)
-                    .setTitle(R.string.gm_message)
+                    .setTitle(R.string.general_message)
                     .setMessage("位置情報が利用できません。")
                     .setPositiveButton("OK", null)
                     .show();

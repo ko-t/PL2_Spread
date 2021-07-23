@@ -65,6 +65,8 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
                 intent_list.putExtra("HOSTID",hostid);
                 intent_list.putExtra("HOSTNAME",hostname);
 
+                Log.i("roomList", hosttag + "/" + hostid + "/" + hostname);
+
                 Client.sendMessage("apply$" + hostid);
 
                 Log.i("RoomList_onItemClick", intent_list.toString());
@@ -193,6 +195,7 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
                 Integer tag = Integer.parseInt(s[2]);
                 new_room = new Room(s[1], tag, s[3], s[4]);
+                new_room.setMemberNum(Integer.parseInt(s[5]));
 
                 list.add(new_room);
                 rl_adapter.notifyDataSetChanged();
@@ -212,9 +215,10 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
                     hostId = (list.get(k)).getHostId();
                     if (hostId.equals(s[1])) {
-                        list.remove(list.indexOf(s[1]));
+                        list.remove(list.get(k));
                         break;
                     }
+                    k++;
                 }
                 rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate", "ルームが削除されました");
