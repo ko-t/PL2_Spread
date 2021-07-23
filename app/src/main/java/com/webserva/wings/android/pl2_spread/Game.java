@@ -38,7 +38,7 @@ import static java.lang.System.exit;
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     //long time = 3 * 60 * 1000;
-    long time = 5000;
+    long time = 15000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -105,13 +105,6 @@ public class Game extends ComponentActivity implements SensorEventListener {
                             }
                         });
 
-                Client.finishActivity();
-                if (Client.myInfo.getTeam() == -1)
-                    Client.startActivity(new Intent(getApplication(), ResultMap.class));
-                else {
-                    Client.startActivity(new Intent(getApplication(), TeamResultMap.class));
-                }
-
             }
         };
         Client.fusedLocationClient.getLastLocation()
@@ -173,5 +166,19 @@ public class Game extends ComponentActivity implements SensorEventListener {
     private LocationRequest locationRequest = LocationRequest.create()
             .setInterval(5000)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+    static void receiveMessage(String message) {
+        String[] s = message.split("\\$");
+        switch (s[0]) {
+            case "result":
+                Client.finishActivity();
+                if (Client.myInfo.getTeam() == -1)
+                    Client.startActivity(new Intent(Client.context, ResultMap.class));
+                else {
+                    Client.startActivity(new Intent(Client.context, TeamResultMap.class));
+                }
+                break;
+        }
+    }
 }
 

@@ -279,7 +279,7 @@ public class Client {
                                                     DocumentSnapshot document1 = task12.getResult();
                                                     if (document1.exists()) {
                                                         Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
-                                                        receiveMessage("add10$"+ document1.get("name", String.class)+ "$" + document.getId());
+                                                        receiveMessage("add10$" + document1.get("name", String.class) + "$" + document.getId());
                                                     } else {
                                                         Log.d(TAG, "No such document");
                                                     }
@@ -409,8 +409,43 @@ public class Client {
                 break;
 
             case "goalpos":
-                //終点を記録
+                //終点を記録、タイマー終了、リスナ追加
+                resultListener = roomRef.addSnapshotListener((snapshot, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
+                    if (snapshot != null && snapshot.exists()) {
+                        Log.d(TAG, "Current data: " + snapshot.getData());
+                        if (snapshot.get("count", Integer.class)
+                                .equals(snapshot.get("memberNum", Integer.class))) {
+                            receiveMessage("result");
+                            //チーム戦ではない場合
+                            StringJoiner sj = new StringJoiner("$");
+                            sj.add("otherpos12");
+                            sj.add(snapshot.get("memberNum").toString());
+                            roomRef.collection("member").get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        sj.add(String.valueOf(document.get("start", LatLng.class).latitude));
+                                        sj.add(String.valueOf(document.get("start", LatLng.class).longitude));
+                                        sj.add(String.valueOf(document.get("goal", LatLng.class).latitude));
+                                        sj.add(String.valueOf(document.get("goal", LatLng.class).longitude));
+                                    }
+                                    receiveMessage(sj.toString());
+                                } else {
+                                    Log.d(TAG, "Error getting positions: ", task.getException());
+                                }
+                            });
+
+                            resultListener.remove();
+                        }
+                    } else {
+                        Log.d(TAG, "Current data: null");
+                    }
+                });
                 memberInfoRef.update("goal", goal);
+                roomRef.update("count", FieldValue.increment(1));
                 break;
 
             case "resume":
@@ -582,7 +617,8 @@ public class Client {
                     Map memberInRoom;
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         memberInRoom = dc.getDocument().getData();
-                        String roomName = dc.getDocument().getReference().getParent().getId();
+                        // String roomName = dc.getDocument().getReference().getParent().getId(); //memberが返ってきた
+                        String roomName = dc.getDocument().getReference().getId();
                         Log.d(TAG, "MemberChange in Room " + roomName);
                         switch (dc.getType()) {
                             case ADDED:
