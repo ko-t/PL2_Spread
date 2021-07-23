@@ -50,6 +50,7 @@
         <activity android:name=".RoomList" />
         <activity android:name=".ResultMap" />
         <activity android:name=".TeamResultMap" />
+        <activity android:name=".InitialLaunch" />
 
     </application>
 

@@ -35,9 +35,9 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
 
         //タグ取得
         int[] ri_tag_1 = new int[3];
-        ri_tag_1[0]=ri_tag/100;
-        ri_tag_1[1]=(ri_tag - (ri_tag_1[0]*100))/10;
-        ri_tag_1[2]=ri_tag - (ri_tag_1[0]*100)-(ri_tag_1[1]*10);
+        for (int j = 0; j < 3; j++) {
+            ri_tag_1[2-j] = ri_tag & (1 << j);
+        }
         TextView ri_roomname = findViewById(R.id.ri_textview_roomname);
         TextView ri_gm = findViewById(R.id.ri_textview_select1);
         TextView ri_se = findViewById(R.id.ri_textview_select2);
@@ -131,7 +131,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         if(v==ri_button_quit){
             Client.sendMessage("leave");
             Intent intent = new Intent(this,RoomList.class);
-            startActivity(intent);
+            Client.startActivity(intent);
         }
     }
 

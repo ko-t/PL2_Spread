@@ -99,7 +99,8 @@ public class TagSet extends AppCompatActivity {
                 Client.sendMessage("newroom$" + RoomName + "$" + tag);
                 Log.d("ts_onClick", "test4");
                 Intent intent_to_ms = new Intent(getApplication(), MemberSelect.class);
-                intent_to_ms.putExtra("tag",tag);
+                intent_to_ms.putExtra("TAG",tag);
+                intent_to_ms.putExtra("HOSTID",Client.myInfo.getId());
                 intent_to_ms.putExtra("HOSTNAME",RoomName);
                 Client.startActivity(intent_to_ms);
             }

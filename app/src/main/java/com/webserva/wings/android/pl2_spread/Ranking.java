@@ -27,7 +27,7 @@ public class Ranking extends AppCompatActivity {
         rk_adapter = new RkAdapter(this, rank);
 
         //receiveMessage("rank$3$820$280$208");
-        receiveMessage("num$" + Client.myInfo.getMatchHistory());
+        receiveMessage("numrank$" + Client.myInfo.getMatchHistory());
         Client.sendMessage("rankreq");
         //rk_textview_countの内容をrk_countで設定
 
@@ -65,7 +65,7 @@ public class Ranking extends AppCompatActivity {
                 break;
 
             //s[0]="num", s[1]="プレイ回数"
-            case "num":
+            case "numrank":
                 Log.i("rk_receiveMessage","numを受信しました");
                 rk_str_count=s[1];
                 rk_count.setText(rk_str_count);

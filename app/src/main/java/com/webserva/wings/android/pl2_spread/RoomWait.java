@@ -19,6 +19,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
     private Button rw_button_quit;  //退出→4 RoomListに戻る
     private static Intent intent;
     private static String rw_hostname, rw_id;
+    private static int rw_tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,25 +29,27 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         rw_button_quit.setOnClickListener(this);
 
         Intent i = new Intent();
-        int rw_tag = i.getIntExtra("TAG",0);
+        rw_tag = i.getIntExtra("TAG",0);
         rw_id = i.getStringExtra("HOSTID");
         rw_hostname = i.getStringExtra("HOSTNAME");
 
+        Log.i("roomWait", rw_tag + "/" + rw_id + "/" + rw_hostname);
+
         //タグ取得
         int[] rw_tag_1 = new int[3];
-        rw_tag_1[0]=rw_tag/100;
-        rw_tag_1[1]=(rw_tag - (rw_tag_1[0]*100))/10;
-        rw_tag_1[2]=rw_tag - (rw_tag_1[0]*100)-(rw_tag_1[1]*10);
+        for (int j = 0; j < 3; j++) {
+            rw_tag_1[2-j] = rw_tag & (1 << j);
+        }
         TextView rw_roomname = findViewById(R.id.rw_textview_roomname);
         TextView rw_gm = findViewById(R.id.rw_textview_select1);
         TextView rw_se = findViewById(R.id.rw_textview_select2);
-        TextView rw_m = findViewById(R.id.rw_textview_select3);
+        TextView rw_m = findViewById(R.id.rw_textvigitew_select3);
         if(rw_tag_1[0]==0){ rw_gm.setText("対戦");
         }else{ rw_gm.setText("協力"); }
         if(rw_tag_1[1]==0){ rw_se.setText("あり");
         }else{ rw_se.setText("なし"); }
-        if(rw_tag_1[2]==0){ rw_m.setText("知ってる人のみ");
-        }else{ rw_m.setText("知らない人もOK"); }
+        if(rw_tag_1[2]==0){ rw_m.setText("知っている人\nのみ");
+        }else{ rw_m.setText("知らない人も\nOK"); }
 
 
 
@@ -73,6 +76,7 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
                 intent = new Intent(Client.context, RoomInfo.class);
                 intent.putExtra("HOSTID",rw_hostname);
                 intent.putExtra("HOSTNAME",rw_id);
+                intent.putExtra("TAG", rw_tag);
                 Client.startActivity(intent);
                 break;
 

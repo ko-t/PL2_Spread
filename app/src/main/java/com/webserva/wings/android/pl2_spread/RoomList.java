@@ -16,7 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+//import androidx.appcompat.widget.SearchView;
+import android.widget.SearchView;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
@@ -57,12 +58,18 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
             public void onItemClick(AdapterView parent, View view, int position, long id) {
 
                 String hostid  = list.get(position).getHostId(),
-                        hostname = "dummy";
+                        hostname = list.get(position).getHostName();
                 int hosttag = list.get(position).getTag();
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
                 intent_list.putExtra("TAG",hosttag);
                 intent_list.putExtra("HOSTID",hostid);
                 intent_list.putExtra("HOSTNAME",hostname);
+
+                Log.i("roomList", hosttag + "/" + hostid + "/" + hostname);
+
+                Client.sendMessage("apply$" + hostid);
+
+                Log.i("RoomList_onItemClick", intent_list.toString());
 
                 startActivity(intent_list);
                 Log.i("rl_onCreate", "RoomWait.classが開始されました");
@@ -188,13 +195,14 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
                 Integer tag = Integer.parseInt(s[2]);
                 new_room = new Room(s[1], tag, s[3], s[4]);
+                new_room.setMemberNum(Integer.parseInt(s[5]));
 
                 list.add(new_room);
                 rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate", "ルームが追加されました");
 
                 //申し込むルーム
-                Client.sendMessage("apply$" + s[3]);
+                //Client.sendMessage("apply$" + s[3]);
                 break;
 
             case "del":
@@ -207,9 +215,10 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
                     hostId = (list.get(k)).getHostId();
                     if (hostId.equals(s[1])) {
-                        list.remove(list.indexOf(s[1]));
+                        list.remove(list.get(k));
                         break;
                     }
+                    k++;
                 }
                 rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate", "ルームが削除されました");

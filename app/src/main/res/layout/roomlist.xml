@@ -21,9 +21,11 @@
 
     <SearchView
         android:id="@+id/rl_searchview_name"
-        android:layout_width="411dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,24 +33,25 @@
 
     <ListView
         android:id="@+id/rl_listview_roominfo"
-        android:layout_width="414dp"
-        android:layout_height="465dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></ListView>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_button_search"></ListView>
 
 
     <Button
         android:id="@+id/rl_button_search"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="120dp"
         android:backgroundTint="@android:color/holo_blue_bright"
         android:text="@string/rl_button_search"
-        app:layout_constraintBottom_toTopOf="@+id/rl_listview_roominfo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rl_searchview_name" />
 
     <RadioGroup
         android:id="@+id/rl_radiogroup_s2"
