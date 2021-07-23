@@ -19,14 +19,15 @@ import static java.lang.System.exit;
 
 public class Ready extends AppCompatActivity {
     private int ruleNumber = 1;
-    private int ruletotal;
+    private int ruleTotal;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ready);
 
         Intent intent_from_ri = getIntent();
-        int status_tag = intent_from_ri.getIntExtra("status_tag",0);
+        int status_tag = intent_from_ri.getIntExtra("STATUS_TAG",0);
         ImageView rd_imageView_rule = findViewById(R.id.rd_imageView_rule);
         rd_imageView_rule.setImageResource(R.drawable.rule1);
         TextView rd_textView_rule = findViewById(R.id.rd_textView_rule);
@@ -42,19 +43,19 @@ public class Ready extends AppCompatActivity {
         rd_imageButton_left.setEnabled(false);
 
         if(status_tag == 0) {
-            ruletotal = 3;
-            rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+            ruleTotal = 3;
+            rd_textView_ruleNumber.setText(ruleNumber + "/" + ruleTotal);
             rd_imageButton_left.setOnClickListener(v -> {
                 ruleNumber -= 1;
                 if(ruleNumber == 1) {
                     rd_imageButton_left.setEnabled(false);
                     rd_imageView_rule.setImageResource(R.drawable.rule1);
                     rd_textView_rule.setText(rule1);
-                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruleTotal);
                 }else if(ruleNumber == 2) {
                     rd_imageView_rule.setImageResource(R.drawable.rule2);
                     rd_textView_rule.setText(rule2);
-                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruleTotal);
                     rd_imageButton_right.setEnabled(true);
                 }
             });
@@ -63,25 +64,25 @@ public class Ready extends AppCompatActivity {
                 if(ruleNumber == 2) {
                     rd_imageView_rule.setImageResource(R.drawable.rule2);
                     rd_textView_rule.setText(rule2);
-                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruleTotal);
                     rd_imageButton_left.setEnabled(true);
                 }else if(ruleNumber == 3) {
                     rd_imageView_rule.setImageResource(R.drawable.rule3);
                     rd_textView_rule.setText(rule3);
-                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruleTotal);
                     rd_imageButton_right.setEnabled(false);
                 }
             });
         }else {
-            ruletotal = 2;
-            rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+            ruleTotal = 2;
+            rd_textView_ruleNumber.setText(ruleNumber + "/" + ruleTotal);
             rd_imageButton_left.setOnClickListener(v -> {
                 ruleNumber -= 1;
                 if(ruleNumber == 1) {
                     rd_imageButton_left.setEnabled(false);
                     rd_imageView_rule.setImageResource(R.drawable.rule1);
                     rd_textView_rule.setText(rule1);
-                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruleTotal);
                     rd_imageButton_right.setEnabled(true);
                 }
             });
@@ -91,7 +92,7 @@ public class Ready extends AppCompatActivity {
                     rd_imageButton_right.setEnabled(false);
                     rd_imageView_rule.setImageResource(R.drawable.rule2);
                     rd_textView_rule.setText(rule2);
-                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruletotal);
+                    rd_textView_ruleNumber.setText(ruleNumber + "/" + ruleTotal);
                     rd_imageButton_left.setEnabled(true);
                 }
             });
