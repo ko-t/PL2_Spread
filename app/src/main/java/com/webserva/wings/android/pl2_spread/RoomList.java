@@ -212,9 +212,10 @@ public class RoomList extends AppCompatActivity implements View.OnClickListener 
 
                     hostId = (list.get(k)).getHostId();
                     if (hostId.equals(s[1])) {
-                        list.remove(list.indexOf(s[1]));
+                        list.remove(list.get(k));
                         break;
                     }
+                    k++;
                 }
                 rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate", "ルームが削除されました");
