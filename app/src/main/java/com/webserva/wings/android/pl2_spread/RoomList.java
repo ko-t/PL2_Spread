@@ -251,5 +251,10 @@ public class RoomList extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Client.sendMessage("roomdispatch");
+        super.onBackPressed();
+    }
 }
 
