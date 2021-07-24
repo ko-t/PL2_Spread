@@ -63,6 +63,7 @@ public class Client {
     static LatLng start, goal;
     static ListenerRegistration startListener, resultListener;
     static FirebaseFirestore db;
+    static Map memberInRoom;
 
     static Integer[] expTable = new Integer[100];
     static PrintWriter out;
@@ -627,24 +628,24 @@ public class Client {
                         }
                     }
                 });
+
                 roomMemberWatcher.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.w(TAG, "listen:error", e);
                         return;
                     }
-                    Map memberInRoom;
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         memberInRoom = dc.getDocument().getData();
                         // String roomName = dc.getDocument().getReference().getParent().getId(); //memberが返ってきた
                         String changedUserName = dc.getDocument().getReference().getId();
-                        db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots, e) -> {
-                            Log.d(TAG, "MemberChange in Room " + roomName);
+                        db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots1, e1) -> {
+                            Log.d(TAG, "MemberChange in Room " + changedUserName);
                             switch (dc.getType()) {
                                 case ADDED:
                                     Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
                                     break;
                                 case MODIFIED:
-                                    receiveMessage("num$" + roomName + "$" + memberInRoom.size());
+                                    receiveMessage("num$" + changedUserName + "$" + memberInRoom.size());
                                     Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
                                     break;
                                 case REMOVED:

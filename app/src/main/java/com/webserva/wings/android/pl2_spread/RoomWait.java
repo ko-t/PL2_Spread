@@ -44,12 +44,12 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         TextView rw_gm = findViewById(R.id.rw_textview_select1);
         TextView rw_se = findViewById(R.id.rw_textview_select2);
         TextView rw_m = findViewById(R.id.rw_textvigitew_select3);
-        if(rw_tag_1[0]==0){ rw_gm.setText("対戦");
-        }else{ rw_gm.setText("協力"); }
-        if(rw_tag_1[1]==0){ rw_se.setText("あり");
-        }else{ rw_se.setText("なし"); }
-        if(rw_tag_1[2]==0){ rw_m.setText("知っている人\nのみ");
-        }else{ rw_m.setText("知らない人も\nOK"); }
+        if(rw_tag_1[0]==0){ rw_gm.setText(R.string.tg_battle);
+        }else{ rw_gm.setText(R.string.tg_cooperation); }
+        if(rw_tag_1[1]==0){ rw_se.setText(R.string.tg_on);
+        }else{ rw_se.setText(R.string.tg_off); }
+        if(rw_tag_1[2]==0){ rw_m.setText(R.string.rl_checkbox_no);
+        }else{ rw_m.setText(R.string.rl_checkbox_ok); }
 
 
 
