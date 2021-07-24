@@ -61,7 +61,8 @@ public class Client {
     static GoogleMap mMap;
     static FusedLocationProviderClient fusedLocationClient;
     static LatLng start, goal;
-    static ListenerRegistration startListener, resultListener, readyListener, roomMemberListener;
+    static ListenerRegistration startListener, resultListener, readyListener, roomMemberListener,
+            applicationListener, teamNumListener, gpListener;
     static FirebaseFirestore db;
     static Map memberInRoom;
 
@@ -180,7 +181,7 @@ public class Client {
                 roomRef.collection("member").document(myInfo.getId()).set(new SimpleEntry("team", 0));
                 // ルームリストを表示しているユーザに通知（openで通知されるはず）
                 //申し込みのリスナー
-                roomRef.collection("member").addSnapshotListener((snapshots, e) -> {
+                applicationListener = roomRef.collection("member").addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.w(TAG, "listen:error", e);
                         return;
@@ -206,18 +207,6 @@ public class Client {
                                 break;
                             case MODIFIED:
                                 Log.d(TAG, "Modified city: " + dc.getDocument().getData());
-//                                db.collection("memberList").whereEqualTo("state", "applying").get().addOnCompleteListener(task -> {
-//                                    if (task.isSuccessful()) {
-//                                        for (QueryDocumentSnapshot document : task.getResult()) {
-//                                            if (!document.getId().equals(myInfo.getId())) {
-//                                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                                                receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
-//                                            }
-//                                        }
-//                                    } else {
-//                                        Log.d(TAG, "Error getting documents: ", task.getException());
-//                                    }
-//                                });
                                 break;
                             case REMOVED:
                                 Log.d(TAG, "Removed city: " + dc.getDocument().getData());
@@ -262,7 +251,7 @@ public class Client {
 
                 //承認非承認をリッスン
                 final DocumentReference docRef = db.collection("roomList").document(myInfo.getRoomId()).collection("member").document(myInfo.getId());
-                docRef.addSnapshotListener((snapshot, e) -> {
+                teamNumListener = docRef.addSnapshotListener((snapshot, e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen failed.", e);
                         return;
@@ -272,6 +261,7 @@ public class Client {
                             case 0: //承認
                                 receiveMessage("confirm");
                                 roomMemberListener.remove();
+                                teamNumListener.remove();
                                 break;
 
                             case -1: //承認
@@ -303,12 +293,14 @@ public class Client {
 
                             case -3: //非承認
                                 receiveMessage("declined");
+                                teamNumListener.remove();
                                 break;
 
                             case -4:
                                 db.collection("roomList").document(myInfo.getRoomId())
                                         .collection("member").document(myInfo.getId()).delete();
                                 receiveMessage("broken");
+                                teamNumListener.remove();
                                 break;
                         }
                     } else {
@@ -335,6 +327,7 @@ public class Client {
                 break;
 
             case "confirm":
+                applicationListener.remove();
                 batch = db.batch();
                 // 非承認だった人をroomlist画面に戻すために-3を設定
                 Query noApproval = db.collection("roomList").document(myInfo.getId())
@@ -482,7 +475,7 @@ public class Client {
                         .update("value", Integer.parseInt(s[1]));
                 roomRef.update("gpCount", FieldValue.increment(1));
                 // もし全員集まったらそれぞれに送る
-                roomRef.addSnapshotListener((snapshot, e) -> {
+                gpListener = roomRef.addSnapshotListener((snapshot, e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen failed.", e);
                         return;
