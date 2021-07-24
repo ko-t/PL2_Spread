@@ -112,4 +112,13 @@
     <string name="gm_no_pos">位置情報が利用できません。</string>
     <string name="gm_no_getpos">開始地点を受信できませんでした。\n再受信中...</string>
     <string name="rl_seroom">検索するルーム名を入力</string>
+    <string name="ria_now">現在</string>
+    <string name="rie_person_num">人</string>
+    <string name="ready_warn">このゲームを遊ぶには、歩行を検知するために身体活動の権限を許可する必要があります。</string>
+    <string name="ready_war_pos">このゲームを遊ぶには、位置情報の権限を許可する必要があります。</string>
+    <string name="ready_war_pos_act">このゲームは位置情報と身体活動の取得を利用しないとプレイすることができません。</string>
+    <string name="ready_approve">許可する</string>
+    <string name="ready_cancel">キャンセル</string>
+    <string name="pro_edi">編集</string>
+    <string name="pro_fin_edi">編集完了</string>
 </resources>
