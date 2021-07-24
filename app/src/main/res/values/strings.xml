@@ -110,4 +110,5 @@
     <string name="tg_dialog_battle">対戦：複数のチームで、それぞれ作った三角形の大きさを競うモード</string>
     <string name="tg_dialog_effect">ゲームの最後に、指定した方角にステータスに応じた距離を移動できます</string>
     <string name="gm_nopos">位置情報が利用できません。</string>
+    <string name="rl_seroom">検索するルーム名を入力</string>
 </resources>
