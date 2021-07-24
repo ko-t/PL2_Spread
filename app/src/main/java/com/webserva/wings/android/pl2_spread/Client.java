@@ -647,7 +647,7 @@ public class Client {
                                     Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
                                     break;
                                 case MODIFIED:
-                                    receiveMessage("num$" + snapshots1.getId() + "$" + memberInRoom.size());
+                                    receiveMessage("num$" + snapshots1.get("roomId", String.class) + "$" + memberInRoom.size());
                                     Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
                                     break;
                                 case REMOVED:
