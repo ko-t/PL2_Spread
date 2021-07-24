@@ -2,6 +2,7 @@ package com.webserva.wings.android.pl2_spread;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,13 +16,17 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.LocationCallback;
@@ -33,8 +38,6 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import static java.lang.System.exit;
-
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     long time = 3 * 60 * 1000;
@@ -44,6 +47,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
     private Sensor sensor;
     TextView speed, step;
     boolean speedy = false;
+    Button button_full, button_sleep;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +59,18 @@ public class Game extends ComponentActivity implements SensorEventListener {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                if (speedy) {
-                    Client.sendMessage("startpos");
-                    speedy = false;
-                }
+                //Log.i("Game_Location", locationResult.getLastLocation().toString());
                 if (locationResult == null) {
                     return;
+                } else {
+                    if (speedy) {
+                        Client.start = new LatLng(
+                                locationResult.getLastLocation().getLatitude(),
+                                locationResult.getLastLocation().getLongitude());
+                        Client.sendMessage("startpos");
+                        Log.i("Game_Start", locationResult.getLastLocation().toString());
+                        speedy = false;
+                    }
                 }
                 for (Location location : locationResult.getLocations()) {
                     speed.setText(String.format(Locale.US, "%.3f m/s", location.getSpeed()));
@@ -70,7 +80,26 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
         speed = findViewById(R.id.gm_tv_speedvalue);
         step = findViewById(R.id.gm_tv_stepvalue);
+        button_full = findViewById(R.id.gm_button_fullscreen);
+        button_sleep = findViewById(R.id.gm_button_sleep);
 
+        Window w = getWindow();
+
+        button_full.setOnClickListener(v -> {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            if (Build.VERSION.SDK_INT >= 30) {
+                Log.i("Game", "SDK_30~/" + getWindow().getInsetsController());
+                getWindow().getInsetsController().hide(
+                        WindowInsets.Type.navigationBars() | WindowInsets.Type.statusBars());
+                getWindow().getInsetsController().setSystemBarsBehavior(
+                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+                Log.i("Game", getWindow().getInsetsController().getSystemBarsBehavior() + "");
+            } else {
+                Log.i("Game", "NOT_SDK_30~");
+                View decor = getWindow().getDecorView();
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+            }
+        });
         action();
     }
 
@@ -95,7 +124,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                 if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(Game.this)
                             .setTitle(R.string.general_message)
-                            .setMessage(R.string.gm_nopos)
+                            .setMessage(R.string.gm_no_pos)
                             .setPositiveButton("OK", null)
                             .show();
                 }
@@ -104,9 +133,10 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         .addOnSuccessListener(Game.this, location -> {
                             if (location != null) {
                                 Client.goal = new LatLng(location.getLatitude(), location.getLongitude());
+                                Log.i("Game_Goal", location.toString());
                                 Client.sendMessage("goalpos");
                             } else {
-                                Toast.makeText(Game.this, R.string.gm_nopos, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Game.this, R.string.gm_no_pos, Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -119,7 +149,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         Client.sendMessage("startpos");
                         Log.i("gm_action", "test");
                     } else {
-                        Toast.makeText(Game.this, "開始地点を受信できませんでした。\n再受信中...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Game.this, R.string.gm_no_getpos, Toast.LENGTH_SHORT).show();
                         speedy = true;
                         locationRequest.setInterval(1000);
                     }
@@ -159,7 +189,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
         if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             new AlertDialog.Builder(Game.this)
                     .setTitle(R.string.general_message)
-                    .setMessage("位置情報が利用できません。")
+                    .setMessage(R.string.gm_no_pos)
                     .setPositiveButton("OK", null)
                     .show();
         } else {

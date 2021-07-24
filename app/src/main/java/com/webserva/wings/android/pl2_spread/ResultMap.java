@@ -63,7 +63,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         button.setOnClickListener(v -> {
             Client.finishActivity();
             intent_to_re = new Intent(getApplication(), ResultExp.class);
-            intent_to_re.putExtra("SCORE", (int) area);
+            intent_to_re.putExtra("SCORE", (int) Math.round(area));
             Client.startActivity(intent_to_re);
         });
 

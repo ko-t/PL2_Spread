@@ -109,6 +109,7 @@
     <string name="tg_dialog_coop">協力：チームで協力して、一つの大きい三角形を作るモード</string>
     <string name="tg_dialog_battle">対戦：複数のチームで、それぞれ作った三角形の大きさを競うモード</string>
     <string name="tg_dialog_effect">ゲームの最後に、指定した方角にステータスに応じた距離を移動できます</string>
-    <string name="gm_nopos">位置情報が利用できません。</string>
+    <string name="gm_no_pos">位置情報が利用できません。</string>
+    <string name="gm_no_getpos">開始地点を受信できませんでした。\n再受信中...</string>
     <string name="rl_seroom">検索するルーム名を入力</string>
 </resources>
