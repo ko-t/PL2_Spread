@@ -42,10 +42,10 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         TextView ri_gm = findViewById(R.id.ri_textview_select1);
         TextView ri_se = findViewById(R.id.ri_textview_select2);
         TextView ri_m = findViewById(R.id.ri_textview_select3);
-        if(ri_tag_1[0]==0){ ri_gm.setText("対戦");
-        }else{ ri_gm.setText("協力"); }
-        if(ri_tag_1[1]==0){ ri_se.setText("あり");
-        }else{ ri_se.setText("なし"); }
+        if(ri_tag_1[0]==0){ ri_gm.setText(R.string.tg_battle);
+        }else{ ri_gm.setText(R.string.tg_cooperation); }
+        if(ri_tag_1[1]==0){ ri_se.setText(R.string.tg_on);
+        }else{ ri_se.setText(R.string.tg_off); }
         if(ri_tag_1[2]==0){ ri_m.setText("知ってる人のみ");
         }else{ ri_m.setText("知らない人もOK"); }
 
