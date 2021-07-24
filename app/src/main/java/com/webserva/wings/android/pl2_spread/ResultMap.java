@@ -39,6 +39,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         int num = Integer.parseInt(s[1]);
         switch (s[0]) {
             case "otherpos12":
+                others_pos.clear();
                 for (int i = 0; i < num; i++) {
                     //others_original.add(new LatLng(Double.parseDouble(s[4 * i + 2]), Double.parseDouble(s[4 * i + 3])));
                     //others_original.add(new LatLng(Double.parseDouble(s[4 * i + 4]), Double.parseDouble(s[4 * i + 5])));
@@ -127,6 +128,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         }
 
         textView.setText(Long.toString(Math.round(area)));
+        Client.sendMessage("newscore$" + Math.round(area));
 
         triangle = new ArrayList<>(Arrays.asList(others_pos.get(index[0]),
                 others_pos.get(index[1]), others_pos.get(index[2])));
