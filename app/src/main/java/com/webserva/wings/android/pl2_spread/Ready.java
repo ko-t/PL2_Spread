@@ -119,9 +119,9 @@ public class Ready extends AppCompatActivity {
             // continue using your app without granting the permission.
             if (Build.VERSION.SDK_INT >= 29) {
                 new AlertDialog.Builder(Client.context)
-                        .setTitle("R.string.general_message")
-                        .setMessage("このゲームを遊ぶには、歩行を検知するために身体活動の権限を許可する必要があります。")
-                        .setPositiveButton("OK", null)
+                        .setTitle(R.string.general_message)
+                        .setMessage(R.string.ready_warn)
+                        .setPositiveButton(R.string.general_ok, null)
                         .show();
                 requestPermissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION);
             }
@@ -139,9 +139,9 @@ public class Ready extends AppCompatActivity {
             //action();
         } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
             new AlertDialog.Builder(Client.context)
-                    .setTitle("R.string.general_message")
-                    .setMessage("このゲームを遊ぶには、位置情報の権限を許可する必要があります。")
-                    .setPositiveButton("OK", null)
+                    .setTitle(R.string.general_message)
+                    .setMessage(R.string.ready_war_pos)
+                    .setPositiveButton(R.string.general_ok, null)
                     .show();
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
         } else {
@@ -168,11 +168,11 @@ public class Ready extends AppCompatActivity {
                 } else {
                     new AlertDialog.Builder(this)
                             .setTitle(R.string.general_message)
-                            .setMessage("このゲームは位置情報と身体活動の取得を利用しないとプレイすることができません。")
-                            .setPositiveButton("許可する", (dialog, which) -> {
+                            .setMessage(R.string.ready_war_pos_act)
+                            .setPositiveButton(R.string.ready_approve, (dialog, which) -> {
                                 Ready.this.requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
                             })
-                            .setNegativeButton("キャンセル", (dialog, which) -> {
+                            .setNegativeButton(R.string.ready_cancel, (dialog, which) -> {
                                 exit(0);
                             })
                             .show();

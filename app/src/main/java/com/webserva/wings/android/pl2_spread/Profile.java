@@ -38,8 +38,8 @@ public class Profile extends AppCompatActivity implements TextWatcher{
 
         Button pr_button_editName = findViewById(R.id.pr_button_editName);
         pr_button_editName.setOnClickListener(v -> {
-            if(pr_button_editName.getText().equals("編集")){
-                pr_button_editName.setText("編集完了");
+            if(pr_button_editName.getText().equals(getString(R.string.pro_edi))){
+                pr_button_editName.setText(R.string.pro_fin_edi);
                 pr_plainText_name.setFocusable(true);
                 pr_plainText_name.setFocusableInTouchMode(true);
                 pr_plainText_name.requestFocus();
@@ -48,7 +48,7 @@ public class Profile extends AppCompatActivity implements TextWatcher{
             } else {
                 Client.sendMessage("new");
                 Client.myInfo.setName(pr_plainText_name.getText().toString());
-                pr_button_editName.setText("編集");
+                pr_button_editName.setText(R.string.pro_edi);
                 pr_plainText_name.setFocusable(false);
                 pr_plainText_name.setFocusableInTouchMode(false);
             }
