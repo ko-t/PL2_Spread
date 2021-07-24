@@ -415,7 +415,6 @@ public class Client {
 
             case "goalpos":
                 //終点を記録、タイマー終了、リスナ追加
-                roomRef.update("count", FieldValue.increment(1));
                 resultListener = roomRef.addSnapshotListener((snapshot, e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen failed.", e);
@@ -463,8 +462,10 @@ public class Client {
                         Log.d(TAG, "Current data: null");
                     }
                 });
-                myInfoRef.update("goalLat", goal.latitude);
-                myInfoRef.update("goalLng", goal.longitude);
+                batch.update(roomRef, "count", FieldValue.increment(1));
+                batch.update(myInfoRef, "goalLat", goal.latitude);
+                batch.update(myInfoRef, "goalLng", goal.longitude);
+                batch.commit();
                 break;
 
             case "resume":
