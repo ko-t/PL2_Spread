@@ -62,7 +62,7 @@ public class Client {
     static FusedLocationProviderClient fusedLocationClient;
     static LatLng start, goal;
     static ListenerRegistration startListener, resultListener, readyListener, roomMemberListener,
-            applicationListener, teamNumListener, gpListener;
+            applicationListener, teamNumListener, gpListener, roomListener;
     static FirebaseFirestore db;
     static Map memberInRoom;
 
@@ -459,8 +459,9 @@ public class Client {
                     }
                 });
                 batch.update(roomRef, "count", FieldValue.increment(1));
-                batch.update(myInfoRef, "goalLat", goal.latitude);
-                batch.update(myInfoRef, "goalLng", goal.longitude);
+                batch.update(myInfoRef, "goalLat", goal.latitude,
+                        "goalLng", goal.longitude,
+                        "matchHistory", FieldValue.increment(1));
                 batch.commit();
                 break;
 
@@ -508,6 +509,7 @@ public class Client {
 
             case "move":
                 goal = moveLocation(goal, (Integer.parseInt(s[1]) - 1) * 90, myInfo.getStatus().get(Integer.parseInt(s[1])));
+                sendMessage("goalpos");
                 break;
 
 //            case "end": TODO リスナー
@@ -591,7 +593,7 @@ public class Client {
                 );
                 Query roomWatcher = db.collection("roomList").whereEqualTo("open", true),
                         roomMemberWatcher = db.collectionGroup("member");
-                roomWatcher.addSnapshotListener((snapshots, e) -> {
+                roomListener = roomWatcher.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.w(TAG, "listen:error", e);
                         return;
@@ -652,6 +654,10 @@ public class Client {
                         });
                     }
                 });
+                break;
+
+            case "roomdispatch":
+                roomListener.remove();
                 break;
 
             case "newscore": //新しいスコアが自分のベストか確認、またホストならランキングに登録
