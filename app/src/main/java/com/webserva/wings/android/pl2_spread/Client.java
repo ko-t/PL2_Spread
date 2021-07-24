@@ -99,8 +99,11 @@ public class Client {
         final int lv1 = 90000;
         //myInfo.setRoomId("dummyHostId");
         context = c;
-        expTable[0] = lv1;
-        for (int i = 1; i < 100; i++) {
+
+        //経験値テーブルの生成
+        expTable[0] = 2;
+        expTable[1] = lv1;
+        for (int i = 2; i < 100; i++) {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
             if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
