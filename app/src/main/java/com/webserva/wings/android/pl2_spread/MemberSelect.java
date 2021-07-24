@@ -47,19 +47,19 @@ public class MemberSelect extends AppCompatActivity {
         ms_roomname.setText(ms_hostname);
 
         if (ms_tag_1[0] == 0) {
-            ms_gm.setText("対戦");
+            ms_gm.setText(R.string.tg_battle);
         } else {
-            ms_gm.setText("協力");
+            ms_gm.setText(R.string.tg_cooperation);
         }
         if (ms_tag_1[1] == 0) {
-            ms_se.setText("あり");
+            ms_se.setText(R.string.tg_on);
         } else {
-            ms_se.setText("なし");
+            ms_se.setText(R.string.tg_off);
         }
         if (ms_tag_1[2] == 0) {
-            ms_m.setText("知ってる人のみ");
+            ms_m.setText(R.string.tg_known);
         } else {
-            ms_m.setText("知らない人もOK");
+            ms_m.setText(R.string.tg_unknown);
         }
 
 

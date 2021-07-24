@@ -121,4 +121,8 @@
     <string name="ready_cancel">キャンセル</string>
     <string name="pro_edi">編集</string>
     <string name="pro_fin_edi">編集完了</string>
+    <string name="ini_reg_fail">登録に失敗しました</string>
+    <string name="ini_nullid_fail">空白のIDは使えません</string>
+    <string name="ini_id_no_use">IDは使えません</string>
+    <string name="ini_id_can_use">IDは使えます</string>
 </resources>

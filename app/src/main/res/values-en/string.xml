@@ -1,2 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="ti_start">START</string>
+    <string name="app_name">広がれ！</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD2NHadjkzTxKv1baYFgXubRr1ko2Eodvk</string>
+
+    <string name="mm_start_game">Start Game</string>
+    <string name="mm_profile">Profile</string>
+    <string name="mm_record">Record</string>
+    <string name="rmn_joinRoom">Join the room</string>
+    <string name="rmn_makeRoom">Make the room</string>
+    <string name="tg_roomName">Room name</string>
+    <string name="tg_gameMode">Game mode</string>
+    <string name="tg_battle">Battle</string>
+    <string name="tg_cooperation">Cooperation</string>
+    <string name="tg_statusEffect">Status effect</string>
+    <string name="tg_on">ON</string>
+    <string name="tg_off">OFF</string>
+    <string name="tg_member">Member</string>
+    <string name="tg_known">Friend only</string>
+    <string name="tg_unknown">Anyone is Welcome</string>
+    <string name="tg_make">Make room</string>
+    <string name="ruleLabel">Rule</string>
+    <string name="rule1">Make a big triangle on the map<br></br>within the time limit</string>
+    <string name="rule2">Record the largest triangle<br></br>created in the team</string>
+    <string name="rule3">After the game is over<br></br>you can move the position <br></br>according to the status</string>
+    <string name="rd_ready">Ready</string>
+    <string name="rd_waiting">Waiting...</string>
+    <string name="pr_playerName">player name</string>
+    <string name="pr_id">ID</string>
+    <string name="levelLabel">Level</string>
+    <string name="re_expLabel">Experience point</string>
+    <string name="re_nextLevelLabel">To the next level</string>
+    <string name="next">Next</string>
+    <string name="lv_textView_exp">Remaining experience points</string>
+    <string name="decide">decide</string>
+    <string name="ml_statusEffect">Status effect</string>
+    <string name="hr_gameStart">Start Game</string>
+    <string name="ge_replay">Play again</string>
+    <string name="ge_endGame">Finish Game</string>
+    <string name="tg_inputAlert">Enter the room name</string>
+    <string name="tg_radioAlert">Select all buttons</string>
+
+    <string name="hr_gameWait">in preparation...</string>
+    <string name="hr_gameReady">Start Game</string>
+    <string name="ml_east">East</string>
+    <string name="ml_west">West</string>
+    <string name="ml_south">South</string>
+    <string name="ml_north">North</string>
+    <string name="ts_splitLabel">Team division</string>
+    <string name="ts_splitExplanation">Please choose either</string>
+    <string name="ts_limitLabel">Remain time:</string>
+
+    <string name="rl_button_search">Search by this condition</string>
+
+    <string name="rl_checkbox_ok">Anyone is Welcome</string>
+    <string name="rl_checkbox_no">Friend only</string>
+
+    <string name="rl_checkbox_effectOn">ON</string>
+    <string name="rl_checkbox_effectOff">OFF</string>
+
+    <string name="rl_checkbox_coop">Cooperation</string>
+    <string name="rl_checkbox_versus">Battle</string>
+
+    <string name="rk_textview_Ranking">Ranking</string>
+    <string name="rk_textview_Score">Score</string>
+    <string name="rk_textview_playcount">Number of plays</string>
+    <string name="rk_textview_count">TextView</string>
+    <string name="ms_textview_gamemode">Game Mode</string>
+    <string name="ri_textview_gamemode">Game Mode</string>
+    <string name="rw_textview_gamemode">Game Mode</string>
+    <string name="ms_textview_statusEffect">Status effect</string>
+    <string name="ri_textview_statusEffect">Status effect</string>
+    <string name="rw_textview_statusEffect">Status effect</string>
+    <string name="ms_textview_roomname">Room name</string>
+    <string name="ri_textview_roomname">Room name</string>
+    <string name="rw_textview_roomname">Room name</string>
+    <string name="ms_textview_member">Member</string>
+    <string name="ri_textview_member">Member</string>
+    <string name="rw_textview_member">Member</string>
+    <string name="ms_textview_selectgm">TextView</string>
+    <string name="ms_textview_selectse">TextView</string>
+    <string name="ms_textview_selectm">TextView</string>
+    <string name="ri_textview_selectgm">TextView</string>
+    <string name="ri_textview_selectse">TextView</string>
+    <string name="ri_textview_selectm">TextView</string>
+    <string name="rw_textview_selectgm">TextView</string>
+    <string name="rw_textview_selectse">TextView</string>
+    <string name="rw_textview_selectm">TextView</string>
+    <string name="ms_textview_host">Host</string>
+    <string name="ri_textview_host">Host</string>
+    <string name="rw_textview_host">Host</string>
+    <string name="rw_textview_loading">Approval pending</string>
+    <string name="ri_button_quit">Exit</string>
+    <string name="rw_button_quit">Exit</string>
+
+    <string name="ms_button_decision">Member confirmed</string>
+    <string name="tsr_textview_teamsplit">Team division</string>
+    <string name="tsr_textview_vs">VS</string>
+    <string name="tsr_button_next">NEXT</string>
+    <string name="ms_no_data">no data</string>
+    <string name="main_button">Button</string>
+    <string name="ts_alert">One more chose</string>
+    <string name="list_rl_approval">approve</string>
+    <string name="list_rl_id">id :</string>
+    <string name="list_rl_name">name</string>
+    <string name="ms_button_ok">approve</string>
+    <string name="general_message">Message</string>
+    <string name="general_ok">OK</string>
+    <string name="tg_dialog_coop">Cooperation：teams work together to create large triangle</string>
+    <string name="tg_dialog_battle">Battle：Two teams compete for the size of the triangle</string>
+    <string name="tg_dialog_effect">After the game,you can move according to status</string>
+    <string name="gm_no_pos">GPS cannot be used</string>
+    <string name="gm_no_getpos">The starting point could not be received\nReceiving...</string>
+    <string name="rl_seroom">Enter the room name to search</string>
+    <string name="ria_now"></string>
+    <string name="rie_person_num">people</string>
+    <string name="ready_warn">To play this game, you need to grant physical activity \n authority to detect walking.</string>
+    <string name="ready_war_pos">To play this game, you need to grant location permissions.</string>
+    <string name="ready_war_pos_act">In order to play this game, \n you need to allow the acquisition of location information \n and physical activity</string>
+    <string name="ready_approve">Approve</string>
+    <string name="ready_cancel">Cancel</string>
+    <string name="pro_edi">Edit</string>
+    <string name="pro_fin_edi">Finish Edit</string>
+    <string name="ini_reg_fail">Registration failed</string>
+    <string name="ini_nullid_fail">Blank ID cannot be used</string>
+    <string name="ini_id_no_use">ID cannot be used</string>
+    <string name="ini_id_can_use">ID can be used</string>
+</resources>
