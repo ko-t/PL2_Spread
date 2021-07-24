@@ -61,7 +61,7 @@ public class Client {
     static GoogleMap mMap;
     static FusedLocationProviderClient fusedLocationClient;
     static LatLng start, goal;
-    static ListenerRegistration startListener, resultListener;
+    static ListenerRegistration startListener, resultListener, readyListener, roomMemberListener;
     static FirebaseFirestore db;
     static Map memberInRoom;
 
@@ -228,7 +228,7 @@ public class Client {
                 });
 
                 //countの通知をこの時点で追加しておく
-                roomRef.addSnapshotListener((snapshot, e) -> {
+                readyListener = roomRef.addSnapshotListener((snapshot, e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen failed in counter.", e);
                         return;
@@ -237,6 +237,7 @@ public class Client {
                         Log.d(TAG, "Current data: " + snapshot.getData());
                         if (snapshot.get("count", Integer.class).equals(snapshot.get("memberNum", Integer.class))) {
                             receiveMessage("readyall");
+                            readyListener.remove();
                         }
                     } else {
                         Log.d(TAG, "Current data: null");
@@ -270,6 +271,7 @@ public class Client {
                         switch (Math.toIntExact((Long) snapshot.getData().get("value"))) {
                             case 0: //承認
                                 receiveMessage("confirm");
+                                roomMemberListener.remove();
                                 break;
 
                             case -1: //承認
@@ -416,6 +418,7 @@ public class Client {
             case "goalpos":
                 //終点を記録、タイマー終了、リスナ追加
                 resultListener = roomRef.addSnapshotListener((snapshot, e) -> {
+                    Log.i(TAG, snapshot.toString());
                     if (e != null) {
                         Log.w(TAG, "Listen failed.", e);
                         return;
@@ -630,7 +633,7 @@ public class Client {
                     }
                 });
 
-                roomMemberWatcher.addSnapshotListener((snapshots, e) -> {
+                roomMemberListener = roomMemberWatcher.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.w(TAG, "listen:error", e);
                         return;
@@ -642,7 +645,6 @@ public class Client {
                         db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots1, e1) -> {
                             Log.d(TAG, "MemberChange in Room " + changedUserName);
                             switch (dc.getType()) {
-
                                 case ADDED:
                                     Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
                                     break;
