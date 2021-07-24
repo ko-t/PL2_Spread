@@ -19,6 +19,7 @@ public class MemberSelect extends AppCompatActivity {
     private static int size;
     private static String str_name, str_id;
     private static MsAdapter adapter_member;
+    private static int[] ms_tag_1 = new int[3];
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,6 @@ public class MemberSelect extends AppCompatActivity {
         String ms_id = i.getStringExtra("HOSTID");
         String ms_hostname = i.getStringExtra("HOSTNAME");
 
-        int[] ms_tag_1 = new int[3];
         for (int j = 0; j < 3; j++) {
             ms_tag_1[2-j] = ms_tag & (1 << j);
         }
@@ -110,6 +110,7 @@ public class MemberSelect extends AppCompatActivity {
             intent.putExtra("MEMBER_NUM", size);
             intent.putExtra("MEMBER_NAME", str_name);
             intent.putExtra("MEMBER_ID", str_id);
+            intent.putExtra("STATUS_TAG",ms_tag_1[1]);
             Log.i("ms_onClick", "メンバ情報が渡されました");
             Client.startActivity(intent);
         });

@@ -28,10 +28,10 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         rw_button_quit=findViewById(R.id.rw_button_quit);
         rw_button_quit.setOnClickListener(this);
 
-        Intent i = new Intent();
-        rw_tag = i.getIntExtra("TAG",0);
-        rw_id = i.getStringExtra("HOSTID");
-        rw_hostname = i.getStringExtra("HOSTNAME");
+        Intent intent_from_rl = getIntent();
+        rw_tag = intent_from_rl.getIntExtra("TAG",0);
+        rw_id = intent_from_rl.getStringExtra("HOSTID");
+        rw_hostname = intent_from_rl.getStringExtra("HOSTNAME");
 
         Log.i("roomWait", rw_tag + "/" + rw_id + "/" + rw_hostname);
 
