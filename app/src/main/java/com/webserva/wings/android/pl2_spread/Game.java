@@ -59,14 +59,18 @@ public class Game extends ComponentActivity implements SensorEventListener {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                Log.i("Game_Location", locationResult.getLastLocation().toString());
-                if (speedy) {
-                    Client.sendMessage("startpos");
-                    Log.i("Game_Start", locationResult.getLastLocation().toString());
-                    speedy = false;
-                }
+                //Log.i("Game_Location", locationResult.getLastLocation().toString());
                 if (locationResult == null) {
                     return;
+                } else {
+                    if (speedy) {
+                        Client.start = new LatLng(
+                                locationResult.getLastLocation().getLatitude(),
+                                locationResult.getLastLocation().getLongitude());
+                        Client.sendMessage("startpos");
+                        Log.i("Game_Start", locationResult.getLastLocation().toString());
+                        speedy = false;
+                    }
                 }
                 for (Location location : locationResult.getLocations()) {
                     speed.setText(String.format(Locale.US, "%.3f m/s", location.getSpeed()));

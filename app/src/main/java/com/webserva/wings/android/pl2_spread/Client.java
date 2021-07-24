@@ -641,11 +641,12 @@ public class Client {
                         db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots1, e1) -> {
                             Log.d(TAG, "MemberChange in Room " + changedUserName);
                             switch (dc.getType()) {
+
                                 case ADDED:
                                     Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
                                     break;
                                 case MODIFIED:
-                                    receiveMessage("num$" + changedUserName + "$" + memberInRoom.size());
+                                    receiveMessage("num$" + snapshots1.getId() + "$" + memberInRoom.size());
                                     Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
                                     break;
                                 case REMOVED:
