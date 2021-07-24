@@ -86,7 +86,7 @@ public class RoomList extends AppCompatActivity {
         // SearchViewのSubmitボタンを使用不可にする
         rl_search.setSubmitButtonEnabled(true);
         // SearchViewに何も入力していない時のテキストを設定
-        rl_search.setQueryHint("検索するルーム名を入力");
+        rl_search.setQueryHint(getString(R.string.rl_seroom));
 
         // SearchViewにOnQueryChangeListenerを設定
         rl_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
