@@ -125,4 +125,6 @@
     <string name="ini_nullid_fail">空白のIDは使えません</string>
     <string name="ini_id_no_use">IDは使えません</string>
     <string name="ini_id_can_use">IDは使えます</string>
+    <string name="gm_speed">速度</string>
+    <string name="gm_steps">歩数</string>
 </resources>
