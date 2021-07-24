@@ -134,7 +134,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                 if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(Game.this)
                             .setTitle(R.string.general_message)
-                            .setMessage("位置情報が利用できません。")
+                            .setMessage(R.string.gm_no_pos)
                             .setPositiveButton("OK", null)
                             .show();
                 }
@@ -145,7 +145,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                                 Client.goal = new LatLng(location.getLatitude(), location.getLongitude());
                                 Client.sendMessage("goalpos");
                             } else {
-                                Toast.makeText(Game.this, "位置情報がありません", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Game.this, R.string.gm_no_pos, Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -158,7 +158,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         Client.sendMessage("startpos");
                         Log.i("gm_action", "test");
                     } else {
-                        Toast.makeText(Game.this, "開始地点を受信できませんでした。\n再受信中...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Game.this, R.string.gm_no_getpos, Toast.LENGTH_SHORT).show();
                         speedy = true;
                         locationRequest.setInterval(1000);
                     }
@@ -198,7 +198,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
         if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             new AlertDialog.Builder(Game.this)
                     .setTitle(R.string.general_message)
-                    .setMessage("位置情報が利用できません。")
+                    .setMessage(R.string.gm_no_pos)
                     .setPositiveButton("OK", null)
                     .show();
         } else {
