@@ -29,10 +29,10 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         ri_button_quit=findViewById(R.id.ri_button_quit);
         ri_button_quit.setOnClickListener(this);
 
-        Intent i = new Intent();
-        int ri_tag = i.getIntExtra("TAG",0);
-        String ri_id = i.getStringExtra("HOSTID");
-        String ri_hostname = i.getStringExtra("HOSTNAME");
+        Intent intent_from_rw = getIntent();
+        int ri_tag = intent_from_rw.getIntExtra("TAG",0);
+        String ri_id = intent_from_rw.getStringExtra("HOSTID");
+        String ri_hostname = intent_from_rw.getStringExtra("HOSTNAME");
 
         //タグ取得
         for (int j = 0; j < 3; j++) {
