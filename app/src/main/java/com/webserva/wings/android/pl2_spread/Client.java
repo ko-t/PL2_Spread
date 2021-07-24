@@ -241,9 +241,13 @@ public class Client {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
-                            document.getReference().update(
-                                    "value", -4
-                            );
+                            if(document.getId().equals(myInfo.getId())){
+                                roomRef.collection("member").document(myInfo.getId()).delete();
+                            }else{
+                                document.getReference().update(
+                                        "value", -4
+                                );
+                            }
                         }
                     } else {
                         Log.d(TAG, "Error getting", task.getException());
