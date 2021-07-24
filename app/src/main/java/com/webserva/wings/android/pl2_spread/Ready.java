@@ -20,13 +20,14 @@ import static java.lang.System.exit;
 public class Ready extends AppCompatActivity {
     private int ruleNumber = 1;
     private int ruleTotal;
+    private static Intent intent_from_ri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ready);
 
-        Intent intent_from_ri = getIntent();
+        intent_from_ri = getIntent();
         int status_tag = intent_from_ri.getIntExtra("STATUS_TAG",0);
         ImageView rd_imageView_rule = findViewById(R.id.rd_imageView_rule);
         rd_imageView_rule.setImageResource(R.drawable.rule1);
@@ -154,6 +155,7 @@ public class Ready extends AppCompatActivity {
             case "start":
                 Client.finishActivity();
                 Intent intent_to_gm = new Intent(Client.context, Game.class);
+                intent_to_gm.putExtra("STATUS_TAG", intent_from_ri.getIntExtra("STATUS_TAG", 0));
                 Client.startActivity(intent_to_gm);
                 break;
         }
