@@ -40,18 +40,21 @@ import java.util.Locale;
 
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
-    long time = 3 * 60 * 1000;
-    //long time = 15000;
+    //long time = 3 * 60 * 1000;
+    long time = 1 * 60 * 1000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
     TextView speed, step;
     boolean speedy = false;
     Button button_full, button_sleep;
+    Intent intent;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game);
+
+        intent = getIntent();
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -139,6 +142,12 @@ public class Game extends ComponentActivity implements SensorEventListener {
                                 Toast.makeText(Game.this, R.string.gm_no_pos, Toast.LENGTH_SHORT).show();
                             }
                         });
+
+                if (intent.getIntExtra("STATUS_TAG", 0) == 0) {
+                    //ステータスあり
+                    Client.finishActivity();
+                    Client.startActivity(new Intent(getApplication(), MoveLocation.class));
+                }
 
             }
         };
