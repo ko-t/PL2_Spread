@@ -115,4 +115,7 @@ public class HReady extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+    }
 }
