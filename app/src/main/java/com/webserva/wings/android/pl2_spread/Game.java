@@ -59,8 +59,10 @@ public class Game extends ComponentActivity implements SensorEventListener {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                Log.i("Game_Location", locationResult.getLastLocation().toString());
                 if (speedy) {
                     Client.sendMessage("startpos");
+                    Log.i("Game_Start", locationResult.getLastLocation().toString());
                     speedy = false;
                 }
                 if (locationResult == null) {
@@ -94,22 +96,6 @@ public class Game extends ComponentActivity implements SensorEventListener {
                 decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
             }
         });
-        CountDownTimer cdt = new CountDownTimer(20000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                if (Build.VERSION.SDK_INT >= 30) {
-                    Log.i("Game", "SDK_30~/" + getWindow().getInsetsController());
-                }
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        };
-        new Thread(() -> {
-                cdt.start();
-        }).start();
         action();
     }
 
@@ -143,6 +129,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         .addOnSuccessListener(Game.this, location -> {
                             if (location != null) {
                                 Client.goal = new LatLng(location.getLatitude(), location.getLongitude());
+                                Log.i("Game_Goal", location.toString());
                                 Client.sendMessage("goalpos");
                             } else {
                                 Toast.makeText(Game.this, "位置情報がありません", Toast.LENGTH_SHORT).show();

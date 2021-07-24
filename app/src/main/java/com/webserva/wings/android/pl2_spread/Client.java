@@ -95,7 +95,7 @@ public class Client {
 
     static void init(Context c, String id) {
         db = FirebaseFirestore.getInstance();
-        memberInfoRef = db.collection("memberList").document(myInfo.getId());
+        myInfoRef = db.collection("memberList").document(myInfo.getId());
         final int lv1 = 90000;
         //myInfo.setRoomId("dummyHostId");
         context = c;
@@ -148,7 +148,7 @@ public class Client {
     }
 
     static DocumentReference roomRef,
-            memberInfoRef;
+            myInfoRef;
 
     static void sendMessage(String message) {
         Log.i(TAG, "sendMessage:" + message);
@@ -160,7 +160,7 @@ public class Client {
 
         switch (s[0]) {
             case "register":
-                memberInfoRef.set(myInfo)
+                myInfoRef.set(myInfo)
                         .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                         .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
                 break;
@@ -403,13 +403,13 @@ public class Client {
                         "count", 0,
                         "gpCount", 0
                 );
-                memberInfoRef.update("matchHistory", FieldValue.increment(1));
+                myInfoRef.update("matchHistory", FieldValue.increment(1));
                 break;
 
             case "startpos":
                 //始点を記録
-                memberInfoRef.update("startLat", start.latitude);
-                memberInfoRef.update("startLng", start.longitude);
+                myInfoRef.update("startLat", start.latitude);
+                myInfoRef.update("startLng", start.longitude);
                 break;
 
             case "goalpos":
@@ -462,8 +462,8 @@ public class Client {
                         Log.d(TAG, "Current data: null");
                     }
                 });
-                memberInfoRef.update("goalLat", goal.latitude);
-                memberInfoRef.update("goalLng", goal.longitude);
+                myInfoRef.update("goalLat", goal.latitude);
+                myInfoRef.update("goalLng", goal.longitude);
                 break;
 
             case "resume":
@@ -524,7 +524,7 @@ public class Client {
 
             case "newstatus":
                 Integer[] tmp = {Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4])};
-                memberInfoRef.update("status", Arrays.asList(tmp))
+                myInfoRef.update("status", Arrays.asList(tmp))
                         .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                         .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
                 myInfo.setStatus(Arrays.asList(tmp));
@@ -588,7 +588,7 @@ public class Client {
             case "roomreq":
                 // 部屋探し中のリストに追加
                 myInfo.setState("choosingRoom");
-                memberInfoRef.update(
+                myInfoRef.update(
                         "state", "choosingRoom"
                 );
                 Query roomWatcher = db.collection("roomList").whereEqualTo("open", true),
@@ -636,20 +636,22 @@ public class Client {
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         memberInRoom = dc.getDocument().getData();
                         // String roomName = dc.getDocument().getReference().getParent().getId(); //memberが返ってきた
-                        String roomName = dc.getDocument().getReference().getId();
-                        Log.d(TAG, "MemberChange in Room " + roomName);
-                        switch (dc.getType()) {
-                            case ADDED:
-                                Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
-                                break;
-                            case MODIFIED:
-                                receiveMessage("num$" + roomName + "$" + memberInRoom.size());
-                                Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
-                                break;
-                            case REMOVED:
-                                Log.d(TAG, "MemberChange Removed Info:" + dc.getDocument().getData());
-                                break;
-                        }
+                        String changedUserName = dc.getDocument().getReference().getId();
+                        db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots, e) -> {
+                            Log.d(TAG, "MemberChange in Room " + roomName);
+                            switch (dc.getType()) {
+                                case ADDED:
+                                    Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
+                                    break;
+                                case MODIFIED:
+                                    receiveMessage("num$" + roomName + "$" + memberInRoom.size());
+                                    Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
+                                    break;
+                                case REMOVED:
+                                    Log.d(TAG, "MemberChange Removed Info:" + dc.getDocument().getData());
+                                    break;
+                            }
+                        });
                     }
                 });
                 break;
