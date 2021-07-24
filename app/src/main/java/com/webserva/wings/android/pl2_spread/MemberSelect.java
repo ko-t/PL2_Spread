@@ -1,5 +1,7 @@
 package com.webserva.wings.android.pl2_spread;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -149,4 +151,16 @@ public class MemberSelect extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(MemberSelect.this)
+                .setTitle(R.string.general_message)
+                .setMessage(R.string.ms_back_confirm)
+                .setPositiveButton(R.string.general_ok, (dialog, which) -> {
+                    Client.sendMessage("roomdel");
+                    super.onBackPressed();
+                })
+                .setNegativeButton(R.string.general_no, null)
+                .show();
+    }
 }

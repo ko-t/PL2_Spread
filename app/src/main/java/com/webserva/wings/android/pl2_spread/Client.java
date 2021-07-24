@@ -171,7 +171,7 @@ public class Client {
                 roomRef = db.collection("roomList").document(myInfo.getRoomId());
                 db.collection("memberList").document(Client.myInfo.getId()).update(
                         "roomId", myInfo.getId(),
-                        "status", "hosting"
+                        "state", "hosting"
                 );
                 // Roomを作成しリストに追加
                 Room newRoom = new Room(s[1], Integer.parseInt(s[2]), myInfo.getId(), myInfo.getName());
@@ -233,6 +233,22 @@ public class Client {
                     }
                 });
 
+                break;
+
+            case "roomdel":
+                roomRef.delete();
+                roomRef.collection("member").get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            document.getReference().update(
+                                    "value", -4
+                            );
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting", task.getException());
+                    }
+                });
                 break;
 
             case "apply":
@@ -399,7 +415,7 @@ public class Client {
                         "count", 0,
                         "gpCount", 0
                 );
-                myInfoRef.update("matchHistory", FieldValue.increment(1));
+                //myInfoRef.update("matchHistory", FieldValue.increment(1));
                 break;
 
             case "startpos":
@@ -463,6 +479,7 @@ public class Client {
                         "goalLng", goal.longitude,
                         "matchHistory", FieldValue.increment(1));
                 batch.commit();
+                myInfo.setMatchHistory(myInfo.getMatchHistory()+1);
                 break;
 
             case "resume":
