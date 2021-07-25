@@ -15,7 +15,6 @@ import com.google.firebase.firestore.*;
 
 public class TitleDebug extends AppCompatActivity {
 
-    String id = "ID_yamakawa", name = "NAME_yma";
 
     Switch sw2;
     EditText idText;
