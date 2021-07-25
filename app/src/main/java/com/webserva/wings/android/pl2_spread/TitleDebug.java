@@ -54,7 +54,7 @@ public class TitleDebug extends AppCompatActivity {
             };
             if (Client.myInfo.getId().contains("$") || Client.myInfo.getName().contains("$")) flag |= 1;
             if (Math.max(Client.myInfo.getId().length(), Client.myInfo.getName().length()) >= nameLim + 1) flag |= 1 << 1;
-            if(Client.myInfo.getId().isEmpty()) flag |= 1 << 2;
+            if(Client.myInfo.getId().isEmpty() || Client.myInfo.getName().isEmpty()) flag |= 1 << 2;
             for (int i = 0; i < nameError.length; i++) {
                 if ((flag & (1 << i)) != 0)
                     Toast.makeText(this, nameError[i], Toast.LENGTH_SHORT).show();
