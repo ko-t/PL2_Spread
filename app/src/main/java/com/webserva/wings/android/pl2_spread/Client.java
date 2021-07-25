@@ -95,7 +95,7 @@ public class Client {
 //        LevelUp
 //    }
 
-    static void init(Context c, String id) {
+    static void init(Context c, String id, boolean isNewRegister) {
         db = FirebaseFirestore.getInstance();
         myInfoRef = db.collection("memberList").document(myInfo.getId());
         final int lv1 = 90000;
@@ -109,7 +109,7 @@ public class Client {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
             if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
-        sendMessage("register");
+        if (isNewRegister) sendMessage("register");
     }
 
 //    static void init_connection() {
@@ -775,7 +775,8 @@ public class Client {
             case "readyall":
                 try {
                     Thread.sleep(1000);
-                }catch(Exception e){}
+                } catch (Exception e) {
+                }
                 HReady.receiveMessage(message);
                 break;
 

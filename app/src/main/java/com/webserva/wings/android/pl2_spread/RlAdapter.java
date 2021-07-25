@@ -33,12 +33,14 @@ public class RlAdapter extends ArrayAdapter<Room> {
             for (int j = 0; j < 3; j++) {
                 tag_1[2-j] = tag & (1 << j);
             }
+
+
             String str_tag="";
-            if(tag_1[0]==0){ str_tag=str_tag+R.string.tg_battle;
-            }else{ str_tag=str_tag+R.string.tg_cooperation; }
+            if(tag_1[0]==0){ str_tag=str_tag+getContext().getString(R.string.tg_battle);
+            }else{ str_tag=str_tag+getContext().getString(R.string.tg_cooperation); }
             str_tag=str_tag+"/";
-            if(tag_1[1]==0){ str_tag=str_tag+R.string.tg_on;
-            }else{ str_tag=str_tag+R.string.tg_off; }
+            if(tag_1[1]==0){ str_tag=str_tag+getContext().getString(R.string.tg_on);
+            }else{ str_tag=str_tag+getContext().getString(R.string.tg_off); }
             str_tag=str_tag+"/";
             if(tag_1[2]==0){ str_tag=str_tag+R.string.tg_known;
             }else{ str_tag=str_tag+R.string.tg_unknown; }
