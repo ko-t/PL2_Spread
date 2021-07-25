@@ -830,12 +830,14 @@ public class Client {
     private final static double ratio = 1000000;
 
     static int calcLevel(int exp) {
+        if (expTable[expTable.length - 1] <= exp) return expTable.length;
         int ret = Arrays.binarySearch(expTable, exp);
         if (ret < 0) ret = ~ret + 1;
         return ret;
     }
 
     static int calcNextExp(int exp) {
+        if (expTable[expTable.length - 1] <= exp) return 0;
         return expTable[calcLevel(exp) - 1] - exp;
     }
 
