@@ -10,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.TreeMap;
 
 public class Ranking extends AppCompatActivity {
     private static String rk_str_count="初期値";
-    private static List<Map<Integer,String>> rank = new ArrayList<>();
-    private static Map<Integer,String> rank_data = new TreeMap<>();
+    private static List<SimpleEntry<Integer,String>> rank = new ArrayList<>();
     private static TextView rk_count;
     private static RkAdapter rk_adapter;
 
@@ -27,7 +27,7 @@ public class Ranking extends AppCompatActivity {
         rk_adapter = new RkAdapter(this, rank);
 
         //receiveMessage("rank$3$820$280$208");
-        //receiveMessage("numrank$" + Client.myInfo.getMatchHistory());
+        receiveMessage("numrank$" + Client.myInfo.getMatchHistory());
         Client.sendMessage("rankreq");
         //rk_textview_countの内容をrk_countで設定
 
@@ -50,18 +50,16 @@ public class Ranking extends AppCompatActivity {
                 int rank_count = Integer.parseInt(s[1]);
 
                 //渡されたランキングデータを Map に格納
-                for(int i=2;i<rank_count+2;i++){
-                    rank_data.put(i-2,s[i]);         // key:i-2, 値:スコア
-                    rank.add(i-2,rank_data);   //  rank_data の i-2 を リストへ
+                for(int i=0;i<rank_count;i++){
+                    rank.add(new SimpleEntry<Integer, String>(i+1,s[2 * i+2] + "$" + s[2 * i+3]));   //  rank_data の i-2 を リストへ
                 }
                 break;
 
             //s[0]="best", s[1]="順位", s[2]="ベストスコア"
             case "best":
-                Log.i("rk_receiveMessage","bestを受信しました");
-                int best_rank = Integer.parseInt(s[1]);
-                rank_data.put(best_rank,s[2]);
-                rank.add(rank_data);    //ランクは10位まで、ベストスコアは11位の位置
+//                Log.i("rk_receiveMessage","bestを受信しました");
+//                int best_rank = Integer.parseInt(s[1]);
+//                rank.add(new SimpleEntry<Integer, String>(best_rank, s[2]));    //ランクは10位まで、ベストスコアは11位の位置
                 break;
 
             //s[0]="num", s[1]="プレイ回数"

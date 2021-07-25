@@ -597,6 +597,7 @@ public class Client {
                             //TODO ランキングにチーム名いらないっけ？
                             Score score = document.toObject(Score.class);
                             sj.add(String.valueOf(score.getScore()));
+                            sj.add(score.getTeamName());
                             if (score.getScoreId() == myInfo.getRecordId()) {
                                 myRank = counter;
                                 myScore = score.getScore();
