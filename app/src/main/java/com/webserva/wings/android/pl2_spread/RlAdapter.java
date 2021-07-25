@@ -42,8 +42,8 @@ public class RlAdapter extends ArrayAdapter<Room> {
             if(tag_1[1]==0){ str_tag=str_tag+getContext().getString(R.string.tg_on);
             }else{ str_tag=str_tag+getContext().getString(R.string.tg_off); }
             str_tag=str_tag+"/";
-            if(tag_1[2]==0){ str_tag=str_tag+R.string.tg_known;
-            }else{ str_tag=str_tag+R.string.tg_unknown; }
+            if(tag_1[2]==0){ str_tag=str_tag+getContext().getString(R.string.tg_known);
+            }else{ str_tag=str_tag+getContext().getString(R.string.tg_unknown); }
             list_rl_setting.setText(str_tag);
 
             //メンバーの人数
@@ -51,9 +51,10 @@ public class RlAdapter extends ArrayAdapter<Room> {
             int num = item.getMemberNum();
             String str_num= String.valueOf(num);
             String str;
-            str=(R.string.ria_now)+str_num+(R.string.rie_person_num);//getStringいるかどうか不安
+            str=getContext().getString(R.string.ria_now)+str_num+getContext().getString(R.string.rie_person_num);//getStringいるかどうか不安
             list_rl_count.setText(str);
         }
         return convertView;
     }
 }
+
