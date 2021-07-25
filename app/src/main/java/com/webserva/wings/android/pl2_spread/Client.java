@@ -456,11 +456,11 @@ public class Client {
                             StringJoiner sj = new StringJoiner("$");
                             if (team) {
                                 sj.add("otherpos19");
-                                sj.add(snapshot.get("memberNum").toString());
-                            } else {
-                                sj.add("otherpos12");
                                 sj.add(String.valueOf(gCount));
                                 sj.add(String.valueOf(pCount));
+                            } else {
+                                sj.add("otherpos12");
+                                sj.add(snapshot.get("memberNum").toString());
                             }
                             sj.add(s[1]);
                             db.collection("memberList").whereEqualTo("roomId", Client.myInfo.getRoomId()).get().addOnCompleteListener(task -> {

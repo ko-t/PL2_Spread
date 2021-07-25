@@ -33,6 +33,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
     TextView textView;
     Intent intent_to_re;
     double area = 0, tmp;
+    private static String TAG = "ResutMap";
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
@@ -62,6 +63,8 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                 }
                 break;
         }
+        Log.i(TAG, others_original.toString());
+        Log.i(TAG, others_pos.toString());
     }
 
     protected void onCreate(Bundle savedInstanceState) {
