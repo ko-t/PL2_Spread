@@ -15,9 +15,10 @@ import com.google.firebase.firestore.*;
 
 public class TitleDebug extends AppCompatActivity {
 
+    String id = "ID", name = "Name";
 
-    Switch sw2;
-    EditText idText;
+    Switch newRegister;
+    EditText idText, nameText;
     private static String TAG = "TitleDebug";
     Button idCheckButton;
     FirebaseFirestore db;
@@ -35,22 +36,58 @@ public class TitleDebug extends AppCompatActivity {
 
         idText = findViewById(R.id.tid_editText_id);
         idText.setText(Client.myInfo.getId());
-        sw2 = findViewById(R.id.tid_switch2);
+        nameText = findViewById(R.id.tid_editText_name);
+        nameText.setText(Client.myInfo.getName());
+        newRegister = findViewById(R.id.tid_switch2);
 
         db = FirebaseFirestore.getInstance();
 
         Button ti_button_start = findViewById(R.id.tid_button_start);
         ti_button_start.setOnClickListener(v -> {
             Client.myInfo.setId(idText.getText().toString());
-            Client.init(this, idText.getText().toString());
-            if (sw2.isChecked()) {
-                useDummyLocations();
+
+            int flag = 0, nameLim = 20;
+            String nameError[] = {
+                    "ID・名前に$を使うことはできません",
+                    "ID・名前は" + nameLim + "文字以下にしてください",
+                    "ID、名前を入力してください"
+            };
+            if (Client.myInfo.getId().contains("$") || Client.myInfo.getName().contains("$")) flag |= 1;
+            if (Math.max(Client.myInfo.getId().length(), Client.myInfo.getName().length()) >= nameLim + 1) flag |= 1 << 1;
+            if(Client.myInfo.getId().isEmpty()) flag |= 1 << 2;
+            for (int i = 0; i < nameError.length; i++) {
+                if ((flag & (1 << i)) != 0)
+                    Toast.makeText(this, nameError[i], Toast.LENGTH_SHORT).show();
             }
-            Client.startActivity(i);
+
+            if (flag == 0) {
+                db.collection("memberList").document(idText.getText().toString()).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists() != newRegister.isChecked()) {
+                            Log.d(TAG, "Document Exists: " + document.getData());
+                            Client.init(this, idText.getText().toString(), newRegister.isChecked());
+                            Client.startActivity(i);
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                            Toast.makeText(this, "NG Combination of ID and Switch", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
         });
         idCheckButton = findViewById(R.id.tid_button_checkID);
         idCheckButton.setOnClickListener(v -> {
-            checkId(Client.myInfo.getId());
+            db.collection("memberList").document(idText.getText().toString()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Toast.makeText(this, "IDはすでに存在します", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "IDはまだ存在しません", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         });
     }
 
@@ -78,20 +115,7 @@ public class TitleDebug extends AppCompatActivity {
 //        Client.sendMessage("goalpos");
     }
 
-    void checkId(String id) {
-        db.collection("memberList").document(id).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    Log.d(TAG, "Document Exists: " + document.getData());
-                    Toast.makeText(getApplication(), "重複しています", Toast.LENGTH_LONG).show();
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                    Toast.makeText(getApplication(), "重複していません", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
+    boolean flag;
 
 //    @Override
 //    protected void onStop() {
