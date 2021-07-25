@@ -55,10 +55,19 @@
         android:id="@+id/gm_tv_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="32dp"
         android:text="@string/gm_steps"
         app:layout_constraintStart_toStartOf="@+id/gm_tv_speed"
         app:layout_constraintTop_toBottomOf="@+id/gm_tv_speed" />
+
+    <TextView
+        android:id="@+id/gm_tv_stride"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="歩幅"
+        app:layout_constraintStart_toStartOf="@+id/gm_tv_speed"
+        app:layout_constraintTop_toBottomOf="@+id/gm_tv_step" />
 
     <TextView
         android:id="@+id/gm_tv_speedvalue"
@@ -76,6 +85,14 @@
         android:layout_height="wrap_content"
         android:text="0"
         app:layout_constraintBottom_toBottomOf="@+id/gm_tv_step"
+        app:layout_constraintEnd_toEndOf="@+id/gm_tv_speedvalue" />
+
+    <TextView
+        android:id="@+id/gm_tv_stridevalue2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/gm_tv_stride"
         app:layout_constraintEnd_toEndOf="@+id/gm_tv_speedvalue" />
 
     <Button

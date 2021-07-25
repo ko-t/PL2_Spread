@@ -44,10 +44,13 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor sensor;
-    TextView speed, step;
+    TextView speed, step, stride;
     boolean isStartFailed = false;
     Button button_full, button_sleep;
-    Intent intent;
+    static Intent intent;
+    float walkDist = 0;
+    Location prev;
+    int stepInitValue = -1, stepValue=0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,12 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+
+        speed = findViewById(R.id.gm_tv_speedvalue);
+        step = findViewById(R.id.gm_tv_stepvalue);
+        button_full = findViewById(R.id.gm_button_fullscreen);
+        button_sleep = findViewById(R.id.gm_button_sleep);
+        stride = findViewById(R.id.gm_tv_stridevalue2);
 
         locationCallback = new LocationCallback() {
             @Override
@@ -69,6 +78,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         Client.start = new LatLng(
                                 locationResult.getLastLocation().getLatitude(),
                                 locationResult.getLastLocation().getLongitude());
+                        prev = locationResult.getLastLocation();
                         Client.sendMessage("startpos");
                         Log.i("Game_Start", locationResult.getLastLocation().toString());
                         isStartFailed = false;
@@ -80,15 +90,13 @@ public class Game extends ComponentActivity implements SensorEventListener {
                 Client.sendMessage("pos$" + locationResult.getLastLocation().getLatitude()
                         + "$" + locationResult.getLastLocation().getLongitude());
                 for (Location location : locationResult.getLocations()) {
+                    walkDist += location.distanceTo(prev);
+                    stride.setText(String.valueOf(walkDist / stepValue));
+                    prev = location;
                     speed.setText(String.format(Locale.US, "%.3f m/s", location.getSpeed()));
                 }
             }
         };
-
-        speed = findViewById(R.id.gm_tv_speedvalue);
-        step = findViewById(R.id.gm_tv_stepvalue);
-        button_full = findViewById(R.id.gm_button_fullscreen);
-        button_sleep = findViewById(R.id.gm_button_sleep);
 
         Window w = getWindow();
 
@@ -148,13 +156,12 @@ public class Game extends ComponentActivity implements SensorEventListener {
                                     Client.finishActivity();
                                     Client.startActivity(new Intent(getApplication(), MoveLocation.class));
                                 } else {
-                                    Client.sendMessage("goalpos");
+                                    Client.sendMessage("goalpos$0");
                                 }
                             } else {
                                 Toast.makeText(Game.this, R.string.gm_no_pos, Toast.LENGTH_SHORT).show();
                             }
                         });
-
 
 
             }
@@ -177,6 +184,10 @@ public class Game extends ComponentActivity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         step.setText(String.valueOf(event.values[0]));
+        if (stepInitValue == -1) stepInitValue = (int) event.values[0];
+        else stepValue = stepInitValue - (int) event.values[0];
+
+        stride.setText(String.valueOf(walkDist / stepValue));
 
         StringBuffer sb = new StringBuffer();
         for (float x : event.values) {
@@ -184,6 +195,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
             sb.append(", ");
         }
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

@@ -76,6 +76,9 @@ public class TeamSplit extends AppCompatActivity {
                     }
                     memberId = memberId.substring(0,memberId.length()-1);
 
+                    Client.gCount = gCount;
+                    Client.pCount = pCount;
+
                     for(String id_r : id_r) {
                         for(int i=0;i<memberNum;i++) {
                             if(id_r.equals(id_i[i])) {
