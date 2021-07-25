@@ -21,7 +21,9 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     private static Button ri_button_quit;
     private static Intent intent;
     private static List<MemberInfo> list_member;
+
     private static int[] ri_tag_1 = new int[3];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +60,13 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = findViewById(R.id.ri_listview_host);
-        Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
+        adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);
 
         //メンバーのリスト作成
         list_member = new ArrayList<>();
         ListView listview2 = findViewById(R.id.ri_listview_member);
-        Rw_Ri_Tsr_Adapter adapter_member = new Rw_Ri_Tsr_Adapter(this, list_member);
+        adapter_member = new Rw_Ri_Tsr_Adapter(this, list_member);
         listview2.setAdapter(adapter_member);
     }
 
@@ -78,6 +80,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 Log.i("ri_receiveMessage","サーバからadd10を受け取りました");
                 MemberInfo member = new MemberInfo(s[1], s[2]);
                 list_member.add(member);
+                adapter_member.notifyDataSetChanged();
                 Log.i("ri_receiveMessage","メンバリストのメンバが追加されました");
                 break;
 
@@ -94,6 +97,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                     }
                     k++;
                 }
+                adapter_member.notifyDataSetChanged();
                 Log.i("ri_receiveMessage","メンバリストのメンバが退出しました");
                 break;
 
