@@ -41,7 +41,7 @@ import java.util.Locale;
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     //long time = 3 * 60 * 1000;
-    long time = 1 * 60 * 1000;
+    long time = 1 * 10 * 1000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -137,17 +137,19 @@ public class Game extends ComponentActivity implements SensorEventListener {
                             if (location != null) {
                                 Client.goal = new LatLng(location.getLatitude(), location.getLongitude());
                                 Log.i("Game_Goal", location.toString());
-                                Client.sendMessage("goalpos");
+                                if (intent.getIntExtra("STATUS_TAG", 0) == 0) {
+                                    //ステータスあり
+                                    Client.finishActivity();
+                                    Client.startActivity(new Intent(getApplication(), MoveLocation.class));
+                                } else {
+                                    Client.sendMessage("goalpos");
+                                }
                             } else {
                                 Toast.makeText(Game.this, R.string.gm_no_pos, Toast.LENGTH_SHORT).show();
                             }
                         });
 
-                if (intent.getIntExtra("STATUS_TAG", 0) == 0) {
-                    //ステータスあり
-                    Client.finishActivity();
-                    Client.startActivity(new Intent(getApplication(), MoveLocation.class));
-                }
+
 
             }
         };

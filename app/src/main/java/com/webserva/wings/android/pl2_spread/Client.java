@@ -241,9 +241,9 @@ public class Client {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
-                            if(document.getId().equals(myInfo.getId())){
+                            if (document.getId().equals(myInfo.getId())) {
                                 roomRef.collection("member").document(myInfo.getId()).delete();
-                            }else{
+                            } else {
                                 document.getReference().update(
                                         "value", -4
                                 );
@@ -483,7 +483,7 @@ public class Client {
                         "goalLng", goal.longitude,
                         "matchHistory", FieldValue.increment(1));
                 batch.commit();
-                myInfo.setMatchHistory(myInfo.getMatchHistory()+1);
+                myInfo.setMatchHistory(myInfo.getMatchHistory() + 1);
                 break;
 
             case "resume":
@@ -529,7 +529,7 @@ public class Client {
                 break;
 
             case "move":
-                goal = moveLocation(goal, (Integer.parseInt(s[1]) - 1) * 90, myInfo.getStatus().get(Integer.parseInt(s[1])));
+                goal = moveLocation(goal, (Integer.parseInt(s[1]) - 1) * 90, myInfo.getStatus().get(Integer.parseInt(s[1]) - 1));
                 sendMessage("goalpos");
                 break;
 
@@ -773,16 +773,15 @@ public class Client {
                 break;
 
             case "readyall":
+                try {
+                    Thread.sleep(1000);
+                }catch(Exception e){}
                 HReady.receiveMessage(message);
                 break;
 
             case "otherpos12":
             case "score12":
                 ResultMap.receiveMessage(message);
-                break;
-
-            case "score13":
-//                ResultExp.receiveMessage(message);
                 break;
 
             case "gps17":

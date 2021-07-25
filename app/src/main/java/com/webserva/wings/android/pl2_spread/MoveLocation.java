@@ -42,14 +42,6 @@ public class MoveLocation extends AppCompatActivity {
                 }else if(ml_radioButton_north.isChecked()) {
                     Client.sendMessage("move$4");
                 }
-
-                if(Client.myInfo.getTeam() == -1) {
-                    Intent intent_to_rm = new Intent(getApplication(), ResultMap.class);
-                    Client.startActivity(intent_to_rm);
-                }else {
-                    Intent intent_to_trm = new Intent(getApplication(), TeamResultMap.class);
-                    Client.startActivity(intent_to_trm);
-                }
             }
         });
     }
