@@ -2,53 +2,64 @@ package com.webserva.wings.android.pl2_spread;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.*;
 
 public class TitleDebug extends AppCompatActivity {
 
-    Switch sw, sw2;
+    String id = "ID_yamakawa", name = "NAME_yma";
+
+    Switch sw2;
+    EditText idText;
+    private static String TAG = "TitleDebug";
+    Button idCheckButton;
+    FirebaseFirestore db;
+    Intent i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_titledebug);
 
-        Intent i = new Intent(getApplication(), Game.class);
+        i = new Intent(getApplication(), Title.class);
+        i.putExtra("levelup", 2);
 
-        sw = findViewById(R.id.tid_switch);
+        Client.myInfo = new MemberInfo(name, id);
+
+        idText = findViewById(R.id.tid_editText_id);
+        idText.setText(Client.myInfo.getId());
         sw2 = findViewById(R.id.tid_switch2);
+
+        db = FirebaseFirestore.getInstance();
 
         Button ti_button_start = findViewById(R.id.tid_button_start);
         ti_button_start.setOnClickListener(v -> {
-            Client.init(this);
-            if (sw.isChecked()) {
-                Client.init_connection();
-                try {
-                    Thread.sleep(3000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
+            Client.myInfo.setId(idText.getText().toString());
+            Client.init(this, idText.getText().toString());
             if (sw2.isChecked()) {
                 useDummyLocations();
             }
-
-
-            Intent i = new Intent(getApplication(), MemberSelect.class);
             Client.startActivity(i);
+        });
+        idCheckButton = findViewById(R.id.tid_button_checkID);
+        idCheckButton.setOnClickListener(v -> {
+            checkId(Client.myInfo.getId());
         });
     }
 
     void useDummyLocations() {
+        Client.myInfo.setTeam(1);
         Client.start = new LatLng(35.48116258624266, 139.58656026336882);
         Client.goal = new LatLng(35.4639497213053, 139.58540154911645);
-        ResultMap.receiveMessage("otherpos12$6$" +
+        TeamResultMap.receiveMessage("otherpos19$3$3$" +
                 "35.473150761836074$139.5898111005647$" +
                 "35.470206193894484$139.59149552789043$" +
                 "35.47275757651042$139.58385659675125$" +
@@ -67,4 +78,39 @@ public class TitleDebug extends AppCompatActivity {
 //        Client.sendMessage("startpos");
 //        Client.sendMessage("goalpos");
     }
+
+    void checkId(String id) {
+        db.collection("memberList").document(id).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Log.d(TAG, "Document Exists: " + document.getData());
+                    Toast.makeText(getApplication(), "重複しています", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                    Toast.makeText(getApplication(), "重複していません", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+//    @Override
+//    protected void onStop() {
+//        Log.i(TAG, "onStop");
+//        Toast.makeText(this, "onStop", Toast.LENGTH_SHORT).show();
+//        super.onStop();
+//    }
+
+//    @Override
+//    protected void onDestroy() {
+//        Log.i(TAG, "onDestroy");
+//        db.collection("memberList").document(Client.myInfo.getId()).update("state", "offline");
+//        if(Client.myInfo.getId().equals(Client.myInfo.getRoomId())){
+//            db.collection("roomList").document(Client.myInfo.getId()).delete();
+//        } else if(!Client.myInfo.getRoomId().isEmpty()){
+//            db.collection("roomList").document(Client.myInfo.getRoomId())
+//                    .collection("member").document(Client.myInfo.getId()).update("team", -9);
+//        }
+//        super.onDestroy();
+//    }
 }

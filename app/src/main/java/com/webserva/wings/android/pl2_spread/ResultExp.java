@@ -18,13 +18,13 @@ public class ResultExp extends AppCompatActivity {
         TextView re_textView_exp = findViewById(R.id.re_textView_exp);
         TextView re_textView_nextLevel = findViewById(R.id.re_textView_nextLevel);
         TextView re_textView_east = findViewById(R.id.re_textView_east);
-        re_textView_east.setText(String.valueOf(Client.myInfo.getStatus()[0]));
+        re_textView_east.setText(String.valueOf(Client.myInfo.getStatus().get(0)));
         TextView re_textView_south = findViewById(R.id.re_textView_south);
-        re_textView_south.setText(String.valueOf(Client.myInfo.getStatus()[1]));
+        re_textView_south.setText(String.valueOf(Client.myInfo.getStatus().get(1)));
         TextView re_textView_west = findViewById(R.id.re_textView_west);
-        re_textView_west.setText(String.valueOf(Client.myInfo.getStatus()[2]));
+        re_textView_west.setText(String.valueOf(Client.myInfo.getStatus().get(2)));
         TextView re_textView_north = findViewById(R.id.re_textView_north);
-        re_textView_north.setText(String.valueOf(Client.myInfo.getStatus()[3]));
+        re_textView_north.setText(String.valueOf(Client.myInfo.getStatus().get(3)));
 
         Intent intent_from_rm = getIntent();
         int score = intent_from_rm.getIntExtra("SCORE",0);

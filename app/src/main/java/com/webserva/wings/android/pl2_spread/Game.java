@@ -2,6 +2,7 @@ package com.webserva.wings.android.pl2_spread;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,13 +16,17 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.LocationCallback;
@@ -33,16 +38,16 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import static java.lang.System.exit;
-
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
-    //long time = 3 * 60 * 1000;
-    long time = 5000;
+    long time = 3 * 60 * 1000;
+    //long time = 15000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
     TextView speed, step;
+    boolean speedy = false;
+    Button button_full, button_sleep;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +59,18 @@ public class Game extends ComponentActivity implements SensorEventListener {
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                //Log.i("Game_Location", locationResult.getLastLocation().toString());
                 if (locationResult == null) {
                     return;
+                } else {
+                    if (speedy) {
+                        Client.start = new LatLng(
+                                locationResult.getLastLocation().getLatitude(),
+                                locationResult.getLastLocation().getLongitude());
+                        Client.sendMessage("startpos");
+                        Log.i("Game_Start", locationResult.getLastLocation().toString());
+                        speedy = false;
+                    }
                 }
                 for (Location location : locationResult.getLocations()) {
                     speed.setText(String.format(Locale.US, "%.3f m/s", location.getSpeed()));
@@ -65,64 +80,28 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
         speed = findViewById(R.id.gm_tv_speedvalue);
         step = findViewById(R.id.gm_tv_stepvalue);
+        button_full = findViewById(R.id.gm_button_fullscreen);
+        button_sleep = findViewById(R.id.gm_button_sleep);
 
-        if (ActivityCompat.checkSelfPermission(
-                Game.this, Manifest.permission.ACTIVITY_RECOGNITION) ==
-                PackageManager.PERMISSION_GRANTED) {
-        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACTIVITY_RECOGNITION)) {
-            // In an educational UI, explain to the user why your app requires this
-            // permission for a specific feature to behave as expected. In this UI,
-            // include a "cancel" or "no thanks" button that allows the user to
-            // continue using your app without granting the permission.
-            if (Build.VERSION.SDK_INT >= 29) {
-                new AlertDialog.Builder(Client.context)
-                        .setTitle("メッセージ")
-                        .setMessage("このゲームを遊ぶには、歩行を検知するために身体活動の権限を許可する必要があります。")
-                        .setPositiveButton("OK", null)
-                        .show();
-                requestPermissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION);
-            }
-        } else {
-            // You can directly ask for the permission.
-            // The registered ActivityResultCallback gets the result of this request.
-            if (Build.VERSION.SDK_INT >= 29) {
-                requestPermissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION);
-            }
-        }
+        Window w = getWindow();
 
-        if (ActivityCompat.checkSelfPermission(
-                Game.this, Manifest.permission.ACCESS_FINE_LOCATION) ==
-                PackageManager.PERMISSION_GRANTED) {
-            action();
-        } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            new AlertDialog.Builder(Client.context)
-                    .setTitle("メッセージ")
-                    .setMessage("このゲームを遊ぶには、位置情報の権限を許可する必要があります。")
-                    .setPositiveButton("OK", null)
-                    .show();
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
+        button_full.setOnClickListener(v -> {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            if (Build.VERSION.SDK_INT >= 30) {
+                Log.i("Game", "SDK_30~/" + getWindow().getInsetsController());
+                getWindow().getInsetsController().hide(
+                        WindowInsets.Type.navigationBars() | WindowInsets.Type.statusBars());
+                getWindow().getInsetsController().setSystemBarsBehavior(
+                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+                Log.i("Game", getWindow().getInsetsController().getSystemBarsBehavior() + "");
+            } else {
+                Log.i("Game", "NOT_SDK_30~");
+                View decor = getWindow().getDecorView();
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+            }
+        });
+        action();
     }
-
-    private ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    action();
-                } else {
-                    new AlertDialog.Builder(this)
-                            .setTitle(R.string.gm_message)
-                            .setMessage("このゲームは位置情報と身体活動の取得を利用しないとプレイすることができません。")
-                            .setPositiveButton("許可する", (dialog, which) -> {
-                                Game.this.requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-                            })
-                            .setNegativeButton("キャンセル", (dialog, which) -> {
-                                exit(0);
-                            })
-                            .show();
-                }
-            });
 
     private void action() {
         Client.fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -144,8 +123,8 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
                 if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(Game.this)
-                            .setTitle(R.string.gm_message)
-                            .setMessage("位置情報が利用できません。")
+                            .setTitle(R.string.general_message)
+                            .setMessage(R.string.gm_no_pos)
                             .setPositiveButton("OK", null)
                             .show();
                 }
@@ -154,18 +133,12 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         .addOnSuccessListener(Game.this, location -> {
                             if (location != null) {
                                 Client.goal = new LatLng(location.getLatitude(), location.getLongitude());
+                                Log.i("Game_Goal", location.toString());
                                 Client.sendMessage("goalpos");
                             } else {
-                                Toast.makeText(Game.this, "位置情報がありません", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Game.this, R.string.gm_no_pos, Toast.LENGTH_SHORT).show();
                             }
                         });
-
-                Client.finishActivity();
-                if (Client.myInfo.getTeam() == -1)
-                    Client.startActivity(new Intent(getApplication(), ResultMap.class));
-                else {
-                    Client.startActivity(new Intent(getApplication(), TeamResultMap.class));
-                }
 
             }
         };
@@ -176,7 +149,9 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         Client.sendMessage("startpos");
                         Log.i("gm_action", "test");
                     } else {
-                        Toast.makeText(Game.this, "位置情報がありません", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Game.this, R.string.gm_no_getpos, Toast.LENGTH_SHORT).show();
+                        speedy = true;
+                        locationRequest.setInterval(1000);
                     }
                 });
         cdt.start();
@@ -195,7 +170,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        Toast.makeText(this, "acc changed", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "acc changed", Toast.LENGTH_SHORT).show();
     }
 
     protected void onResume() {
@@ -213,8 +188,8 @@ public class Game extends ComponentActivity implements SensorEventListener {
     private void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             new AlertDialog.Builder(Game.this)
-                    .setTitle(R.string.gm_message)
-                    .setMessage("位置情報が利用できません。")
+                    .setTitle(R.string.general_message)
+                    .setMessage(R.string.gm_no_pos)
                     .setPositiveButton("OK", null)
                     .show();
         } else {
@@ -228,5 +203,19 @@ public class Game extends ComponentActivity implements SensorEventListener {
     private LocationRequest locationRequest = LocationRequest.create()
             .setInterval(5000)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+    static void receiveMessage(String message) {
+        String[] s = message.split("\\$");
+        switch (s[0]) {
+            case "result":
+                Client.finishActivity();
+                if (Client.myInfo.getTeam() == -1)
+                    Client.startActivity(new Intent(Client.context, ResultMap.class));
+                else {
+                    Client.startActivity(new Intent(Client.context, TeamResultMap.class));
+                }
+                break;
+        }
+    }
 }
 

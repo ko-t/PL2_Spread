@@ -173,28 +173,26 @@
 
     <ImageButton
         android:id="@+id/tg_imageButton_gameMode"
-        android:layout_width="wrap_content"
+        android:layout_width="32dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:background="@color/Transparent"
-        app:srcCompat="@drawable/question_icon_32"
-        app:layout_constraintTop_toTopOf="@id/tg_radioGroup_game"
         app:layout_constraintBottom_toBottomOf="@id/tg_radioGroup_game"
-        app:layout_constraintStart_toEndOf="@id/tg_radioGroup_game"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"/>
+        app:layout_constraintTop_toTopOf="@id/tg_radioGroup_game"
+        app:srcCompat="@drawable/question_icon_32" />
 
     <ImageButton
         android:id="@+id/tg_imageButton_statusEffect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:background="@color/Transparent"
         android:gravity="center"
-        app:srcCompat="@drawable/question_icon_32"
-        app:layout_constraintTop_toTopOf="@id/tg_radioGroup_statusEffect"
         app:layout_constraintBottom_toBottomOf="@id/tg_radioGroup_statusEffect"
-        app:layout_constraintStart_toEndOf="@id/tg_radioGroup_statusEffect"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"/>
+        app:layout_constraintTop_toTopOf="@id/tg_radioGroup_statusEffect"
+        app:srcCompat="@drawable/question_icon_32" />
 
     <ImageButton
         android:id="@+id/tg_imageButton_make"

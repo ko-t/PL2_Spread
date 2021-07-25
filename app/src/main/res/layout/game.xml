@@ -10,13 +10,13 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/st_back_vec"
         android:alpha="0.3"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/st_back_vec" />
 
     <TextView
         android:id="@+id/gm_timer"
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:text="速度"
+        android:text="@string/gm_speed"
         app:layout_constraintEnd_toStartOf="@+id/gm_tv_speedvalue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gm_timer" />
@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
-        android:text="歩数"
+        android:text="@string/gm_steps"
         app:layout_constraintStart_toStartOf="@+id/gm_tv_speed"
         app:layout_constraintTop_toBottomOf="@+id/gm_tv_speed" />
 
@@ -77,5 +77,27 @@
         android:text="0"
         app:layout_constraintBottom_toBottomOf="@+id/gm_tv_step"
         app:layout_constraintEnd_toEndOf="@+id/gm_tv_speedvalue" />
+
+    <Button
+        android:id="@+id/gm_button_fullscreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="full"
+        app:layout_constraintBottom_toTopOf="@+id/gm_prog_waitingOthers"
+        app:layout_constraintEnd_toStartOf="@+id/gm_button_sleep"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/gm_button_sleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="sleep"
+        app:layout_constraintBottom_toTopOf="@+id/gm_prog_waitingOthers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/gm_button_fullscreen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,13 +24,13 @@ public class Profile extends AppCompatActivity implements TextWatcher{
         TextView pr_textView_id = findViewById(R.id.pr_textView_id);
         pr_textView_id.setText(Client.myInfo.getId());
         TextView pr_textView_east = findViewById(R.id.pr_textView_east);
-        pr_textView_east.setText(String.valueOf(Client.myInfo.getStatus()[0]));
+        pr_textView_east.setText(String.valueOf(Client.myInfo.getStatus().get(0)));
         TextView pr_textView_south = findViewById(R.id.pr_textView_south);
-        pr_textView_south.setText(String.valueOf(Client.myInfo.getStatus()[1]));
+        pr_textView_south.setText(String.valueOf(Client.myInfo.getStatus().get(1)));
         TextView pr_textView_west = findViewById(R.id.pr_textView_west);
-        pr_textView_west.setText(String.valueOf(Client.myInfo.getStatus()[2]));
+        pr_textView_west.setText(String.valueOf(Client.myInfo.getStatus().get(2)));
         TextView pr_textView_north = findViewById(R.id.pr_textView_north);
-        pr_textView_north.setText(String.valueOf(Client.myInfo.getStatus()[3]));
+        pr_textView_north.setText(String.valueOf(Client.myInfo.getStatus().get(3)));
 
         EditText pr_plainText_name= findViewById(R.id.pr_plainText_name);
         pr_plainText_name.setText(Client.myInfo.getName());
@@ -38,8 +38,8 @@ public class Profile extends AppCompatActivity implements TextWatcher{
 
         Button pr_button_editName = findViewById(R.id.pr_button_editName);
         pr_button_editName.setOnClickListener(v -> {
-            if(pr_button_editName.getText().equals("編集")){
-                pr_button_editName.setText("編集完了");
+            if(pr_button_editName.getText().equals(getString(R.string.pro_edi))){
+                pr_button_editName.setText(R.string.pro_fin_edi);
                 pr_plainText_name.setFocusable(true);
                 pr_plainText_name.setFocusableInTouchMode(true);
                 pr_plainText_name.requestFocus();
@@ -48,7 +48,7 @@ public class Profile extends AppCompatActivity implements TextWatcher{
             } else {
                 Client.sendMessage("new");
                 Client.myInfo.setName(pr_plainText_name.getText().toString());
-                pr_button_editName.setText("編集");
+                pr_button_editName.setText(R.string.pro_edi);
                 pr_plainText_name.setFocusable(false);
                 pr_plainText_name.setFocusableInTouchMode(false);
             }

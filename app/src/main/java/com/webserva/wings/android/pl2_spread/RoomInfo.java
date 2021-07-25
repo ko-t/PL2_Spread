@@ -20,7 +20,9 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     private static Button ri_button_quit;
     private static Intent intent;
     private static List<MemberInfo> list_member;
-    private static Rw_Ri_Tsr_Adapter adapter_host,adapter_member;
+
+    private static int[] ri_tag_1 = new int[3];
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,29 +31,28 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         ri_button_quit=findViewById(R.id.ri_button_quit);
         ri_button_quit.setOnClickListener(this);
 
-        Intent i = new Intent();
-        int ri_tag = i.getIntExtra("TAG",0);
-        String ri_id = i.getStringExtra("HOSTID");
-        String ri_hostname = i.getStringExtra("HOSTNAME");
+        Intent intent_from_rw = getIntent();
+        int ri_tag = intent_from_rw.getIntExtra("TAG",0);
+        String ri_id = intent_from_rw.getStringExtra("HOSTID");
+        String ri_hostname = intent_from_rw.getStringExtra("HOSTNAME");
 
         //タグ取得
-        int[] ri_tag_1 = new int[3];
-        ri_tag_1[0]=ri_tag/100;
-        ri_tag_1[1]=(ri_tag - (ri_tag_1[0]*100))/10;
-        ri_tag_1[2]=ri_tag - (ri_tag_1[0]*100)-(ri_tag_1[1]*10);
-        TextView ri_roomname = findViewById(R.id.ms_textview_roomname);
-        TextView ri_gm = findViewById(R.id.rw_textview_select1);
-        TextView ri_se = findViewById(R.id.rw_textview_select2);
-        TextView ri_m = findViewById(R.id.rw_textview_select3);
-        if(ri_tag_1[0]==0){ ri_gm.setText("対戦");
-        }else{ ri_gm.setText("協力"); }
-        if(ri_tag_1[1]==0){ ri_se.setText("あり");
-        }else{ ri_se.setText("なし"); }
+        for (int j = 0; j < 3; j++) {
+            ri_tag_1[2-j] = ri_tag & (1 << j);
+        }
+        TextView ri_roomname = findViewById(R.id.ri_textview_roomname);
+        TextView ri_gm = findViewById(R.id.ri_textview_select1);
+        TextView ri_se = findViewById(R.id.ri_textview_select2);
+        TextView ri_m = findViewById(R.id.ri_textview_select3);
+        if(ri_tag_1[0]==0){ ri_gm.setText(R.string.tg_battle);
+        }else{ ri_gm.setText(R.string.tg_cooperation); }
+        if(ri_tag_1[1]==0){ ri_se.setText(R.string.tg_on);
+        }else{ ri_se.setText(R.string.tg_off); }
         if(ri_tag_1[2]==0){ ri_m.setText("知ってる人のみ");
         }else{ ri_m.setText("知らない人もOK"); }
 
         //サーバからルーム名、タグ、IDを取得し、ルームのインスタンスを生成
-        Room room = new Room(ri_hostname, ri_tag, ri_id);
+        Room room = new Room(ri_hostname, ri_tag, ri_id, ri_hostname);
         ri_roomname.setText(room.getRoomName());
 
         //ホストの表示
@@ -123,6 +124,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 Log.i("ri_receiveMessage","メンバが確定されました");
                 Client.finishActivity();
                 intent = new Intent(Client.context, Ready.class);
+                intent.putExtra("STATUS_TAG",ri_tag_1[1]);
                 Client.startActivity(intent);
                 break;
         }
@@ -134,7 +136,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         if(v==ri_button_quit){
             Client.sendMessage("leave");
             Intent intent = new Intent(this,RoomList.class);
-            startActivity(intent);
+            Client.startActivity(intent);
         }
     }
 
