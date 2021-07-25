@@ -23,6 +23,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     private static List<MemberInfo> list_member;
 
     private static int[] ri_tag_1 = new int[3];
+    static Rw_Ri_Tsr_Adapter adapter_member;
 
 
     @Override
@@ -60,7 +61,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = findViewById(R.id.ri_listview_host);
-        adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
+        Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);
 
         //メンバーのリスト作成

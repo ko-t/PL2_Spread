@@ -70,7 +70,7 @@ public class MemberSelect extends AppCompatActivity {
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = findViewById(R.id.ms_listview_host);
-        adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
+        Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);   //listview(host)に追加
 
         //メンバの表示
