@@ -40,15 +40,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.441">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.3"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/st_back_vec" />
+
 
     </ListView>
+
+    <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.3"
+    android:scaleType="fitXY"
+    app:srcCompat="@drawable/st_back_vec" />
 
     <TextView
         android:id="@+id/rk_textview_playcount"
