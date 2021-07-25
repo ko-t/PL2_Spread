@@ -40,14 +40,10 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
         switch (s[0]) {
             case "otherpos19":
                 for (int i = 0; i < num1; i++) {
-                    others_pos1.add(moveWithVector(Client.start,
-                            new LatLng(Double.parseDouble(s[4 * i + 3]), Double.parseDouble(s[4 * i + 4])),
-                            new LatLng(Double.parseDouble(s[4 * i + 5]), Double.parseDouble(s[4 * i + 6]))));
+                    others_pos1.add(moveWithVector(Client.start, Double.parseDouble(s[2 * i + 3]), Double.parseDouble(s[2 * i + 4])));
                 }
                 for (int i = num1; i < num1 + num2; i++) {
-                    others_pos2.add(moveWithVector(Client.start,
-                            new LatLng(Double.parseDouble(s[4 * i + 3]), Double.parseDouble(s[4 * i + 4])),
-                            new LatLng(Double.parseDouble(s[4 * i + 5]), Double.parseDouble(s[4 * i + 6]))));
+                    others_pos2.add(moveWithVector(Client.start, Double.parseDouble(s[2 * i + 3]), Double.parseDouble(s[2 * i + 4])));
                 }
                 synchronized (lock) {
                     lock.notifyAll();
@@ -173,7 +169,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
         return d;
     }
 
-    static LatLng moveWithVector(LatLng target, LatLng vecStart, LatLng vecGoal) {
+    static LatLng moveWithVector(LatLng target, double angle, double dist) {
 //        double a = 6378137.06, f = 1.0 / 298.257223563, b = 6356752.314245,
 //                fi1 = target.latitude, fi2, U1 = Math.atan((1.0 - f) * Math.tan(Math.toRadians(fi1))),
 //                L, al1 = calcAngle(vecStart, vecGoal), dsig, sigm = 0.0,
@@ -206,8 +202,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
 //                + C * Math.cos(sig) * (-1.0 + 2.0 * Math.cos(sigm) * Math.cos(sigm))));
 //        double L2 = L + target.longitude;
 //        return new LatLng(fi2, L2);
-        double R = 6378150.0, dist = calcDist(vecStart, vecGoal),
-                angle = calcAngle(vecStart, vecGoal);
+        double R = 6378150.0;
         double deltaLat = dist * Math.cos(angle) * 360.0 / (2.0 * Math.PI * R);
         double newLat = target.latitude + deltaLat;
         Log.i("rm_moveWithVector", String.valueOf(deltaLat));
@@ -216,7 +211,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
                 earth_circle_at_longitude = 2.0 * Math.PI * earth_radius_at_longitude,
                 longitude_per_meter = 360.0 / earth_circle_at_longitude;
 
-        double newLng = target.longitude + dist * Math.sin(angle) * longitude_per_meter;
+        double newLng = target.longitude +  dist * Math.sin(angle) * longitude_per_meter;
 
         return new LatLng(newLat, newLng);
     }
