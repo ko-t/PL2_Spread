@@ -93,4 +93,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="72dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="76dp"
+        android:src="@drawable/team_g"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="77dp"
+        android:layout_height="74dp"
+        android:src="@drawable/team_p"
+        tools:layout_editor_absoluteX="318dp"
+        tools:layout_editor_absoluteY="577dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
