@@ -48,7 +48,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                                 Double.parseDouble(s[2 * i + 3]),
                                 Double.parseDouble(s[2 * i + 4])));
                         others_pos.add(moveWithVector(others_original.get(i),
-                                Double.parseDouble(s[2 * i + 2 * num + 3]),
+                                Math.toRadians(Double.parseDouble(s[2 * i + 2 * num + 3])),
                                 Double.parseDouble(s[2 * i + 2 * num + 4])));
                     }
                 } else {

@@ -7,13 +7,12 @@
 
     <TextView
         android:id="@+id/rk_textview_Ranking"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/rk_textview_Ranking"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/rk_listview_ranking"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,28 +20,26 @@
         android:id="@+id/list_rk_textview_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginBottom="16dp"
         android:text="@string/rk_textview_Score"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/rk_listview_ranking"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/rk_listview_ranking"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/rk_textview_b_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.441">
+        app:layout_constraintTop_toBottomOf="@+id/rk_textview_Ranking" />
 
 
-
-    </ListView>
 
     <ImageView
     android:id="@+id/imageView"
@@ -67,12 +64,11 @@
         android:id="@+id/rk_textview_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
         android:layout_marginBottom="32dp"
         android:text="0"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/rk_textview_playcount" />
+        app:layout_constraintStart_toStartOf="@+id/rk_textview_b_score" />
 
     <TextView
         android:id="@+id/rk_textview_b_title"
