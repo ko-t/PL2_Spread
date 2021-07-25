@@ -129,4 +129,5 @@
     <string name="gm_steps">歩数</string>
     <string name="general_no">いいえ</string>
     <string name="ms_back_confirm">前の画面に戻るとルームが削除されます。\nよろしいですか？</string>
+    <string name="rk_no_rec">記録なし</string>
 </resources>

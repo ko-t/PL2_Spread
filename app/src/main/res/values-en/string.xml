@@ -128,4 +128,7 @@
     <string name="ini_id_can_use">ID can be used</string>
     <string name="gm_speed">speed</string>
     <string name="gm_steps">steps</string>
+    <string name="general_no">No</string>
+    <string name="ms_back_confirm">The room is deleted when you return to the previous screen \n Ary you OK</string>
+    <string name="rk_no_rec">No record</string>
 </resources>
