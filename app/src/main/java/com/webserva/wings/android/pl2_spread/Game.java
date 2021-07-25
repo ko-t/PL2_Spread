@@ -44,7 +44,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor sensor;
-    TextView speed, step, stride;
+    TextView speed, step, stride, way;
     boolean isStartFailed = false;
     Button button_full, button_sleep;
     static Intent intent;
@@ -65,7 +65,8 @@ public class Game extends ComponentActivity implements SensorEventListener {
         step = findViewById(R.id.gm_tv_stepvalue);
         button_full = findViewById(R.id.gm_button_fullscreen);
         button_sleep = findViewById(R.id.gm_button_sleep);
-        stride = findViewById(R.id.gm_tv_stridevalue2);
+        stride = findViewById(R.id.gm_tv_stridevalue);
+        way = findViewById(R.id.gm_tv_wayvalue);
 
         locationCallback = new LocationCallback() {
             @Override
@@ -85,15 +86,14 @@ public class Game extends ComponentActivity implements SensorEventListener {
                     } else {
                         Client.sendMessage("pos$" + locationResult.getLastLocation().getLatitude() + "$" +
                                 locationResult.getLastLocation().getLongitude());
+                        for (Location location : locationResult.getLocations()) {
+                            walkDist += location.distanceTo(prev);
+                            way.setText(String.valueOf(walkDist));
+                            stride.setText(String.valueOf(walkDist / (float)stepValue));
+                            prev = location;
+                            speed.setText(String.format(Locale.US, "%.3f m/s", location.getSpeed()));
+                        }
                     }
-                }
-                Client.sendMessage("pos$" + locationResult.getLastLocation().getLatitude()
-                        + "$" + locationResult.getLastLocation().getLongitude());
-                for (Location location : locationResult.getLocations()) {
-                    walkDist += location.distanceTo(prev);
-                    stride.setText(String.valueOf(walkDist / stepValue));
-                    prev = location;
-                    speed.setText(String.format(Locale.US, "%.3f m/s", location.getSpeed()));
                 }
             }
         };
@@ -162,14 +162,13 @@ public class Game extends ComponentActivity implements SensorEventListener {
                                 Toast.makeText(Game.this, R.string.gm_no_pos, Toast.LENGTH_SHORT).show();
                             }
                         });
-
-
             }
         };
         Client.fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(Game.this, location -> {
                     if (location != null) {
                         Client.start = new LatLng(location.getLatitude(), location.getLongitude());
+                        prev = location;
                         Client.sendMessage("startpos");
                         Log.i("gm_action", "test");
                     } else {
@@ -183,10 +182,9 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        step.setText(String.valueOf(event.values[0]));
         if (stepInitValue == -1) stepInitValue = (int) event.values[0];
-        else stepValue = stepInitValue - (int) event.values[0];
-
+        else stepValue = (int) event.values[0] - stepInitValue;
+        step.setText(String.valueOf(stepValue));
         stride.setText(String.valueOf(walkDist / stepValue));
 
         StringBuffer sb = new StringBuffer();
