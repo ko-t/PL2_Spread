@@ -65,6 +65,7 @@ public class Client {
             applicationListener, teamNumListener, gpListener, roomListener;
     static FirebaseFirestore db;
     static Map memberInRoom;
+    static int gCount=-1, pCount=-1;
 
     static Integer[] expTable = new Integer[100];
     static PrintWriter out;
@@ -103,9 +104,10 @@ public class Client {
         context = c;
 
         //経験値テーブルの生成
-        expTable[0] = 2;
-        expTable[1] = lv1;
-        for (int i = 2; i < 100; i++) {
+        expTable[0] = 0;
+        expTable[1] = 1;
+        expTable[2] = lv1;
+        for (int i = 3; i < 100; i++) {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
             if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
@@ -232,7 +234,6 @@ public class Client {
                         Log.d(TAG, "Current data: null");
                     }
                 });
-
                 break;
 
             case "roomdel":
@@ -448,9 +449,16 @@ public class Client {
                                 .equals(snapshot.get("memberNum", Integer.class))) {
                             receiveMessage("result");
                             //チーム戦ではない場合
+                            boolean team = myInfo.getTeam() != -1;
                             StringJoiner sj = new StringJoiner("$");
-                            sj.add("otherpos12");
-                            sj.add(snapshot.get("memberNum").toString());
+                            if (team) {
+                                sj.add("otherpos19");
+                                sj.add(snapshot.get("memberNum").toString());
+                            } else {
+                                sj.add("otherpos12");
+                                sj.add(String.valueOf(gCount));
+                                sj.add(String.valueOf(pCount));
+                            }
                             db.collection("memberList").whereEqualTo("roomId", Client.myInfo.getRoomId()).get().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -462,20 +470,6 @@ public class Client {
                                     Log.d(TAG, "Error getting positions: ", task.getException());
                                 }
                             });
-
-//                            roomRef.collection("member").get().addOnCompleteListener(task -> {
-//                                if (task.isSuccessful()) {
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        sj.add(String.valueOf(document.get("start", LatLng.class).latitude));
-//                                        sj.add(String.valueOf(document.get("start", LatLng.class).longitude));
-//                                        sj.add(String.valueOf(document.get("goal", LatLng.class).latitude));
-//                                        sj.add(String.valueOf(document.get("goal", LatLng.class).longitude));
-//                                    }
-//                                    receiveMessage(sj.toString());
-//                                } else {
-//                                    Log.d(TAG, "Error getting positions: ", task.getException());
-//                                }
-//                            });
                             resultListener.remove();
                         }
                     } else {
@@ -531,7 +525,8 @@ public class Client {
                 break;
 
             case "move":
-                goal = moveLocation(goal, (Integer.parseInt(s[1]) - 1) * 90, myInfo.getStatus().get(Integer.parseInt(s[1]) - 1));
+                myInfoRef.update("plusAngle", (Integer.parseInt(s[1])) * 90,
+                        "plusDist", myInfo.getStatus().get(Integer.parseInt(s[1]) - 1));
                 sendMessage("goalpos");
                 break;
 
@@ -757,11 +752,14 @@ public class Client {
 
             case "add10":
             case "delete10":
-            case "broken":
             case "confirm":
             case "num":
                 RoomInfo.receiveMessage(message);
                 break;
+
+            case "broken":
+                Intent intent = new Intent(context, RoomList.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             case "add9":
             case "delete9":
