@@ -17,6 +17,7 @@ import java.util.List;
 public class MemberSelect extends AppCompatActivity {
     private static List<MemberInfo> list_member = new ArrayList<>();
     private static int size;
+
     private static String str_name, str_id;
     private static MsAdapter adapter_member;
     private static int[] ms_tag_1 = new int[3];
@@ -67,14 +68,16 @@ public class MemberSelect extends AppCompatActivity {
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = findViewById(R.id.ms_listview_host);
-        Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
+        adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);   //listview(host)に追加
 
         //メンバの表示
         ListView listview2 = findViewById(R.id.ms_listview_memberlist);
+
         adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener() {
             public void onItemButtonClick(int position, View view) {
                 ((Button) view).setEnabled(false);
+
                 //承認されたときの処理
                 //String userId = (list_host.get(position)).getName();
                 String userId = (list_member.get(position)).getId();
@@ -125,6 +128,7 @@ public class MemberSelect extends AppCompatActivity {
                 //add9$ユーザ名$ユーザID
                 MemberInfo member = new MemberInfo(s[1], s[2]);
                 list_member.add(member);
+
                 Log.i("ms_onCreate", "メンバリストのメンバが追加されました");
 //                Client.sendMessage("accept$"+s[1]);
 //                Log.i("ms_onCreate","メンバが承認されました");
@@ -142,7 +146,9 @@ public class MemberSelect extends AppCompatActivity {
                     }
                     k++;
                 }
+
                 Log.i("ms_onCreate", "メンバリストのメンバが退出しました");
+
                 break;
         }
         adapter_member.notifyDataSetChanged();
