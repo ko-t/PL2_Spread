@@ -601,9 +601,7 @@ public class Client {
                         Log.d(TAG, "Error getting ranking ", task.getException());
                     }
                 });
-
-
-                //receiveMessage("num$" + memberList.get(memberList.indexOf(from)).getMatchHistory());
+                receiveMessage("num$" + Client.myInfo.getMatchHistory());
                 break;
 
             case "roomreq":
