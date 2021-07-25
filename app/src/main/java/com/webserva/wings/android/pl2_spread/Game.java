@@ -2,7 +2,6 @@ package com.webserva.wings.android.pl2_spread;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -41,12 +40,12 @@ import java.util.Locale;
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     //long time = 3 * 60 * 1000;
-    long time = 1 * 10 * 1000;
+    long time = 1 * 60 * 1000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
     TextView speed, step;
-    boolean speedy = false;
+    boolean isStartFailed = false;
     Button button_full, button_sleep;
     Intent intent;
 
@@ -66,15 +65,20 @@ public class Game extends ComponentActivity implements SensorEventListener {
                 if (locationResult == null) {
                     return;
                 } else {
-                    if (speedy) {
+                    if (isStartFailed) {
                         Client.start = new LatLng(
                                 locationResult.getLastLocation().getLatitude(),
                                 locationResult.getLastLocation().getLongitude());
                         Client.sendMessage("startpos");
                         Log.i("Game_Start", locationResult.getLastLocation().toString());
-                        speedy = false;
+                        isStartFailed = false;
+                    } else {
+                        Client.sendMessage("pos$" + locationResult.getLastLocation().getLatitude() + "$" +
+                                locationResult.getLastLocation().getLongitude());
                     }
                 }
+                Client.sendMessage("pos$" + locationResult.getLastLocation().getLatitude()
+                        + "$" + locationResult.getLastLocation().getLongitude());
                 for (Location location : locationResult.getLocations()) {
                     speed.setText(String.format(Locale.US, "%.3f m/s", location.getSpeed()));
                 }
@@ -124,6 +128,8 @@ public class Game extends ComponentActivity implements SensorEventListener {
                 progressBar = findViewById(R.id.gm_prog_waitingOthers);
                 progressBar.setVisibility(android.widget.ProgressBar.VISIBLE);
 
+                Client.fusedLocationClient.removeLocationUpdates(locationCallback);
+
                 if (ActivityCompat.checkSelfPermission(Game.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     new AlertDialog.Builder(Game.this)
                             .setTitle(R.string.general_message)
@@ -161,7 +167,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         Log.i("gm_action", "test");
                     } else {
                         Toast.makeText(Game.this, R.string.gm_no_getpos, Toast.LENGTH_SHORT).show();
-                        speedy = true;
+                        isStartFailed = true;
                         locationRequest.setInterval(1000);
                     }
                 });

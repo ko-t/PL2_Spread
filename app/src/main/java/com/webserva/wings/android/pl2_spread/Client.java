@@ -424,8 +424,14 @@ public class Client {
 
             case "startpos":
                 //始点を記録
-                myInfoRef.update("startLat", start.latitude);
-                myInfoRef.update("startLng", start.longitude);
+//                myInfoRef.update("angle", ResultMap.calcAngle(start, ));
+//                myInfoRef.update("dist", start.longitude);
+                break;
+
+            case "pos":
+                LatLng newPos = new LatLng(Double.parseDouble(s[1]), Double.parseDouble(s[2]));
+                myInfoRef.update("angle", ResultMap.calcAngle(start, newPos));
+                myInfoRef.update("dist", ResultMap.calcDist(start, newPos));
                 break;
 
             case "goalpos":
@@ -448,10 +454,8 @@ public class Client {
                             db.collection("memberList").whereEqualTo("roomId", Client.myInfo.getRoomId()).get().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        sj.add(String.valueOf(document.get("startLat", Double.class)));
-                                        sj.add(String.valueOf(document.get("startLng", Double.class)));
-                                        sj.add(String.valueOf(document.get("goalLat", Double.class)));
-                                        sj.add(String.valueOf(document.get("goalLng", Double.class)));
+                                        sj.add(String.valueOf(document.get("angle", Double.class)));
+                                        sj.add(String.valueOf(document.get("dist", Double.class)));
                                     }
                                     receiveMessage(sj.toString());
                                 } else {
@@ -479,9 +483,7 @@ public class Client {
                     }
                 });
                 batch.update(roomRef, "count", FieldValue.increment(1));
-                batch.update(myInfoRef, "goalLat", goal.latitude,
-                        "goalLng", goal.longitude,
-                        "matchHistory", FieldValue.increment(1));
+                batch.update(myInfoRef, "matchHistory", FieldValue.increment(1));
                 batch.commit();
                 myInfo.setMatchHistory(myInfo.getMatchHistory() + 1);
                 break;

@@ -41,11 +41,9 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
             case "otherpos12":
                 others_pos.clear();
                 for (int i = 0; i < num; i++) {
-                    //others_original.add(new LatLng(Double.parseDouble(s[4 * i + 2]), Double.parseDouble(s[4 * i + 3])));
-                    //others_original.add(new LatLng(Double.parseDouble(s[4 * i + 4]), Double.parseDouble(s[4 * i + 5])));
                     others_pos.add(moveWithVector(Client.start,
-                            new LatLng(Double.parseDouble(s[4 * i + 2]), Double.parseDouble(s[4 * i + 3])),
-                            new LatLng(Double.parseDouble(s[4 * i + 4]), Double.parseDouble(s[4 * i + 5]))));
+                            Double.parseDouble(s[2 * i + 2]),
+                            Double.parseDouble(s[2 * i + 3])));
                 }
                 synchronized (lock) {
                     lock.notifyAll();
@@ -139,7 +137,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                 .fillColor(Color.argb(64, 128, 128, 255)));
     }
 
-    static private double calcAngle(LatLng ll1, LatLng ll2) {
+    static double calcAngle(LatLng ll1, LatLng ll2) {
         double y1 = Math.toRadians(ll1.latitude), y2 = Math.toRadians(ll2.latitude),
                 x1 = Math.toRadians(ll1.longitude), x2 = Math.toRadians(ll2.longitude);
         double angle = Math.toDegrees(Math.atan2(Math.sin(x2 - x1), Math.cos(y1) * Math.tan(y2) - Math.sin(y1) * Math.cos(x2 - x1)));
@@ -149,7 +147,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-    static private double calcDist(LatLng ll1, LatLng ll2) {
+    static double calcDist(LatLng ll1, LatLng ll2) {
         double y1 = Math.toRadians(ll1.latitude), y2 = Math.toRadians(ll2.latitude),
                 x1 = Math.toRadians(ll1.longitude), x2 = Math.toRadians(ll2.longitude), r = 6378.137 * 1000;
         double d = r * Math.acos(
@@ -158,7 +156,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         return d;
     }
 
-    static LatLng moveWithVector(LatLng target, LatLng vecStart, LatLng vecGoal) {
+    static LatLng moveWithVector(LatLng target, double angle, double dist) {
 //        double a = 6378137.06, f = 1.0 / 298.257223563, b = 6356752.314245,
 //                fi1 = target.latitude, fi2, U1 = Math.atan((1.0 - f) * Math.tan(Math.toRadians(fi1))),
 //                L, al1 = calcAngle(vecStart, vecGoal), dsig, sigm = 0.0,
@@ -191,8 +189,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 //                + C * Math.cos(sig) * (-1.0 + 2.0 * Math.cos(sigm) * Math.cos(sigm))));
 //        double L2 = L + target.longitude;
 //        return new LatLng(fi2, L2);
-        double R = 6378150.0, dist = calcDist(vecStart, vecGoal),
-                angle = calcAngle(vecStart, vecGoal);
+        double R = 6378150.0;
         double deltaLat = dist * Math.cos(angle) * 360.0 / (2.0 * Math.PI * R);
         double newLat = target.latitude + deltaLat;
         Log.i("rm_moveWithVector", String.valueOf(deltaLat));
