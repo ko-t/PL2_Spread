@@ -9,7 +9,7 @@
         android:id="@+id/rk_textview_Ranking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/rk_textview_Ranking"
         android:textStyle="bold"
