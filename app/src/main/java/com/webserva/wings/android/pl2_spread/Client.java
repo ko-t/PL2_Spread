@@ -65,7 +65,7 @@ public class Client {
             applicationListener, teamNumListener, gpListener, roomListener;
     static FirebaseFirestore db;
     static Map memberInRoom;
-    static int gCount=-1, pCount=-1;
+    static int gCount = -1, pCount = -1;
 
     static Integer[] expTable = new Integer[100];
     static PrintWriter out;
@@ -227,6 +227,10 @@ public class Client {
                     if (snapshot != null && snapshot.exists()) {
                         Log.d(TAG, "Current data: " + snapshot.getData());
                         if (snapshot.get("count", Integer.class).equals(snapshot.get("memberNum", Integer.class))) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException interruptedException) {
+                            }
                             receiveMessage("readyall");
                             readyListener.remove();
                         }
@@ -448,7 +452,6 @@ public class Client {
                         if (snapshot.get("count", Integer.class)
                                 .equals(snapshot.get("memberNum", Integer.class))) {
                             receiveMessage("result");
-                            //チーム戦ではない場合
                             boolean team = myInfo.getTeam() != -1;
                             StringJoiner sj = new StringJoiner("$");
                             if (team) {
@@ -459,12 +462,43 @@ public class Client {
                                 sj.add(String.valueOf(gCount));
                                 sj.add(String.valueOf(pCount));
                             }
+                            sj.add(s[1]);
                             db.collection("memberList").whereEqualTo("roomId", Client.myInfo.getRoomId()).get().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
+                                    StringJoiner sj2 = new StringJoiner("$");
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        sj.add(String.valueOf(document.get("angle", Double.class)));
-                                        sj.add(String.valueOf(document.get("dist", Double.class)));
+                                        if (team) {
+                                            if (document.get("team", Integer.class) == 0) {
+                                                sj.add(String.valueOf(document.get("angle", Double.class)));
+                                                sj.add(String.valueOf(document.get("dist", Double.class)));
+                                            } else {
+                                                sj2.add(String.valueOf(document.get("angle", Double.class)));
+                                                sj2.add(String.valueOf(document.get("dist", Double.class)));
+                                            }
+                                        } else {
+                                            sj.add(String.valueOf(document.get("angle", Double.class)));
+                                            sj.add(String.valueOf(document.get("dist", Double.class)));
+                                        }
                                     }
+                                    if (team) sj.add(sj2.toString());
+                                    sj2 = new StringJoiner("$");
+                                    if (s[1].equals("1")) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if(team){
+                                                if (document.get("team", Integer.class) == 0) {
+                                                    sj.add(String.valueOf(document.get("plusAngle", Double.class)));
+                                                    sj.add(String.valueOf(document.get("plusDist", Double.class)));
+                                                } else {
+                                                    sj2.add(String.valueOf(document.get("plusAngle", Double.class)));
+                                                    sj2.add(String.valueOf(document.get("plusDist", Double.class)));
+                                                }
+                                            } else {
+                                                sj.add(String.valueOf(document.get("plusAngle", Double.class)));
+                                                sj.add(String.valueOf(document.get("plusDist", Double.class)));
+                                            }
+                                        }
+                                    }
+                                    if (team) sj.add(sj2.toString());
                                     receiveMessage(sj.toString());
                                 } else {
                                     Log.d(TAG, "Error getting positions: ", task.getException());
@@ -491,6 +525,7 @@ public class Client {
                 // データを保存
                 roomRef.collection("member").document(myInfo.getId())
                         .update("value", Integer.parseInt(s[1]));
+                myInfoRef.update("team", Integer.parseInt(s[1]));
                 roomRef.update("gpCount", FieldValue.increment(1));
                 // もし全員集まったらそれぞれに送る
                 gpListener = roomRef.addSnapshotListener((snapshot, e) -> {
@@ -527,7 +562,7 @@ public class Client {
             case "move":
                 myInfoRef.update("plusAngle", (Integer.parseInt(s[1])) * 90,
                         "plusDist", myInfo.getStatus().get(Integer.parseInt(s[1]) - 1));
-                sendMessage("goalpos");
+                sendMessage("goalpos$1");
                 break;
 
 //            case "end": TODO リスナー

@@ -40,10 +40,22 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         switch (s[0]) {
             case "otherpos12":
                 others_pos.clear();
-                for (int i = 0; i < num; i++) {
-                    others_pos.add(moveWithVector(Client.start,
-                            Double.parseDouble(s[2 * i + 2]),
-                            Double.parseDouble(s[2 * i + 3])));
+                others_original.clear();
+                if (Integer.parseInt(s[2]) == 1) { //ステあり
+                    for (int i = 0; i < num; i++) {
+                        others_original.add(moveWithVector(Client.start,
+                                Double.parseDouble(s[2 * i + 3]),
+                                Double.parseDouble(s[2 * i + 4])));
+                        others_pos.add(moveWithVector(others_original.get(i),
+                                Double.parseDouble(s[2 * i + 2 * num + 3]),
+                                Double.parseDouble(s[2 * i + 2 * num + 4])));
+                    }
+                } else {
+                    for (int i = 0; i < num; i++) {
+                        others_pos.add(moveWithVector(Client.start,
+                                Double.parseDouble(s[2 * i + 3]),
+                                Double.parseDouble(s[2 * i + 4])));
+                    }
                 }
                 synchronized (lock) {
                     lock.notifyAll();
@@ -82,7 +94,6 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ;
 
 //        if (flag <= 1) {
 //            synchronized (lock) {
@@ -94,20 +105,42 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 //            }
 //        }
 
-
-        //直線
+        //最終地点のマーカー
         for (int i = 0; i < others_pos.size(); i++) {
             Client.mMap.addMarker(new MarkerOptions().position(others_pos.get(i)));
-            Polyline polyline = Client.mMap.addPolyline(new PolylineOptions()
-                    .add(Client.start, others_pos.get(i))
-                    .width(15)
-                    .color(Color.BLUE)
-                    .geodesic(true));
+        }
+
+        Polyline polyline, polyline_plus;
+
+        //中心からの直線
+        if (others_original.size() != 0) {
+            for (int i = 0; i < others_pos.size(); i++) {
+                polyline = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(Client.start, others_original.get(i))
+                        .width(15)
+                        .color(Color.BLUE)
+                        .geodesic(true));
+            }
+            for (int i = 0; i < others_pos.size(); i++) {
+                Client.mMap.addMarker(new MarkerOptions().position(others_original.get(i)));
+                polyline_plus = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(others_original.get(i), others_pos.get(i))
+                        .width(15)
+                        .color(Color.RED)
+                        .geodesic(true));
+            }
+        } else {
+            for (int i = 0; i < others_pos.size(); i++) {
+                polyline = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(Client.start, others_pos.get(i))
+                        .width(15)
+                        .color(Color.BLUE)
+                        .geodesic(true));
+            }
         }
 
         //三角形と面積
         List<LatLng> triangle;
-
 
         int[] index = new int[3];
         for (int i = 0; i < others_pos.size(); i++) {
@@ -195,10 +228,10 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         Log.i("rm_moveWithVector", String.valueOf(deltaLat));
 
         double earth_radius_at_longitude = R * Math.cos(newLat * Math.PI / 180.0),
-        earth_circle_at_longitude = 2.0 * Math.PI * earth_radius_at_longitude,
-        longitude_per_meter = 360.0 / earth_circle_at_longitude;
+                earth_circle_at_longitude = 2.0 * Math.PI * earth_radius_at_longitude,
+                longitude_per_meter = 360.0 / earth_circle_at_longitude;
 
-        double newLng = target.longitude +  dist * Math.sin(angle) * longitude_per_meter;
+        double newLng = target.longitude + dist * Math.sin(angle) * longitude_per_meter;
 
         return new LatLng(newLat, newLng);
     }

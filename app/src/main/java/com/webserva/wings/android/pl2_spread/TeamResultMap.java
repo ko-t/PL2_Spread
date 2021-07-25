@@ -27,26 +27,52 @@ import java.util.List;
 public class TeamResultMap extends FragmentActivity implements OnMapReadyCallback {
     static Object lock = new Object();
     static int flag = 0;
-    static List<LatLng> others_pos1 = new ArrayList<>(), others_pos2 = new ArrayList<>(), others_original = new ArrayList<>();
+    static List<LatLng> others_pos1 = new ArrayList<>(), others_pos2 = new ArrayList<>(),
+            others_original1 = new ArrayList<>(), others_original2 = new ArrayList<>();
     Button button;
     TextView textViewLeft, textViewRight, textViewResult;
     Intent intent_to_re;
     double area = 0, tmp;
     long leftScore, rightScore;
+    static boolean plus;
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
         int num1 = Integer.parseInt(s[1]), num2 = Integer.parseInt(s[2]);
         switch (s[0]) {
             case "otherpos19":
-                for (int i = 0; i < num1; i++) {
-                    others_pos1.add(moveWithVector(Client.start, Double.parseDouble(s[2 * i + 3]), Double.parseDouble(s[2 * i + 4])));
-                }
-                for (int i = num1; i < num1 + num2; i++) {
-                    others_pos2.add(moveWithVector(Client.start, Double.parseDouble(s[2 * i + 3]), Double.parseDouble(s[2 * i + 4])));
-                }
-                synchronized (lock) {
-                    lock.notifyAll();
+                others_pos1.clear();
+                others_original1.clear();
+                others_pos2.clear();
+                others_original2.clear();
+                plus = Integer.parseInt(s[2]) == 1;
+                if (plus) {
+                    for (int i = 0; i < num1; i++) { //グーチーム
+                        others_original1.add(moveWithVector(Client.start,
+                                Double.parseDouble(s[2 * i + 4]),
+                                Double.parseDouble(s[2 * i + 5])));
+                        others_pos1.add(moveWithVector(others_original1.get(i),
+                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 4]),
+                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 5])));
+                    }
+                    for (int i = num1; i < num1 + num2; i++) {
+                        others_original2.add(moveWithVector(Client.start,
+                                Double.parseDouble(s[2 * i + 4]),
+                                Double.parseDouble(s[2 * i + 5])));
+                        others_pos2.add(moveWithVector(others_original2.get(i),
+                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 4]),
+                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 5])));
+                    }
+                } else {
+                    for (int i = 0; i < num1; i++) {
+                        others_pos1.add(moveWithVector(Client.start, Double.parseDouble(s[2 * i + 4]), Double.parseDouble(s[2 * i + 5])));
+                    }
+                    for (int i = num1; i < num1 + num2; i++) {
+                        others_pos2.add(moveWithVector(Client.start, Double.parseDouble(s[2 * i + 4]), Double.parseDouble(s[2 * i + 5])));
+                    }
+                    synchronized (lock) {
+                        lock.notifyAll();
+                    }
                 }
                 break;
         }
@@ -64,7 +90,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
         button.setOnClickListener(v -> {
             Client.finishActivity();
             intent_to_re = new Intent(getApplication(), ResultExp.class);
-            intent_to_re.putExtra("SCORE", Client.myInfo.getTeam() == 0 ? (int)leftScore : (int)rightScore);
+            intent_to_re.putExtra("SCORE", Client.myInfo.getTeam() == 0 ? (int) leftScore : (int) rightScore);
             Client.startActivity(intent_to_re);
         });
 
@@ -84,7 +110,6 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ;
 
 //        if (flag <= 1) {
 //            synchronized (lock) {
@@ -97,25 +122,40 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
 //        }
 
         String winlose = null;
-        leftScore = draw(others_pos1, Color.BLUE, textViewLeft);
-        rightScore = draw(others_pos2, Color.MAGENTA, textViewRight);
+        leftScore = draw(Color.BLUE, textViewLeft, others_pos1, others_original1);
+        rightScore = draw(Color.MAGENTA, textViewRight, others_pos2, others_original2);
         if (leftScore == rightScore) winlose = "引き分け";
         else
             winlose = leftScore < rightScore ^ Client.myInfo.getTeam() == 0 ? "勝ち" : "負け";
         textViewResult.setText(winlose);
-
     }
 
-    private long draw(List<LatLng> others_pos, int color, TextView textView) {
+    private long draw(int color, TextView textView, List<LatLng>... lists) {
         //直線
+        List<LatLng> others_pos = lists[0];
+
         area = 0;
         for (int i = 0; i < others_pos.size(); i++) {
             Client.mMap.addMarker(new MarkerOptions().position(others_pos.get(i)));
-            Polyline polyline = Client.mMap.addPolyline(new PolylineOptions()
-                    .add(Client.start, others_pos.get(i))
-                    .width(15)
-                    .color(color)
-                    .geodesic(true));
+            if (lists.length == 2) {
+                Polyline polyline = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(Client.start, others_pos.get(i))
+                        .width(15)
+                        .color(color)
+                        .geodesic(true));
+
+                Polyline polyline2 = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(others_pos.get(i), lists[1].get(i))
+                        .width(15)
+                        .color(Color.GREEN)
+                        .geodesic(true));
+            } else {
+                Polyline polyline = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(Client.start, others_pos.get(i))
+                        .width(15)
+                        .color(color)
+                        .geodesic(true));
+            }
         }
 
         //三角形と面積
@@ -211,7 +251,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
                 earth_circle_at_longitude = 2.0 * Math.PI * earth_radius_at_longitude,
                 longitude_per_meter = 360.0 / earth_circle_at_longitude;
 
-        double newLng = target.longitude +  dist * Math.sin(angle) * longitude_per_meter;
+        double newLng = target.longitude + dist * Math.sin(angle) * longitude_per_meter;
 
         return new LatLng(newLat, newLng);
     }
