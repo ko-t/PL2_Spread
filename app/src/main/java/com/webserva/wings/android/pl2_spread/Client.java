@@ -287,34 +287,42 @@ public class Client {
                         switch (Math.toIntExact((Long) snapshot.getData().get("value"))) {
                             case 0: //承認
                                 receiveMessage("confirm");
-                                //roomMemberListener.remove();
+                                roomMemberListener.remove();
                                 teamNumListener.remove();
                                 break;
 
                             case -1: //承認
-                                db.collection("roomList").document(myInfo.getRoomId()).collection("member")
-                                        .whereEqualTo("value", -1).get().addOnCompleteListener(task -> {
-                                    Log.i(TAG, "approved");
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            db.collection("memberList").document(document.getId()).get().addOnCompleteListener(task12 -> {
-                                                if (task12.isSuccessful()) {
-                                                    DocumentSnapshot document1 = task12.getResult();
-                                                    if (document1.exists()) {
-                                                        Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
-                                                        receiveMessage("add10$" + document1.get("name", String.class) + "$" + document.getId());
-                                                    } else {
-                                                        Log.d(TAG, "No such document");
-                                                    }
-                                                } else {
-                                                    Log.d(TAG, "get failed with ", task12.getException());
-                                                }
-                                            });
-                                        }
-                                    } else {
-                                        Log.d(TAG, "Error getting -1 members ", task.getException());
-                                    }
-                                });
+//                                db.collection("roomList").document(myInfo.getRoomId()).collection("member")
+//                                        .whereEqualTo("value", -1).get().addOnCompleteListener(task -> {
+//                                    Log.i(TAG, "approved");
+//                                    if (task.isSuccessful()) {
+//                                        for (QueryDocumentSnapshot document : task.getResult()) {
+//                                            db.collection("memberList").document(document.getId()).get().addOnCompleteListener(task12 -> {
+//                                                if (task12.isSuccessful()) {
+//                                                    DocumentSnapshot document1 = task12.getResult();
+//                                                    if (document1.exists()) {
+//                                                        Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
+//                                                        receiveMessage("add10$" + document1.get("name", String.class) + "$" + document.getId());
+//                                                    } else {
+//                                                        Log.d(TAG, "No such document");
+//                                                    }
+//                                                } else {
+//                                                    Log.d(TAG, "get failed with ", task12.getException());
+//                                                }
+//                                            });
+//                                        }
+//                                    } else {
+//                                        Log.d(TAG, "Error getting -1 members ", task.getException());
+//                                    }
+//                                });
+                                roomMemberListener = db.collection("roomList").document(myInfo.getRoomId()).collection("member")
+                                        .whereEqualTo("value", -1).addSnapshotListener((value, error) -> {
+                                            for (DocumentSnapshot x : value.getDocuments()) {
+                                                if(!x.getId().equals(myInfo.getId())) db.collection("memberList").document(x.getId()).get().addOnSuccessListener(documentSnapshot -> {
+                                                    receiveMessage("add10$" + documentSnapshot.get("name", String.class) + "$" + x.getId());
+                                                });
+                                            }
+                                        });
                                 receiveMessage("approved");
                                 break;
 
