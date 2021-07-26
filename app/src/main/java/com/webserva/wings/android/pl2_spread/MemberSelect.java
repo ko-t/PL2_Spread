@@ -122,7 +122,7 @@ public class MemberSelect extends AppCompatActivity {
             for(int k=0;k<list_member.size()-1;k++){
                 str_name=list_member.get(k).getName()+"$";
             }
-            str_name=list_member.get(list_member.size()).getName();
+            str_name=list_member.get(list_member.size()-1).getName();
 
             //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
             intent.putExtra("MEMBER_NUM", size);
