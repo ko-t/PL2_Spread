@@ -20,6 +20,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     private static Button ri_button_quit;
     private static Intent intent;
     private static List<MemberInfo> list_member;
+    private static int[] ri_tag_1 = new int[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +29,12 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         ri_button_quit=findViewById(R.id.ri_button_quit);
         ri_button_quit.setOnClickListener(this);
 
-        Intent i = new Intent();
-        int ri_tag = i.getIntExtra("TAG",0);
-        String ri_id = i.getStringExtra("HOSTID");
-        String ri_hostname = i.getStringExtra("HOSTNAME");
+        Intent intent_from_rw = getIntent();
+        int ri_tag = intent_from_rw.getIntExtra("TAG",0);
+        String ri_id = intent_from_rw.getStringExtra("HOSTID");
+        String ri_hostname = intent_from_rw.getStringExtra("HOSTNAME");
 
         //タグ取得
-        int[] ri_tag_1 = new int[3];
         for (int j = 0; j < 3; j++) {
             ri_tag_1[2-j] = ri_tag & (1 << j);
         }
@@ -120,6 +120,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 Log.i("ri_receiveMessage","メンバが確定されました");
                 Client.finishActivity();
                 intent = new Intent(Client.context, Ready.class);
+                intent.putExtra("STATUS_TAG",ri_tag_1[1]);
                 Client.startActivity(intent);
                 break;
         }

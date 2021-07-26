@@ -111,9 +111,9 @@ public class TagSet extends AppCompatActivity {
         ImageButton tg_imageButton_gameMode = findViewById(R.id.tg_imageButton_gameMode);
         tg_imageButton_gameMode.setOnClickListener(v -> {
             new AlertDialog.Builder(TagSet.this)
-                    .setTitle("ゲームモード")
+                    .setTitle(R.string.tg_gameMode)
                     .setMessage(coop + "\n\n" + battle)
-                    .setPositiveButton("OK", (dialog, which) -> {
+                    .setPositiveButton(R.string.general_ok, (dialog, which) -> {
                         dialog.cancel();
                     })
                     .show();
@@ -123,9 +123,9 @@ public class TagSet extends AppCompatActivity {
         ImageButton tg_imageButton_statusEffect = findViewById(R.id.tg_imageButton_statusEffect);
         tg_imageButton_statusEffect.setOnClickListener(v -> {
             new AlertDialog.Builder(TagSet.this)
-                    .setTitle("ステータス効果")
+                    .setTitle(R.string.tg_statusEffect)
                     .setMessage(effect)
-                    .setPositiveButton("OK", (dialog, which) -> {
+                    .setPositiveButton(R.string.general_ok, (dialog, which) -> {
                         dialog.cancel();
                     })
                     .show();

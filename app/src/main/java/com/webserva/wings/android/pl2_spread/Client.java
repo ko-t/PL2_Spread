@@ -63,6 +63,7 @@ public class Client {
     static LatLng start, goal;
     static ListenerRegistration startListener, resultListener;
     static FirebaseFirestore db;
+    static Map memberInRoom;
 
     static Integer[] expTable = new Integer[100];
     static PrintWriter out;
@@ -95,12 +96,15 @@ public class Client {
 
     static void init(Context c, String id) {
         db = FirebaseFirestore.getInstance();
-        memberInfoRef = db.collection("memberList").document(myInfo.getId());
+        myInfoRef = db.collection("memberList").document(myInfo.getId());
         final int lv1 = 90000;
         //myInfo.setRoomId("dummyHostId");
         context = c;
-        expTable[0] = lv1;
-        for (int i = 1; i < 100; i++) {
+
+        //経験値テーブルの生成
+        expTable[0] = 2;
+        expTable[1] = lv1;
+        for (int i = 2; i < 100; i++) {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
             if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
@@ -145,7 +149,7 @@ public class Client {
     }
 
     static DocumentReference roomRef,
-            memberInfoRef;
+            myInfoRef;
 
     static void sendMessage(String message) {
         Log.i(TAG, "sendMessage:" + message);
@@ -157,7 +161,7 @@ public class Client {
 
         switch (s[0]) {
             case "register":
-                memberInfoRef.set(myInfo)
+                myInfoRef.set(myInfo)
                         .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                         .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
                 break;
@@ -279,7 +283,7 @@ public class Client {
                                                     DocumentSnapshot document1 = task12.getResult();
                                                     if (document1.exists()) {
                                                         Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
-                                                        receiveMessage("add10$"+ document1.get("name", String.class)+ "$" + document.getId());
+                                                        receiveMessage("add10$" + document1.get("name", String.class) + "$" + document.getId());
                                                     } else {
                                                         Log.d(TAG, "No such document");
                                                     }
@@ -400,17 +404,67 @@ public class Client {
                         "count", 0,
                         "gpCount", 0
                 );
-                memberInfoRef.update("matchHistory", FieldValue.increment(1));
+                myInfoRef.update("matchHistory", FieldValue.increment(1));
                 break;
 
             case "startpos":
                 //始点を記録
-                memberInfoRef.update("start", start);
+                myInfoRef.update("startLat", start.latitude);
+                myInfoRef.update("startLng", start.longitude);
                 break;
 
             case "goalpos":
-                //終点を記録
-                memberInfoRef.update("goal", goal);
+                //終点を記録、タイマー終了、リスナ追加
+                roomRef.update("count", FieldValue.increment(1));
+                resultListener = roomRef.addSnapshotListener((snapshot, e) -> {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
+                    if (snapshot != null && snapshot.exists()) {
+                        Log.d(TAG, "Current data: " + snapshot.getData());
+                        if (snapshot.get("count", Integer.class)
+                                .equals(snapshot.get("memberNum", Integer.class))) {
+                            receiveMessage("result");
+                            //チーム戦ではない場合
+                            StringJoiner sj = new StringJoiner("$");
+                            sj.add("otherpos12");
+                            sj.add(snapshot.get("memberNum").toString());
+                            db.collection("memberList").whereEqualTo("roomId", Client.myInfo.getRoomId()).get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        sj.add(String.valueOf(document.get("startLat", Double.class)));
+                                        sj.add(String.valueOf(document.get("startLng", Double.class)));
+                                        sj.add(String.valueOf(document.get("goalLat", Double.class)));
+                                        sj.add(String.valueOf(document.get("goalLng", Double.class)));
+                                    }
+                                    receiveMessage(sj.toString());
+                                } else {
+                                    Log.d(TAG, "Error getting positions: ", task.getException());
+                                }
+                            });
+
+//                            roomRef.collection("member").get().addOnCompleteListener(task -> {
+//                                if (task.isSuccessful()) {
+//                                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                                        sj.add(String.valueOf(document.get("start", LatLng.class).latitude));
+//                                        sj.add(String.valueOf(document.get("start", LatLng.class).longitude));
+//                                        sj.add(String.valueOf(document.get("goal", LatLng.class).latitude));
+//                                        sj.add(String.valueOf(document.get("goal", LatLng.class).longitude));
+//                                    }
+//                                    receiveMessage(sj.toString());
+//                                } else {
+//                                    Log.d(TAG, "Error getting positions: ", task.getException());
+//                                }
+//                            });
+                            resultListener.remove();
+                        }
+                    } else {
+                        Log.d(TAG, "Current data: null");
+                    }
+                });
+                myInfoRef.update("goalLat", goal.latitude);
+                myInfoRef.update("goalLng", goal.longitude);
                 break;
 
             case "resume":
@@ -471,7 +525,7 @@ public class Client {
 
             case "newstatus":
                 Integer[] tmp = {Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4])};
-                memberInfoRef.update("status", Arrays.asList(tmp))
+                myInfoRef.update("status", Arrays.asList(tmp))
                         .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                         .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
                 myInfo.setStatus(Arrays.asList(tmp));
@@ -535,7 +589,7 @@ public class Client {
             case "roomreq":
                 // 部屋探し中のリストに追加
                 myInfo.setState("choosingRoom");
-                memberInfoRef.update(
+                myInfoRef.update(
                         "state", "choosingRoom"
                 );
                 Query roomWatcher = db.collection("roomList").whereEqualTo("open", true),
@@ -574,28 +628,31 @@ public class Client {
                         }
                     }
                 });
+
                 roomMemberWatcher.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.w(TAG, "listen:error", e);
                         return;
                     }
-                    Map memberInRoom;
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                         memberInRoom = dc.getDocument().getData();
-                        String roomName = dc.getDocument().getReference().getParent().getId();
-                        Log.d(TAG, "MemberChange in Room " + roomName);
-                        switch (dc.getType()) {
-                            case ADDED:
-                                Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
-                                break;
-                            case MODIFIED:
-                                receiveMessage("num$" + roomName + "$" + memberInRoom.size());
-                                Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
-                                break;
-                            case REMOVED:
-                                Log.d(TAG, "MemberChange Removed Info:" + dc.getDocument().getData());
-                                break;
-                        }
+                        // String roomName = dc.getDocument().getReference().getParent().getId(); //memberが返ってきた
+                        String changedUserName = dc.getDocument().getReference().getId();
+                        db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots1, e1) -> {
+                            Log.d(TAG, "MemberChange in Room " + changedUserName);
+                            switch (dc.getType()) {
+                                case ADDED:
+                                    Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
+                                    break;
+                                case MODIFIED:
+                                    receiveMessage("num$" + changedUserName + "$" + memberInRoom.size());
+                                    Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
+                                    break;
+                                case REMOVED:
+                                    Log.d(TAG, "MemberChange Removed Info:" + dc.getDocument().getData());
+                                    break;
+                            }
+                        });
                     }
                 });
                 break;
@@ -717,8 +774,8 @@ public class Client {
                 TeamResultMap.receiveMessage(message);
                 break;
 
-            case "showresult":
-//                Game.receiveMesage(message);
+            case "result":
+                Game.receiveMessage(message);
                 break;
         }
     }
