@@ -33,15 +33,17 @@ public class RlAdapter extends ArrayAdapter<Room> {
             for (int j = 0; j < 3; j++) {
                 tag_1[2-j] = tag & (1 << j);
             }
+
+
             String str_tag="";
-            if(tag_1[0]==0){ str_tag=str_tag+"対戦";
-            }else{ str_tag=str_tag+"協力"; }
+            if(tag_1[0]==0){ str_tag=str_tag+getContext().getString(R.string.tg_battle);
+            }else{ str_tag=str_tag+getContext().getString(R.string.tg_cooperation); }
             str_tag=str_tag+"/";
-            if(tag_1[1]==0){ str_tag=str_tag+"あり";
-            }else{ str_tag=str_tag+"なし"; }
+            if(tag_1[1]==0){ str_tag=str_tag+getContext().getString(R.string.tg_on);
+            }else{ str_tag=str_tag+getContext().getString(R.string.tg_off); }
             str_tag=str_tag+"/";
-            if(tag_1[2]==0){ str_tag=str_tag+"知ってる人のみ";
-            }else{ str_tag=str_tag+"知らない人もOK"; }
+            if(tag_1[2]==0){ str_tag=str_tag+getContext().getString(R.string.tg_known);
+            }else{ str_tag=str_tag+getContext().getString(R.string.tg_unknown); }
             list_rl_setting.setText(str_tag);
 
             //メンバーの人数
@@ -49,9 +51,10 @@ public class RlAdapter extends ArrayAdapter<Room> {
             int num = item.getMemberNum();
             String str_num= String.valueOf(num);
             String str;
-            str="現在"+str_num+"人";
+            str=getContext().getString(R.string.ria_now)+str_num+getContext().getString(R.string.rie_person_num);//getStringいるかどうか不安
             list_rl_count.setText(str);
         }
         return convertView;
     }
 }
+

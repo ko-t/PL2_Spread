@@ -26,15 +26,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/trm_button"
-        android:layout_width="256dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="32dp"
-        android:text="次へ"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/trm_imageButton_next"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintWidth_percent="0.65"
+        android:layout_marginTop="32dp"
+        android:scaleType="fitXY"
+        android:backgroundTint="@color/Transparent"
+        app:srcCompat="@drawable/y_button2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/trm_imageButton_next"
+        app:layout_constraintEnd_toEndOf="@id/trm_imageButton_next"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintWidth_percent="0.4"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/trm_imageButton_next"
+        app:layout_constraintStart_toStartOf="@id/trm_imageButton_next" />
+
 
     <TextView
         android:id="@+id/trm_textView_valueLeft"
@@ -77,11 +96,12 @@
         android:id="@+id/trm_textView_winlose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="20dp"
         android:text="勝敗判定中..."
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/trm_button"
+        app:layout_constraintBottom_toTopOf="@+id/trm_imageButton_next"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
@@ -92,5 +112,25 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="72dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="76dp"
+        android:src="@drawable/team_g"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="72dp"
+        android:layout_height="81dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="80dp"
+        android:src="@drawable/team_p"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

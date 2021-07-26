@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -86,7 +87,7 @@ public class RoomList extends AppCompatActivity {
         // SearchViewのSubmitボタンを使用不可にする
         rl_search.setSubmitButtonEnabled(true);
         // SearchViewに何も入力していない時のテキストを設定
-        rl_search.setQueryHint("検索するルーム名を入力");
+        rl_search.setQueryHint(getString(R.string.rl_seroom));
 
         // SearchViewにOnQueryChangeListenerを設定
         rl_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -118,7 +119,7 @@ public class RoomList extends AppCompatActivity {
         RadioButton rl_radiobutton_on = findViewById(R.id.rl_radiobutton_on);
         RadioButton rl_radioButton_known = findViewById(R.id.rl_radioButton_known);
 
-        Button rl_button_search = findViewById(R.id.rl_button_search);
+        ImageButton rl_button_search = findViewById(R.id.rl_imageButton_search);
         rl_button_search.setOnClickListener(v -> {
             searchFlag = true;
             if(rl_radiogroup_s1.getCheckedRadioButtonId() != -1) {
@@ -223,12 +224,13 @@ public class RoomList extends AppCompatActivity {
             case "num":
                 //num$ホストのID$新しい人数
                 size = list.size();
-                int l = 0;
                 int item_position = 0;
-                hostId = (list.get(l)).getHostId();
-                if (hostId.equals(s[1])) {
-                    item_position = list.indexOf(s[1]);
-                    break;
+                for(int l = 0; l < size; l++){
+                    hostId = (list.get(l)).getHostId();
+                    if (hostId.equals(s[1])) {
+                        item_position = l;
+                        break;
+                    }
                 }
                 rl_adapter = (RlAdapter) listview.getAdapter();
                 Room item = rl_adapter.getItem(item_position);
@@ -251,5 +253,10 @@ public class RoomList extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Client.sendMessage("roomdispatch");
+        super.onBackPressed();
+    }
 }
 

@@ -29,7 +29,7 @@ public class InitialLaunch extends Activity {
             if (checkId(idText.getText().toString(), false)) {
                 ok();
             } else {
-                Toast.makeText(getApplication(), "登録に失敗しました", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(),R.string.ini_reg_fail, Toast.LENGTH_SHORT).show();
             }
         });
         idCheckButton = findViewById(R.id.il_button_checkID);
@@ -41,7 +41,7 @@ public class InitialLaunch extends Activity {
     boolean checkId(String id, boolean showToast) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         if (id.isEmpty()) {
-            Toast.makeText(getApplication(), "空白のIDは使えません", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(),R.string.ini_nullid_fail, Toast.LENGTH_SHORT).show();
         } else {
             db.collection("memberList").document(id).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -49,11 +49,11 @@ public class InitialLaunch extends Activity {
                     if (document.exists()) {
                         Log.d(TAG, "Document Exists: " + document.getData());
                         if (showToast)
-                            Toast.makeText(getApplication(), "IDは使えません", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplication(),R.string.ini_id_no_use, Toast.LENGTH_SHORT).show();
                         flag = false;
                     } else {
                         if (showToast)
-                            Toast.makeText(getApplication(), "IDは使えます", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplication(),R.string.ini_id_can_use, Toast.LENGTH_SHORT).show();
                         flag = true;
                     }
                 } else {
@@ -65,7 +65,7 @@ public class InitialLaunch extends Activity {
     }
 
     private void ok() {
-        Client.init(this, idText.getText().toString());
+        Client.init(idText.getText().toString(), true);
         Client.startActivity(i);
     }
 }

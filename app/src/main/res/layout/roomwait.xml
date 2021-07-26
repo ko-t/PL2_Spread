@@ -26,13 +26,12 @@
         android:layout_width="0dp"
         android:layout_height="41dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="110dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/rw_textview_now"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
+        app:layout_constraintTop_toBottomOf="@+id/rw_textview_host">
 
     </ListView>
 
@@ -149,7 +148,7 @@
         android:id="@+id/rw_textview_now"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/rw_textview_loading"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
@@ -162,34 +161,48 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/rw_button_quit"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/rw_imageButton_quit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/rw_button_quit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@android:color/holo_blue_bright"
-        android:text="@string/rw_button_quit"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/rw_imageButton_quit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintWidth_percent="0.5"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitXY"
+        android:backgroundTint="@color/Transparent"
+        app:srcCompat="@drawable/y_button2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/rw_button_quit"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/rw_imageButton_quit"
+        app:layout_constraintEnd_toEndOf="@id/rw_imageButton_quit"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintWidth_percent="0.25"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/rw_imageButton_quit"
+        app:layout_constraintTop_toTopOf="@id/rw_imageButton_quit" />
 
     <TextView
         android:id="@+id/rw_textview_host"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/rw_textview_host"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/rw_listview_hostname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 

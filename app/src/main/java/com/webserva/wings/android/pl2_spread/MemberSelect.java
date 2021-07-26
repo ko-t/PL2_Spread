@@ -1,10 +1,13 @@
 package com.webserva.wings.android.pl2_spread;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,6 +20,7 @@ import java.util.List;
 public class MemberSelect extends AppCompatActivity {
     private static List<MemberInfo> list_member = new ArrayList<>();
     private static int size;
+
     private static String str_name, str_id;
     private static MsAdapter adapter_member;
     private static int[] ms_tag_1 = new int[3];
@@ -33,7 +37,7 @@ public class MemberSelect extends AppCompatActivity {
         String ms_hostname = i.getStringExtra("HOSTNAME");
 
         for (int j = 0; j < 3; j++) {
-            ms_tag_1[2-j] = ms_tag & (1 << j);
+            ms_tag_1[2 - j] = ms_tag & (1 << j);
         }
 
         TextView ms_roomname = findViewById(R.id.ms_textview_roomname);
@@ -47,21 +51,20 @@ public class MemberSelect extends AppCompatActivity {
         ms_roomname.setText(ms_hostname);
 
         if (ms_tag_1[0] == 0) {
-            ms_gm.setText("対戦");
+            ms_gm.setText(R.string.tg_battle);
         } else {
-            ms_gm.setText("協力");
+            ms_gm.setText(R.string.tg_cooperation);
         }
         if (ms_tag_1[1] == 0) {
-            ms_se.setText("あり");
+            ms_se.setText(R.string.tg_on);
         } else {
-            ms_se.setText("なし");
+            ms_se.setText(R.string.tg_off);
         }
         if (ms_tag_1[2] == 0) {
-            ms_m.setText("知ってる人のみ");
+            ms_m.setText(R.string.tg_known);
         } else {
-            ms_m.setText("知らない人もOK");
+            ms_m.setText(R.string.tg_unknown);
         }
-
 
 
         //ホストの表示
@@ -72,9 +75,11 @@ public class MemberSelect extends AppCompatActivity {
 
         //メンバの表示
         ListView listview2 = findViewById(R.id.ms_listview_memberlist);
+
         adapter_member = new MsAdapter(this, list_member, new MsAdapter.ListItemButtonClickListener() {
             public void onItemButtonClick(int position, View view) {
                 ((Button) view).setEnabled(false);
+
                 //承認されたときの処理
                 //String userId = (list_host.get(position)).getName();
                 String userId = (list_member.get(position)).getId();
@@ -86,8 +91,8 @@ public class MemberSelect extends AppCompatActivity {
 
 
         //メンバーが決定したら画面遷移
-        Button ms_button_decision = findViewById(R.id.ms_button_decision);
-        ms_button_decision.setOnClickListener(v -> {
+        ImageButton ms_imageButton_decision = findViewById(R.id.ms_imageButton_decision);
+        ms_imageButton_decision.setOnClickListener(v -> {
             size = list_member.size();
 
             /* 一時保管
@@ -104,13 +109,19 @@ public class MemberSelect extends AppCompatActivity {
             */
 
             Client.sendMessage("confirm");
+            Intent intent;
 
-            Intent intent = new Intent(this, HReady.class);
+            if (ms_tag >= 4) {
+                intent = new Intent(this, TeamSplit.class);
+            } else {
+                intent = new Intent(this, HReady.class);
+            }
             //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
             intent.putExtra("MEMBER_NUM", size);
             intent.putExtra("MEMBER_NAME", str_name);
             intent.putExtra("MEMBER_ID", str_id);
-            intent.putExtra("STATUS_TAG",ms_tag_1[1]);
+            intent.putExtra("STATUS_TAG", ms_tag_1[1]);
+
             Log.i("ms_onClick", "メンバ情報が渡されました");
             Client.startActivity(intent);
         });
@@ -125,6 +136,7 @@ public class MemberSelect extends AppCompatActivity {
                 //add9$ユーザ名$ユーザID
                 MemberInfo member = new MemberInfo(s[1], s[2]);
                 list_member.add(member);
+
                 Log.i("ms_onCreate", "メンバリストのメンバが追加されました");
 //                Client.sendMessage("accept$"+s[1]);
 //                Log.i("ms_onCreate","メンバが承認されました");
@@ -142,11 +154,24 @@ public class MemberSelect extends AppCompatActivity {
                     }
                     k++;
                 }
+
                 Log.i("ms_onCreate", "メンバリストのメンバが退出しました");
+
                 break;
         }
-        adapter_member.notifyDataSetChanged();
-
+        if (adapter_member != null) adapter_member.notifyDataSetChanged();
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(MemberSelect.this)
+                .setTitle(R.string.general_message)
+                .setMessage(R.string.ms_back_confirm)
+                .setPositiveButton(R.string.general_ok, (dialog, which) -> {
+                    Client.sendMessage("roomdel");
+                    super.onBackPressed();
+                })
+                .setNegativeButton(R.string.general_no, null)
+                .show();
+    }
 }

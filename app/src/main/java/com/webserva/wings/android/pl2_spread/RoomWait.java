@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 
 public class RoomWait extends AppCompatActivity implements View.OnClickListener {
-    private Button rw_button_quit;  //退出→4 RoomListに戻る
+    private ImageButton rw_imageButton_quit;  //退出→4 RoomListに戻る
     private static Intent intent;
     private static String rw_hostname, rw_id;
     private static int rw_tag;
@@ -25,8 +26,8 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roomwait);
-        rw_button_quit=findViewById(R.id.rw_button_quit);
-        rw_button_quit.setOnClickListener(this);
+        rw_imageButton_quit=findViewById(R.id.rw_imageButton_quit);
+        rw_imageButton_quit.setOnClickListener(this);
 
         Intent intent_from_rl = getIntent();
         rw_tag = intent_from_rl.getIntExtra("TAG",0);
@@ -59,8 +60,12 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         Room room1 = new Room(rw_hostname, rw_tag, rw_id, rw_hostname);
         rw_roomname.setText(room1.getRoomName());
 
+        MemberInfo host = new MemberInfo();
+        host.setName(rw_hostname);
+        host.setId(rw_id);
         //ホストの表示
         List<MemberInfo> list = new ArrayList<>();
+        list.add(host);
         ListView listview = findViewById(R.id.rw_listview_hostname);
         Rw_Ri_Tsr_Adapter rw_ri_tsr_adapter = new Rw_Ri_Tsr_Adapter(this, list);
         listview.setAdapter(rw_ri_tsr_adapter);
@@ -91,10 +96,12 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        if(v==rw_button_quit){    //退出する場合
+        if(v==rw_imageButton_quit){    //退出する場合
             Client.sendMessage("leave");
+            Client.finishActivity();
             intent = new Intent(this,RoomList.class);
-            startActivityForResult(intent,0);
+//            Client.startActivity(intent);
+//            startActivityForResult(intent,0);
         }
     }
 }

@@ -7,125 +7,128 @@
     android:layout_height="match_parent">
 
 
-    <ImageView
-        android:id="@+id/imageView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@drawable/st_back_vec"
-        android:alpha="0.3"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <SearchView
-        android:id="@+id/rl_searchview_name"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <SearchView
+            android:id="@+id/rl_searchview_name"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/rl_listview_roominfo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_button_search"></ListView>
+        <RadioGroup
+            android:id="@+id/rl_radiogroup_s1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/rl_searchview_name"
+            app:layout_constraintTop_toBottomOf="@+id/rl_searchview_name">
 
+            <RadioButton
+                android:id="@+id/rl_radiobutton_versus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rl_checkbox_versus" />
 
-    <Button
-        android:id="@+id/rl_button_search"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginTop="120dp"
-        android:backgroundTint="@android:color/holo_blue_bright"
-        android:text="@string/rl_button_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_searchview_name" />
+            <RadioButton
+                android:id="@+id/rl_radiobutton_coop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rl_checkbox_coop" />
 
-    <RadioGroup
-        android:id="@+id/rl_radiogroup_s2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/rl_button_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_searchview_name">
+        </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/rl_radiobutton_on"
+        <RadioGroup
+            android:id="@+id/rl_radiogroup_s2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/rl_checkbox_effectOn" />
+            app:layout_constraintEnd_toStartOf="@+id/rl_radiogroup_s3"
+            app:layout_constraintStart_toEndOf="@+id/rl_radiogroup_s1"
+            app:layout_constraintTop_toTopOf="@+id/rl_radiogroup_s1">
 
-        <RadioButton
-            android:id="@+id/rl_radiobutton_off"
+            <RadioButton
+                android:id="@+id/rl_radiobutton_on"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rl_checkbox_effectOn" />
+
+            <RadioButton
+                android:id="@+id/rl_radiobutton_off"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rl_checkbox_effectOff" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/rl_radiogroup_s3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/rl_checkbox_effectOff" />
-    </RadioGroup>
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rl_radiogroup_s2">
 
-    <RadioGroup
-        android:id="@+id/rl_radiogroup_s1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/rl_button_search"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_searchview_name">
+            <RadioButton
+                android:id="@+id/rl_radioButton_known"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rl_checkbox_no" />
 
-        <RadioButton
-            android:id="@+id/rl_radiobutton_versus"
+            <RadioButton
+                android:id="@+id/rl_radioButton_unknown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rl_checkbox_ok" />
+        </RadioGroup>
+
+        <ListView
+            android:id="@+id/rl_listview_roominfo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rl_imageButton_search"></ListView>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.3"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/st_back_vec" />
+
+        <ImageButton
+            android:id="@+id/rl_imageButton_search"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.08"
+            app:layout_constraintWidth_percent="0.5"
+            android:layout_marginTop="8dp"
+            android:scaleType="fitXY"
+            android:backgroundTint="@color/Transparent"
+            app:srcCompat="@drawable/y_button2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rl_radiogroup_s2" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/rl_checkbox_versus" />
+            android:text="@string/rl_button_search"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/rl_imageButton_search"
+            app:layout_constraintStart_toStartOf="@id/rl_imageButton_search"
+            app:layout_constraintTop_toTopOf="@id/rl_imageButton_search"
+            app:layout_constraintBottom_toBottomOf="@id/rl_imageButton_search" />
 
-        <RadioButton
-            android:id="@+id/rl_radiobutton_coop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rl_checkbox_coop" />
 
-    </RadioGroup>
 
-    <RadioGroup
-        android:id="@+id/rl_radiogroup_s3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/rl_button_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_searchview_name">
-
-        <RadioButton
-            android:id="@+id/rl_radioButton_known"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rl_checkbox_no" />
-
-        <RadioButton
-            android:id="@+id/rl_radioButton_unknown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rl_checkbox_ok" />
-    </RadioGroup>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -84,17 +84,34 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/tsr_button_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/tsr_imageButton_next"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintWidth_percent="0.5"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="12dp"
-        android:backgroundTint="@android:color/holo_blue_bright"
-        android:text="@string/tsr_button_next"
+        android:scaleType="fitXY"
+        android:backgroundTint="@color/Transparent"
+        app:srcCompat="@drawable/y_button2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tsr_listview_paper" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/tsr_imageButton_next"
+        app:layout_constraintEnd_toEndOf="@id/tsr_imageButton_next"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintWidth_percent="0.3"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/tsr_imageButton_next"
+        app:layout_constraintStart_toStartOf="@id/tsr_imageButton_next" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
