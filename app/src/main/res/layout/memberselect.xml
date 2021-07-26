@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/ms_textview_roomname"
-        android:layout_width="145dp"
+        android:layout_width="wrap_content"
         android:layout_height="52dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
@@ -181,9 +181,9 @@
         android:id="@+id/ms_listview_memberlist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="170dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/ms_button_decision"
         app:layout_constraintEnd_toEndOf="parent"
