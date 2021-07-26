@@ -15,6 +15,7 @@ public class MoveLocation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_move_location);
+        TextView ml_textView_decide =findViewById(R.id.ml_textView_decide);
         TextView ml_textView_east = findViewById(R.id.ml_textView_east);
         ml_textView_east.setText(String.valueOf(Client.myInfo.getStatus().get(0)));
         TextView ml_textView_south = findViewById(R.id.ml_textView_south);
@@ -43,6 +44,7 @@ public class MoveLocation extends AppCompatActivity {
                     Client.sendMessage("move$4");
                 }
             }
+            ml_textView_decide.setText(R.string.ml_send_fin);//送信済みチェックのため変更
         });
     }
 }
