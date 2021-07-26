@@ -522,7 +522,7 @@ public class Client {
                 // 部屋をopenにする
                 if (s[1].equals("1")) {
                     roomRef.update("open", true);
-                } 
+                }
                 roomRef.collection("member").document(myInfo.getId()).delete();
                 myInfoRef.update("roomId", null,
                         "state", "offline");
@@ -641,7 +641,22 @@ public class Client {
                         Log.d(TAG, "Error getting ranking ", task.getException());
                     }
                 });
-                receiveMessage("numrank$" + Client.myInfo.getMatchHistory());
+                myInfoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                receiveMessage("numrank$" + document.get("matchHistory", Integer.class));
+                            } else {
+                                Log.d(TAG, "No such document");
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
                 break;
 
             case "roomreq":
