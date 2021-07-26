@@ -96,12 +96,12 @@ public class Client {
 //        LevelUp
 //    }
 
-    static void init(Context c, String id, boolean isNewRegister) {
-        db = FirebaseFirestore.getInstance();
+    static void init(String id, boolean isNewRegister) {
+        //db = FirebaseFirestore.getInstance();
         myInfoRef = db.collection("memberList").document(myInfo.getId());
         final int lv1 = 90000;
         //myInfo.setRoomId("dummyHostId");
-        context = c;
+        //context = c;
 
         //経験値テーブルの生成
         expTable[0] = 0;
@@ -112,6 +112,11 @@ public class Client {
             if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
         if (isNewRegister) sendMessage("register");
+    }
+
+    static void init2(Context c){
+        db = FirebaseFirestore.getInstance();
+        context = c;
     }
 
 //    static void init_connection() {
@@ -631,7 +636,7 @@ public class Client {
                         Log.d(TAG, "Error getting ranking ", task.getException());
                     }
                 });
-                receiveMessage("num$" + Client.myInfo.getMatchHistory());
+                receiveMessage("numrank$" + Client.myInfo.getMatchHistory());
                 break;
 
             case "roomreq":

@@ -31,11 +31,11 @@ public class TitleDebug extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_titledebug);
 
-        i = new Intent(getApplication(), Title.class);
+        i = new Intent(getApplication(), MainMenu.class);
         i.putExtra("levelup", 2);
 
         Client.myInfo = new MemberInfo(name, id);
-        Client.myInfo.setStatus(Arrays.asList(200,100,50,300));
+        Client.myInfo.setStatus(Arrays.asList(150,150,150,150));
 
         idText = findViewById(R.id.tid_editText_id);
         idText.setText(Client.myInfo.getId());
@@ -75,7 +75,7 @@ public class TitleDebug extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (!document.exists()) {
                             Log.d(TAG, "Document Exists: " + document.getData());
-                            Client.init(this, idText.getText().toString(), true);
+                            Client.init(idText.getText().toString(), true);
                             Client.startActivity(i);
                         } else {
                             Toast.makeText(this, "IDはすでに存在します", Toast.LENGTH_SHORT).show();

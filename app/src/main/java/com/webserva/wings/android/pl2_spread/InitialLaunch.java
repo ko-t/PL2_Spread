@@ -65,7 +65,7 @@ public class InitialLaunch extends Activity {
     }
 
     private void ok() {
-        Client.init(this, idText.getText().toString(), true);
+        Client.init(idText.getText().toString(), true);
         Client.startActivity(i);
     }
 }

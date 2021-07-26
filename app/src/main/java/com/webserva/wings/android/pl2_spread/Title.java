@@ -20,7 +20,8 @@ public class Title extends AppCompatActivity {
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Intent intent_to_mm = new Intent(getApplication(), MainMenu.class);
+                Intent intent_to_mm = new Intent(getApplication(), TitleDebug.class);
+                Client.init2(this);
                 Client.startActivity(intent_to_mm);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;

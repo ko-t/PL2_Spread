@@ -40,13 +40,13 @@
         <activity android:name=".Ranking" android:screenOrientation="portrait"/>
         <activity android:name=".RoomInfo" android:screenOrientation="portrait"/>
         <activity android:name=".RoomWait" android:screenOrientation="portrait"/>
-        <activity android:name=".Title" android:screenOrientation="portrait"/>
-        <activity android:name=".TitleDebug" android:screenOrientation="portrait">
+        <activity android:name=".Title" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TitleDebug" android:screenOrientation="portrait"/>
         <activity android:name=".RoomList" android:screenOrientation="portrait"/>
         <activity android:name=".ResultMap" android:screenOrientation="portrait"/>
         <activity android:name=".TeamResultMap" android:screenOrientation="portrait"/>
