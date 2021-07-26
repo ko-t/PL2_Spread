@@ -132,4 +132,8 @@
     <string name="ms_back_confirm">The room is deleted when you return to the previous screen \n Ary you OK</string>
     <string name="rk_no_rec">No record</string>
     <string name="ml_send_fin">Sent</string>
+    <string name="tib_new_reg">Sign UP</string>
+    <string name="tib_check_ID">CheckId!</string>
+    <string name="game_Stride">Stride</string>
+    <string name="gm_move_distance">Moving distance</string>
 </resources>

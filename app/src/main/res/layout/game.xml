@@ -65,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="歩幅"
+        android:text="@string/game_Stride"
         app:layout_constraintStart_toStartOf="@+id/gm_tv_speed"
         app:layout_constraintTop_toBottomOf="@+id/gm_tv_step" />
 
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="移動距離"
+        android:text="@string/gm_move_distance"
         app:layout_constraintStart_toStartOf="@+id/gm_tv_stride"
         app:layout_constraintTop_toBottomOf="@+id/gm_tv_stride" />
 

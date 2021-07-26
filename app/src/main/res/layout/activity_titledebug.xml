@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="新規登録する"
+        android:text="@string/tib_new_reg"
         app:layout_constraintBottom_toTopOf="@+id/tid_button_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="CheckId!"
+        android:text="@string/tib_check_ID"
         app:layout_constraintBottom_toTopOf="@+id/tid_switch2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
