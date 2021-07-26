@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -29,7 +30,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
     static Object lock = new Object();
     static int flag = 0;
     static List<LatLng> others_pos = new ArrayList<>(), others_original = new ArrayList<>();
-    Button button;
+    ImageButton rm_imageButton_next;
     TextView textView;
     Intent intent_to_re;
     double area = 0, tmp;
@@ -71,10 +72,10 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resultmap);
 
-        button = findViewById(R.id.rm_button);
+        rm_imageButton_next = findViewById(R.id.rm_imageButton_next);
         textView = findViewById(R.id.rm_textView_value);
 
-        button.setOnClickListener(v -> {
+        rm_imageButton_next.setOnClickListener(v -> {
             Client.finishActivity();
             intent_to_re = new Intent(getApplication(), ResultExp.class);
             intent_to_re.putExtra("SCORE", (int) Math.round(area));

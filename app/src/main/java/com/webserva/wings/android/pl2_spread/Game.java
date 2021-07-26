@@ -21,6 +21,7 @@ import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +47,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
     private Sensor sensor;
     TextView speed, step, stride, way;
     boolean isStartFailed = false;
-    Button button_full, button_sleep;
+    ImageButton imageButton_full, imageButton_sleep;
     static Intent intent;
     float walkDist = 0;
     Location prev;
@@ -63,8 +64,8 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
         speed = findViewById(R.id.gm_tv_speedvalue);
         step = findViewById(R.id.gm_tv_stepvalue);
-        button_full = findViewById(R.id.gm_button_fullscreen);
-        button_sleep = findViewById(R.id.gm_button_sleep);
+        imageButton_full = findViewById(R.id.gm_imageButton_fullscreen);
+        imageButton_sleep = findViewById(R.id.gm_imageButton_sleep);
         stride = findViewById(R.id.gm_tv_stridevalue);
         way = findViewById(R.id.gm_tv_wayvalue);
 
@@ -100,7 +101,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
         Window w = getWindow();
 
-        button_full.setOnClickListener(v -> {
+        imageButton_full.setOnClickListener(v -> {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             if (Build.VERSION.SDK_INT >= 30) {
                 Log.i("Game", "SDK_30~/" + getWindow().getInsetsController());

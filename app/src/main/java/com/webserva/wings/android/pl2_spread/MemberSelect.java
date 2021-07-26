@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -91,8 +92,8 @@ public class MemberSelect extends AppCompatActivity {
 
 
         //メンバーが決定したら画面遷移
-        Button ms_button_decision = findViewById(R.id.ms_button_decision);
-        ms_button_decision.setOnClickListener(v -> {
+        ImageButton ms_imageButton_decision = findViewById(R.id.ms_imageButton_decision);
+        ms_imageButton_decision.setOnClickListener(v -> {
             size = list_member.size();
 
             /* 一時保管
