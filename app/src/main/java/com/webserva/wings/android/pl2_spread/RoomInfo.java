@@ -60,6 +60,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
+        list_host.add(new MemberInfo(ri_hostname, ri_id));
         ListView listview1 = findViewById(R.id.ri_listview_host);
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);
@@ -124,8 +125,13 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 //confirm
                 Log.i("ri_receiveMessage","メンバが確定されました");
                 Client.finishActivity();
-                intent = new Intent(Client.context, Ready.class);
-                intent.putExtra("STATUS_TAG",ri_tag_1[1]);
+                if(ri_tag_1[0]>=4) {
+                    intent = new Intent(Client.context, TeamSplit.class);
+                }
+                else {
+                    intent = new Intent(Client.context, Ready.class);
+                    intent.putExtra("STATUS_TAG",ri_tag_1[1]);
+                }
                 Client.startActivity(intent);
                 break;
         }

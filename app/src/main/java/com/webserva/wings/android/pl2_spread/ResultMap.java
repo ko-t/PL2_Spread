@@ -162,7 +162,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         }
 
         textView.setText(Long.toString(Math.round(area)));
-        Client.sendMessage("newscore$" + Math.round(area));
+        if(Client.myInfo.getId().equals(Client.myInfo.getRoomId())) Client.sendMessage("newscore$" + Math.round(area));
 
         triangle = new ArrayList<>(Arrays.asList(others_pos.get(index[0]),
                 others_pos.get(index[1]), others_pos.get(index[2])));

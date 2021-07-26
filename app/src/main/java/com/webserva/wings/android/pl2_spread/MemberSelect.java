@@ -36,7 +36,7 @@ public class MemberSelect extends AppCompatActivity {
         String ms_hostname = i.getStringExtra("HOSTNAME");
 
         for (int j = 0; j < 3; j++) {
-            ms_tag_1[2-j] = ms_tag & (1 << j);
+            ms_tag_1[2 - j] = ms_tag & (1 << j);
         }
 
         TextView ms_roomname = findViewById(R.id.ms_textview_roomname);
@@ -64,7 +64,6 @@ public class MemberSelect extends AppCompatActivity {
         } else {
             ms_m.setText(R.string.tg_unknown);
         }
-
 
 
         //ホストの表示
@@ -109,13 +108,19 @@ public class MemberSelect extends AppCompatActivity {
             */
 
             Client.sendMessage("confirm");
+            Intent intent;
 
-            Intent intent = new Intent(this, HReady.class);
+            if (ms_tag >= 4) {
+                intent = new Intent(this, TeamSplit.class);
+            } else {
+                intent = new Intent(this, HReady.class);
+            }
             //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
             intent.putExtra("MEMBER_NUM", size);
             intent.putExtra("MEMBER_NAME", str_name);
             intent.putExtra("MEMBER_ID", str_id);
-            intent.putExtra("STATUS_TAG",ms_tag_1[1]);
+            intent.putExtra("STATUS_TAG", ms_tag_1[1]);
+
             Log.i("ms_onClick", "メンバ情報が渡されました");
             Client.startActivity(intent);
         });
@@ -153,8 +158,7 @@ public class MemberSelect extends AppCompatActivity {
 
                 break;
         }
-        adapter_member.notifyDataSetChanged();
-
+        if (adapter_member != null) adapter_member.notifyDataSetChanged();
     }
 
     @Override

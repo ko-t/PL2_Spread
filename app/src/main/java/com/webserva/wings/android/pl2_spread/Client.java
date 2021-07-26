@@ -156,10 +156,7 @@ public class Client {
 
     static void sendMessage(String message) {
         Log.i(TAG, "sendMessage:" + message);
-
-
         String[] s = message.split("\\$");
-
         WriteBatch batch = db.batch();
 
         switch (s[0]) {
@@ -285,7 +282,7 @@ public class Client {
                         switch (Math.toIntExact((Long) snapshot.getData().get("value"))) {
                             case 0: //承認
                                 receiveMessage("confirm");
-                                roomMemberListener.remove();
+                                //roomMemberListener.remove();
                                 teamNumListener.remove();
                                 break;
 
@@ -780,6 +777,7 @@ public class Client {
 
             case "add4":
             case "del":
+            case "num":
                 RoomList.receiveMessage(message);
                 break;
 
@@ -791,7 +789,6 @@ public class Client {
             case "add10":
             case "delete10":
             case "confirm":
-            case "num":
                 RoomInfo.receiveMessage(message);
                 break;
 
