@@ -18,11 +18,15 @@ public class TeamSplit extends AppCompatActivity {
     private static String[] id_r;
     private static TextView ts_textView_alert;
     private static String alert;
+    private static ImageButton ts_imageButton_g;
+    private static ImageButton ts_imageButton_p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_split);
+        ts_imageButton_g =  findViewById(R.id.ts_imageButton_g);
+        ts_imageButton_p =  findViewById(R.id.ts_imageButton_p);
 
         Intent intent_from_ms = getIntent();
         MEMBER_NUM = intent_from_ms.getIntExtra("MEMBER_NUM",0);
@@ -33,23 +37,31 @@ public class TeamSplit extends AppCompatActivity {
         TextView ts_textView_limit = findViewById(R.id.ts_textView_limit);
         ts_textView_limit.setText(String.valueOf(limit));
 
-        ImageButton ts_imageButton_g = findViewById(R.id.ts_imageButton_g);
+
+
         ts_imageButton_g.setOnClickListener(v -> {
             Client.sendMessage("gp$0");
+            //残り回数を記述する処理
             limit -= 1;
             ts_textView_limit.setText(String.valueOf(limit));
+            ts_imageButton_g.setEnabled(false);
+            ts_imageButton_p.setEnabled(false);
         });
-        ImageButton ts_imageButton_p = findViewById(R.id.ts_imageButton_p);
+
         ts_imageButton_p.setOnClickListener(v -> {
             Client.sendMessage("gp$1");
+            //残り回数を記述する処理
             limit -= 1;
             ts_textView_limit.setText(String.valueOf(limit));
+            ts_imageButton_g.setEnabled(false);
+            ts_imageButton_p.setEnabled(false);
         });
 
         ts_textView_alert = findViewById(R.id.ts_textView_alert);
         alert = getString(R.string.ts_alert);
 
     }
+
 
     static void receiveMessage(String message){
         String[] s=message.split("\\$");
@@ -123,6 +135,8 @@ public class TeamSplit extends AppCompatActivity {
                         Client.startActivity(intent_to_tsr);
                     }else {
                         ts_textView_alert.setText(alert);
+                        ts_imageButton_g.setEnabled(true);
+                        ts_imageButton_g.setEnabled(true);
                     }
                 }
         }
