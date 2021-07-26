@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,7 +19,7 @@ import java.util.List;
 
 //確定した(承認された)プレイヤの表示画面
 public class RoomInfo extends AppCompatActivity implements View.OnClickListener {
-    private static Button ri_button_quit;
+    private static ImageButton ri_imageButton_quit;
     private static Intent intent;
     private static List<MemberInfo> list_member;
 
@@ -30,8 +31,8 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.roominfo);
-        ri_button_quit=findViewById(R.id.ri_button_quit);
-        ri_button_quit.setOnClickListener(this);
+        ri_imageButton_quit=findViewById(R.id.ri_imageButton_quit);
+        ri_imageButton_quit.setOnClickListener(this);
         roomInfo = this;
 
         Intent intent_from_rw = getIntent();
@@ -144,7 +145,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         //退出するとき
-        if(v==ri_button_quit){
+        if(v==ri_imageButton_quit){
             Client.sendMessage("leave");
             Intent intent = new Intent(this,RoomList.class);
             Client.startActivity(intent);

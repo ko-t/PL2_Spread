@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -29,7 +30,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
     static int flag = 0;
     static List<LatLng> others_pos1 = new ArrayList<>(), others_pos2 = new ArrayList<>(),
             others_original1 = new ArrayList<>(), others_original2 = new ArrayList<>();
-    Button button;
+    ImageButton trm_imageButton_next;
     TextView textViewLeft, textViewRight, textViewResult;
     Intent intent_to_re;
     double area = 0, tmp;
@@ -82,12 +83,12 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teamresultmap);
 
-        button = findViewById(R.id.trm_button);
+        trm_imageButton_next = findViewById(R.id.trm_imageButton_next);
         textViewLeft = findViewById(R.id.trm_textView_valueLeft);
         textViewRight = findViewById(R.id.trm_textView_valueRight);
         textViewResult = findViewById(R.id.trm_textView_winlose);
 
-        button.setOnClickListener(v -> {
+        trm_imageButton_next.setOnClickListener(v -> {
             Client.finishActivity();
             intent_to_re = new Intent(getApplication(), ResultExp.class);
             intent_to_re.putExtra("SCORE", Client.myInfo.getTeam() == 0 ? (int) leftScore : (int) rightScore);
