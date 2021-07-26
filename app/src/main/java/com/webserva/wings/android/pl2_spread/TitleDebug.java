@@ -21,7 +21,7 @@ import java.util.StringJoiner;
 
 public class TitleDebug extends AppCompatActivity {
 
-    String id = "iMitoma", name = "nMitoma";
+    String id = "", name = "";
 
     EditText idText, nameText;
     private static String TAG = "TitleDebug";
