@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
         android:backgroundTint="@color/red"
-        android:text="DEBUG"
+        android:text="@string/tib_new_reg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.1"
@@ -31,25 +31,15 @@
         app:layout_constraintVertical_bias="0.8"
         app:layout_constraintWidth_percent="0.4" />
 
-    <Switch
-        android:id="@+id/tid_switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/tib_new_reg"
-        app:layout_constraintBottom_toTopOf="@+id/tid_button_start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/tid_button_checkID"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="128dp"
         android:text="@string/tib_check_ID"
-        app:layout_constraintBottom_toTopOf="@+id/tid_switch2"
+        app:layout_constraintBottom_toTopOf="@+id/tid_button_start"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -86,4 +76,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/st_back_vec"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

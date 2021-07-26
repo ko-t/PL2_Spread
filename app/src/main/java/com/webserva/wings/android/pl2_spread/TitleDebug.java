@@ -13,9 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.*;
 
+import java.util.Arrays;
+
 public class TitleDebug extends AppCompatActivity {
 
-    String id = "ID", name = "Name";
+    String id = "K", name = "Kota";
 
     Switch newRegister;
     EditText idText, nameText;
@@ -33,12 +35,13 @@ public class TitleDebug extends AppCompatActivity {
         i.putExtra("levelup", 2);
 
         Client.myInfo = new MemberInfo(name, id);
+        Client.myInfo.setStatus(Arrays.asList(200,100,50,300));
 
         idText = findViewById(R.id.tid_editText_id);
         idText.setText(Client.myInfo.getId());
         nameText = findViewById(R.id.tid_editText_name);
         nameText.setText(Client.myInfo.getName());
-        newRegister = findViewById(R.id.tid_switch2);
+        //newRegister = findViewById(R.id.tid_switch2);
 
         db = FirebaseFirestore.getInstance();
 
