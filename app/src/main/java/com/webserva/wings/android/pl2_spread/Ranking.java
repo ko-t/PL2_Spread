@@ -49,6 +49,7 @@ public class Ranking extends AppCompatActivity {
                 Log.i("rk_receiveMessage","rankを受信しました");
                 int rank_count = Integer.parseInt(s[1]);
 
+                rank.clear();
                 //渡されたランキングデータを Map に格納
                 for(int i=0;i<rank_count;i++){
                     rank.add(new SimpleEntry<Integer, String>(i+1,s[2 * i+2] + "$" + s[2 * i+3]));   //  rank_data の i-2 を リストへ
