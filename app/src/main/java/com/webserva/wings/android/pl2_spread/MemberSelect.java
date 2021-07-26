@@ -1,5 +1,7 @@
 package com.webserva.wings.android.pl2_spread;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,7 +70,7 @@ public class MemberSelect extends AppCompatActivity {
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = findViewById(R.id.ms_listview_host);
-        adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
+        Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);   //listview(host)に追加
 
         //メンバの表示
@@ -155,4 +157,16 @@ public class MemberSelect extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(MemberSelect.this)
+                .setTitle(R.string.general_message)
+                .setMessage(R.string.ms_back_confirm)
+                .setPositiveButton(R.string.general_ok, (dialog, which) -> {
+                    Client.sendMessage("roomdel");
+                    super.onBackPressed();
+                })
+                .setNegativeButton(R.string.general_no, null)
+                .show();
+    }
 }

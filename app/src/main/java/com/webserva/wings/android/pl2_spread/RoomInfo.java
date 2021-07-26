@@ -1,5 +1,6 @@
 package com.webserva.wings.android.pl2_spread;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
     private static List<MemberInfo> list_member;
 
     private static int[] ri_tag_1 = new int[3];
+    static Rw_Ri_Tsr_Adapter adapter_member;
 
 
     @Override
@@ -30,6 +32,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         setContentView(R.layout.roominfo);
         ri_button_quit=findViewById(R.id.ri_button_quit);
         ri_button_quit.setOnClickListener(this);
+        roomInfo = this;
 
         Intent intent_from_rw = getIntent();
         int ri_tag = intent_from_rw.getIntExtra("TAG",0);
@@ -58,7 +61,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = findViewById(R.id.ri_listview_host);
-        adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
+        Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);
 
         //メンバーのリスト作成
@@ -67,6 +70,8 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         adapter_member = new Rw_Ri_Tsr_Adapter(this, list_member);
         listview2.setAdapter(adapter_member);
     }
+
+    static Activity roomInfo;
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
@@ -100,9 +105,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
             //ホストの接続が切れたとき
             //部屋にいた人に通知、部屋選択(RoomList.java)に遷移
             case "broken":
-                //broken
-                RoomInfo ri = new RoomInfo();
-                AlertDialog.Builder builder = new AlertDialog.Builder(ri);
+                AlertDialog.Builder builder = new AlertDialog.Builder(roomInfo);
                 builder.setMessage("ホストの接続が切れました。\n部屋選択画面に移動します。")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -112,9 +115,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                                 intent = new Intent(Client.context, RoomList.class);
                                 Client.startActivity(intent);
                             }
-                        });
-                builder.show();
-
+                        }).show();
                 break;
 
             //ホストがメンバの確定を押したとき
@@ -128,6 +129,10 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 Client.startActivity(intent);
                 break;
         }
+    }
+
+    private void showDialog(){
+
     }
 
     @Override

@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".TitleDebug">
 
+    <TextView
+        android:id="@+id/tid_textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Your Name"
+        app:layout_constraintBottom_toTopOf="@+id/tid_editText_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/tid_button_start"
         android:layout_width="0dp"
@@ -26,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="ダミーの位置情報を使う"
+        android:text="新規登録する"
         app:layout_constraintBottom_toTopOf="@+id/tid_button_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
@@ -46,7 +56,7 @@
         android:id="@+id/tid_textView_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Your ID"
         app:layout_constraintBottom_toTopOf="@+id/tid_editText_id"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,5 +72,18 @@
         android:text="id will be here"
         app:layout_constraintBottom_toTopOf="@+id/tid_button_checkID"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/tid_editText_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="name will be here"
+        app:layout_constraintBottom_toTopOf="@+id/tid_textView_ID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

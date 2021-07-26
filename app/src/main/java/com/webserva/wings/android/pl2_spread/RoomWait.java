@@ -93,8 +93,10 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         if(v==rw_button_quit){    //退出する場合
             Client.sendMessage("leave");
+            Client.finishActivity();
             intent = new Intent(this,RoomList.class);
-            startActivityForResult(intent,0);
+//            Client.startActivity(intent);
+//            startActivityForResult(intent,0);
         }
     }
 }

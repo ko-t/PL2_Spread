@@ -16,13 +16,13 @@ public class MoveLocation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_move_location);
         TextView ml_textView_east = findViewById(R.id.ml_textView_east);
-        ml_textView_east.setText(Client.myInfo.getStatus().get(0));
+        ml_textView_east.setText(String.valueOf(Client.myInfo.getStatus().get(0)));
         TextView ml_textView_south = findViewById(R.id.ml_textView_south);
-        ml_textView_south.setText(Client.myInfo.getStatus().get(1));
+        ml_textView_south.setText(String.valueOf(Client.myInfo.getStatus().get(1)));
         TextView ml_textView_west = findViewById(R.id.ml_textView_west);
-        ml_textView_west.setText(Client.myInfo.getStatus().get(2));
+        ml_textView_west.setText(String.valueOf(Client.myInfo.getStatus().get(2)));
         TextView ml_textView_north = findViewById(R.id.ml_textView_north);
-        ml_textView_north.setText(Client.myInfo.getStatus().get(3));
+        ml_textView_north.setText(String.valueOf(Client.myInfo.getStatus().get(3)));
 
         RadioGroup ml_radioGroup_direction = findViewById(R.id.ml_radioGroup_direction);
         RadioButton ml_radioButton_east = findViewById(R.id.ml_radioButton_east);
@@ -41,14 +41,6 @@ public class MoveLocation extends AppCompatActivity {
                     Client.sendMessage("move$3");
                 }else if(ml_radioButton_north.isChecked()) {
                     Client.sendMessage("move$4");
-                }
-
-                if(Client.myInfo.getTeam() == -1) {
-                    Intent intent_to_rm = new Intent(getApplication(), ResultMap.class);
-                    Client.startActivity(intent_to_rm);
-                }else {
-                    Intent intent_to_trm = new Intent(getApplication(), TeamResultMap.class);
-                    Client.startActivity(intent_to_trm);
                 }
             }
         });
