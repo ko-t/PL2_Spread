@@ -114,7 +114,7 @@ public class Client {
         if (isNewRegister) sendMessage("register");
     }
 
-    static void init2(Context c){
+    static void init2(Context c) {
         db = FirebaseFirestore.getInstance();
         context = c;
     }
@@ -486,7 +486,7 @@ public class Client {
                                     sj2 = new StringJoiner("$");
                                     if (s[1].equals("1")) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if(team){
+                                            if (team) {
                                                 if (document.get("team", Integer.class) == 0) {
                                                     sj.add(String.valueOf(document.get("plusAngle", Double.class)));
                                                     sj.add(String.valueOf(document.get("plusDist", Double.class)));
@@ -520,7 +520,12 @@ public class Client {
 
             case "resume":
                 // 部屋をopenにする
-                roomRef.update("open", true);
+                if (s[1].equals("1")) {
+                    roomRef.update("open", true);
+                } 
+                roomRef.collection("member").document(myInfo.getId()).delete();
+                myInfoRef.update("roomId", null,
+                        "state", "offline");
                 break;
 
             case "gp":
@@ -657,7 +662,7 @@ public class Client {
                         Map<String, Object> room = dc.getDocument().getData();
                         String roomName = room.get("roomName").toString(), tag = room.get("tag").toString(),
                                 hid = room.get("hostId").toString(), hname = room.get("hostName").toString(),
-                        memNum = room.get("memberNum").toString();
+                                memNum = room.get("memberNum").toString();
                         StringJoiner sj2;
                         List<String> sList;
                         switch (dc.getType()) {
