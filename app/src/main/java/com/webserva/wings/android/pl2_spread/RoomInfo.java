@@ -25,6 +25,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
 
     private static int[] ri_tag_1 = new int[3];
     static Rw_Ri_Tsr_Adapter adapter_member;
+    private static String str_name, str_id;
 
 
     @Override
@@ -131,7 +132,20 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                     intent.putExtra("STATUS_TAG",ri_tag_1[1]);
                 }
                 else {
+                    //メンバーの名前とIDの文字列の作る
+                    for(int x=0;x<list_member.size()-1;x++){
+                        str_name=list_member.get(x).getName()+"$";
+                        str_id=list_member.get(x).getId()+"$";
+                    }
+                    str_name=list_member.get(list_member.size()-1).getName();
+                    str_id=list_member.get(list_member.size()-1).getId();
+
                     intent = new Intent(Client.context, TeamSplit.class);
+                    intent.putExtra("MEMBER_NUM",list_member.size());
+                    intent.putExtra("MEMBER_NAME", str_name);
+                    intent.putExtra("MEMBER_ID", str_id);
+                    intent.putExtra("STATUS_TAG", ri_tag_1[1]);
+
                 }
                 Client.startActivity(intent);
                 break;
