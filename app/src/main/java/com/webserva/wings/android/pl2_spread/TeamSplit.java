@@ -28,8 +28,8 @@ public class TeamSplit extends AppCompatActivity {
         MEMBER_NUM = intent_from_ms.getIntExtra("MEMBER_NUM",0);
         MEMBER_NAME = intent_from_ms.getStringExtra("MEMBER_NAME");
         MEMBER_ID = intent_from_ms.getStringExtra("MEMBER_ID");
-        name_i = MEMBER_NAME.split("$");
-        id_i = MEMBER_ID.split("$");
+        name_i = MEMBER_NAME.split("\\$");
+        id_i = MEMBER_ID.split("\\$");
         TextView ts_textView_limit = findViewById(R.id.ts_textView_limit);
         ts_textView_limit.setText(limit);
 
