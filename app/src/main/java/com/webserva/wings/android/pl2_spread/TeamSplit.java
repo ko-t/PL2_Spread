@@ -31,19 +31,19 @@ public class TeamSplit extends AppCompatActivity {
         name_i = MEMBER_NAME.split("\\$");
         id_i = MEMBER_ID.split("\\$");
         TextView ts_textView_limit = findViewById(R.id.ts_textView_limit);
-        ts_textView_limit.setText(limit);
+        ts_textView_limit.setText(String.valueOf(limit));
 
         ImageButton ts_imageButton_g = findViewById(R.id.ts_imageButton_g);
         ts_imageButton_g.setOnClickListener(v -> {
             Client.sendMessage("gp$0");
             limit -= 1;
-            ts_textView_limit.setText(limit);
+            ts_textView_limit.setText(String.valueOf(limit));
         });
         ImageButton ts_imageButton_p = findViewById(R.id.ts_imageButton_p);
         ts_imageButton_p.setOnClickListener(v -> {
             Client.sendMessage("gp$1");
             limit -= 1;
-            ts_textView_limit.setText(limit);
+            ts_textView_limit.setText(String.valueOf(limit));
         });
 
         ts_textView_alert = findViewById(R.id.ts_textView_alert);
