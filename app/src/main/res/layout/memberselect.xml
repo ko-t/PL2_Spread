@@ -139,13 +139,12 @@
         android:id="@+id/ms_textview_listname1"
         android:layout_width="96dp"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/ms_textview_host"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/ms_listview_host"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ms_textview_listname2"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.0" />
 

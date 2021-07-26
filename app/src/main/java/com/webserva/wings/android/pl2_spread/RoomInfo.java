@@ -127,11 +127,11 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 Log.i("ri_receiveMessage","メンバが確定されました");
                 Client.finishActivity();
                 if(ri_tag_1[0]>=4) {
-                    intent = new Intent(Client.context, TeamSplit.class);
-                }
-                else {
                     intent = new Intent(Client.context, Ready.class);
                     intent.putExtra("STATUS_TAG",ri_tag_1[1]);
+                }
+                else {
+                    intent = new Intent(Client.context, TeamSplit.class);
                 }
                 Client.startActivity(intent);
                 break;

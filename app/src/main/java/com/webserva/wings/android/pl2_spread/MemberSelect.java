@@ -69,6 +69,7 @@ public class MemberSelect extends AppCompatActivity {
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
+        list_host.add(new MemberInfo(Client.myInfo.getName(), ms_id));
         ListView listview1 = findViewById(R.id.ms_listview_host);
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);   //listview(host)に追加
@@ -112,9 +113,9 @@ public class MemberSelect extends AppCompatActivity {
             Intent intent;
 
             if (ms_tag >= 4) {
-                intent = new Intent(this, TeamSplit.class);
-            } else {
                 intent = new Intent(this, HReady.class);
+            } else {
+                intent = new Intent(this, TeamSplit.class);
             }
             //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
             intent.putExtra("MEMBER_NUM", size);
