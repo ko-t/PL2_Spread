@@ -643,8 +643,8 @@ public class Client {
                 myInfoRef.update(
                         "state", "choosingRoom"
                 );
-                Query roomWatcher = db.collection("roomList").whereEqualTo("open", true),
-                        roomMemberWatcher = db.collectionGroup("member");
+                Query roomWatcher = db.collection("roomList").whereEqualTo("open", true), //新しいroomの検出
+                        roomMemberWatcher = db.collectionGroup("member"); //
                 roomListener = roomWatcher.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         Log.w(TAG, "listen:error", e);
@@ -654,7 +654,8 @@ public class Client {
                         Log.i(TAG, "roomReq");
                         Map<String, Object> room = dc.getDocument().getData();
                         String roomName = room.get("roomName").toString(), tag = room.get("tag").toString(),
-                                hid = room.get("hostId").toString(), hname = room.get("hostName").toString();
+                                hid = room.get("hostId").toString(), hname = room.get("hostName").toString(),
+                        memNum = room.get("memberNum").toString();
                         StringJoiner sj2;
                         List<String> sList;
                         switch (dc.getType()) {
@@ -672,6 +673,7 @@ public class Client {
                                 sList.forEach(sj2::add);
                                 receiveMessage("del$" + hid);
                                 receiveMessage(sj2.toString());
+                                receiveMessage("num$" + hid + "$" + memNum);
                                 break;
                             case REMOVED:
                                 receiveMessage("del$" + hid);
@@ -680,32 +682,32 @@ public class Client {
                     }
                 });
 
-                roomMemberListener = roomMemberWatcher.addSnapshotListener((snapshots, e) -> {
-                    if (e != null) {
-                        Log.w(TAG, "listen:error", e);
-                        return;
-                    }
-                    for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                        memberInRoom = dc.getDocument().getData();
-                        // String roomName = dc.getDocument().getReference().getParent().getId(); //memberが返ってきた
-                        String changedUserName = dc.getDocument().getReference().getId();
-                        db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots1, e1) -> {
-                            Log.d(TAG, "MemberChange in Room " + changedUserName);
-                            switch (dc.getType()) {
-                                case ADDED:
-                                    Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
-                                    break;
-                                case MODIFIED:
-                                    receiveMessage("num$" + snapshots1.get("roomId", String.class) + "$" + memberInRoom.size());
-                                    Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
-                                    break;
-                                case REMOVED:
-                                    Log.d(TAG, "MemberChange Removed Info:" + dc.getDocument().getData());
-                                    break;
-                            }
-                        });
-                    }
-                });
+//                roomMemberListener = roomMemberWatcher.addSnapshotListener((snapshots, e) -> {
+//                    if (e != null) {
+//                        Log.w(TAG, "listen:error", e);
+//                        return;
+//                    }
+//                    for (DocumentChange dc : snapshots.getDocumentChanges()) {
+//                        memberInRoom = dc.getDocument().getData();
+//                        // String roomName = dc.getDocument().getReference().getParent().getId(); //memberが返ってきた
+//                        String changedUserName = dc.getDocument().getReference().getId();
+//                        db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots1, e1) -> {
+//                            Log.d(TAG, "MemberChange in Room " + changedUserName);
+//                            switch (dc.getType()) {
+//                                case ADDED:
+//                                    Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
+//                                    break;
+//                                case MODIFIED:
+//                                    receiveMessage("num$" + snapshots1.get("roomId", String.class) + "$" + memberInRoom.size());
+//                                    Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
+//                                    break;
+//                                case REMOVED:
+//                                    Log.d(TAG, "MemberChange Removed Info:" + dc.getDocument().getData());
+//                                    break;
+//                            }
+//                        });
+//                    }
+//                });
                 break;
 
             case "roomdispatch":
