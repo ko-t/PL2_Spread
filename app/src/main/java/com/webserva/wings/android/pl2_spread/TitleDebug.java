@@ -17,14 +17,14 @@ import java.util.Arrays;
 
 public class TitleDebug extends AppCompatActivity {
 
-    String id = "K", name = "Kota";
+    String id = "iMitoma", name = "nMitoma";
 
-    Switch newRegister;
     EditText idText, nameText;
     private static String TAG = "TitleDebug";
     Button idCheckButton;
     FirebaseFirestore db;
     Intent i;
+    boolean isNew = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +43,14 @@ public class TitleDebug extends AppCompatActivity {
         nameText.setText(Client.myInfo.getName());
         //newRegister = findViewById(R.id.tid_switch2);
 
+        String text = null;
+
         db = FirebaseFirestore.getInstance();
 
         Button ti_button_start = findViewById(R.id.tid_button_start);
         ti_button_start.setOnClickListener(v -> {
             Client.myInfo.setId(idText.getText().toString());
+            Client.myInfo.setName(nameText.getText().toString());
 
             int flag = 0, nameLim = 20;
             String nameError[] = {
@@ -55,9 +58,12 @@ public class TitleDebug extends AppCompatActivity {
                     "ID・名前は" + nameLim + "文字以下にしてください",
                     "ID、名前を入力してください"
             };
-            if (Client.myInfo.getId().contains("$") || Client.myInfo.getName().contains("$")) flag |= 1;
-            if (Math.max(Client.myInfo.getId().length(), Client.myInfo.getName().length()) >= nameLim + 1) flag |= 1 << 1;
-            if(Client.myInfo.getId().isEmpty() || Client.myInfo.getName().isEmpty()) flag |= 1 << 2;
+            if (Client.myInfo.getId().contains("$") || Client.myInfo.getName().contains("$"))
+                flag |= 1;
+            if (Math.max(Client.myInfo.getId().length(), Client.myInfo.getName().length()) >= nameLim + 1)
+                flag |= 1 << 1;
+            if (Client.myInfo.getId().isEmpty() || Client.myInfo.getName().isEmpty())
+                flag |= 1 << 2;
             for (int i = 0; i < nameError.length; i++) {
                 if ((flag & (1 << i)) != 0)
                     Toast.makeText(this, nameError[i], Toast.LENGTH_SHORT).show();
@@ -67,13 +73,12 @@ public class TitleDebug extends AppCompatActivity {
                 db.collection("memberList").document(idText.getText().toString()).get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if (document.exists() != newRegister.isChecked()) {
+                        if (!document.exists()) {
                             Log.d(TAG, "Document Exists: " + document.getData());
-                            Client.init(this, idText.getText().toString(), newRegister.isChecked());
+                            Client.init(this, idText.getText().toString(), true);
                             Client.startActivity(i);
                         } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                            Toast.makeText(this, "NG Combination of ID and Switch", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "IDはすでに存在します", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
