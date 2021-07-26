@@ -126,7 +126,6 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                         .geodesic(true));
             }
             for (int i = 0; i < others_pos.size(); i++) {
-                Client.mMap.addMarker(new MarkerOptions().position(others_original.get(i)));
                 polyline_plus = Client.mMap.addPolyline(new PolylineOptions()
                         .add(others_original.get(i), others_pos.get(i))
                         .width(15)
