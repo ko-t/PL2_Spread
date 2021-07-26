@@ -13,7 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.*;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 public class TitleDebug extends AppCompatActivity {
 
@@ -75,6 +79,26 @@ public class TitleDebug extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (!document.exists()) {
                             Log.d(TAG, "Document Exists: " + document.getData());
+
+                            //固有ストレージに書き込み
+                            File file = new File(this.getFilesDir(), "userInfo");
+                            try (FileWriter writer = new FileWriter(file)) {
+                                StringJoiner sj = new StringJoiner("$");
+                                //name id exp status
+                                sj.add(Client.myInfo.getName());
+                                sj.add(Client.myInfo.getId());
+                                sj.add(String.valueOf(0));
+                                sj.add(String.valueOf(Client.myInfo.getStatus().get(0)));
+                                sj.add(String.valueOf(Client.myInfo.getStatus().get(1)));
+                                sj.add(String.valueOf(Client.myInfo.getStatus().get(2)));
+                                sj.add(String.valueOf(Client.myInfo.getStatus().get(3)));
+                                writer.write(sj.toString());
+                            }
+                            catch (IOException e) {
+                                Log.i(TAG, "2");
+                                e.printStackTrace();
+                            }
+
                             Client.init(idText.getText().toString(), true);
                             Client.startActivity(i);
                         } else {

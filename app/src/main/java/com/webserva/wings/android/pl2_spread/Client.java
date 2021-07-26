@@ -97,7 +97,7 @@ public class Client {
 //    }
 
     static void init(String id, boolean isNewRegister) {
-        //db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         myInfoRef = db.collection("memberList").document(myInfo.getId());
         final int lv1 = 90000;
         //myInfo.setRoomId("dummyHostId");
