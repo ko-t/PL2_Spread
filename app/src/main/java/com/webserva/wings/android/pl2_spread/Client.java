@@ -182,6 +182,12 @@ public class Client {
                 newRoom.setMessage("newRoom");
                 newRoom.setMemberNum(1);
                 roomRef.set(newRoom);
+                roomRef.collection("member").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                    for(DocumentSnapshot x : queryDocumentSnapshots.getDocuments()){
+                        String id = x.getId();
+                        x.getReference().delete();
+                    }
+                });
                 roomRef.collection("member").document(myInfo.getId()).set(new SimpleEntry("team", 0));
                 // ルームリストを表示しているユーザに通知（openで通知されるはず）
                 //申し込みのリスナー
