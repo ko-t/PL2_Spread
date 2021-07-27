@@ -128,4 +128,5 @@
     <string name="ini_id_can_use">ID can be used</string>
     <string name="gm_speed">speed</string>
     <string name="gm_steps">steps</string>
+    <string name="rk_textview_b_title">Best Score</string>
 </resources>
