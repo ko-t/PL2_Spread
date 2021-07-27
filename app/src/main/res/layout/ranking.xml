@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="32dp"
-        android:text="ベストスコア"
+        android:text="@string/rk_textview_b_title"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/rk_textview_playcount"
         app:layout_constraintStart_toStartOf="parent" />
