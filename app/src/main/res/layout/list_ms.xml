@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="32dp"
         android:text="@string/ms_button_ok"
         android:textColor="@drawable/button_text_color"
         app:backgroundTint="@drawable/button_state"
@@ -26,25 +25,27 @@
     <TextView
         android:id="@+id/list_ms_textview_playername"
         android:layout_width="wrap_content"
-        android:maxWidth="96dp"
         android:layout_height="33dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxWidth="96dp"
+        android:maxLines="1"
         android:text=""
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </TextView>
+        app:layout_constraintTop_toTopOf="parent"></TextView>
 
     <TextView
         android:id="@+id/list_ms_textview_id"
-        android:layout_width="53dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="8dp"
         android:text=""
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/list_ms_textview_playername"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

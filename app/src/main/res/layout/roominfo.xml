@@ -165,18 +165,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-    <Button
-        android:id="@+id/ri_button_quit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/ri_imageButton_quit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_percent="0.5"
+        android:scaleType="fitXY"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"
-        android:backgroundTint="@android:color/holo_blue_bright"
-        android:text="@string/ri_button_quit"
+        android:backgroundTint="@color/Transparent"
+        app:srcCompat="@drawable/y_button2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ri_listview_member" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/ri_button_quit"
+        android:textColor="@color/white"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/ri_imageButton_quit"
+        app:layout_constraintEnd_toEndOf="@id/ri_imageButton_quit"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@id/ri_imageButton_quit"
+        app:layout_constraintTop_toTopOf="@id/ri_imageButton_quit"
+        app:layout_constraintWidth_percent="0.3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

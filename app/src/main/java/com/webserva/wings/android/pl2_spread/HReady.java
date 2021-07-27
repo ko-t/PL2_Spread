@@ -98,6 +98,7 @@ public class HReady extends AppCompatActivity {
             Client.sendMessage("start");
             Client.finishActivity();
             Intent intent_to_gm = new Intent(Client.context, Game.class);
+            intent_to_gm.putExtra("STATUS_TAG", intent_from_ms.getIntExtra("STATUS_TAG", 0));
             Client.startActivity(intent_to_gm);
         });
         hr_textView_gameReady = findViewById(R.id.hr_textView_gameReady);
@@ -114,4 +115,7 @@ public class HReady extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+    }
 }

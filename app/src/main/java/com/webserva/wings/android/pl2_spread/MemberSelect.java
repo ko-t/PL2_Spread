@@ -1,10 +1,13 @@
 package com.webserva.wings.android.pl2_spread;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -68,7 +71,7 @@ public class MemberSelect extends AppCompatActivity {
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
         ListView listview1 = findViewById(R.id.ms_listview_host);
-        adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
+        Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);   //listview(host)に追加
 
         //メンバの表示
@@ -89,8 +92,8 @@ public class MemberSelect extends AppCompatActivity {
 
 
         //メンバーが決定したら画面遷移
-        Button ms_button_decision = findViewById(R.id.ms_button_decision);
-        ms_button_decision.setOnClickListener(v -> {
+        ImageButton ms_imageButton_decision = findViewById(R.id.ms_imageButton_decision);
+        ms_imageButton_decision.setOnClickListener(v -> {
             size = list_member.size();
 
             /* 一時保管
@@ -155,4 +158,16 @@ public class MemberSelect extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(MemberSelect.this)
+                .setTitle(R.string.general_message)
+                .setMessage(R.string.ms_back_confirm)
+                .setPositiveButton(R.string.general_ok, (dialog, which) -> {
+                    Client.sendMessage("roomdel");
+                    super.onBackPressed();
+                })
+                .setNegativeButton(R.string.general_no, null)
+                .show();
+    }
 }

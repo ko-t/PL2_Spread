@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamSplitResult extends AppCompatActivity implements View.OnClickListener {
-    private Button tsr_button_next;
+    private ImageButton tsr_imageButton_next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,8 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teamsplitresult);
-        tsr_button_next=findViewById(R.id.tsr_button_next);
-        tsr_button_next.setOnClickListener(this);
+        tsr_imageButton_next=findViewById(R.id.tsr_imageButton_next);
+        tsr_imageButton_next.setOnClickListener(this);
 
         ListView listview_rock = findViewById(R.id.tsr_listview_rock);
         ListView listview_paper = findViewById(R.id.tsr_listview_paper);
@@ -56,7 +57,7 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
     //画面遷移
     @Override
     public void onClick(View v) {
-        if(v==tsr_button_next){   //画面15(Game)に遷移
+        if(v==tsr_imageButton_next){   //画面15(Game)に遷移
             Intent intent = new Intent(this,RoomInfo.class);
             Client.finishActivity();
             Client.startActivity(intent);

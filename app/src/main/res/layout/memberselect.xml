@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/ms_textview_roomname"
-        android:layout_width="145dp"
+        android:layout_width="wrap_content"
         android:layout_height="52dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
@@ -181,27 +181,44 @@
         android:id="@+id/ms_listview_memberlist"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="170dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/ms_button_decision"
+        app:layout_constraintBottom_toTopOf="@+id/ms_imageButton_decision"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/ms_button_decision"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:srcCompat="@drawable/y_button2"
+        android:scaleType="fitXY"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintWidth_percent="0.6"
+        android:id="@+id/ms_imageButton_decision"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@android:color/holo_blue_bright"
-        android:text="@string/ms_button_decision"
+        android:backgroundTint="@color/Transparent"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/ms_button_decision"
+        android:textColor="@color/white"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/ms_imageButton_decision"
+        app:layout_constraintEnd_toEndOf="@id/ms_imageButton_decision"
+        app:layout_constraintHeight_percent="0.04"
+        app:layout_constraintStart_toStartOf="@id/ms_imageButton_decision"
+        app:layout_constraintTop_toTopOf="@id/ms_imageButton_decision"
+        app:layout_constraintWidth_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

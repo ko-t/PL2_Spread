@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -118,7 +119,7 @@ public class RoomList extends AppCompatActivity {
         RadioButton rl_radiobutton_on = findViewById(R.id.rl_radiobutton_on);
         RadioButton rl_radioButton_known = findViewById(R.id.rl_radioButton_known);
 
-        Button rl_button_search = findViewById(R.id.rl_button_search);
+        ImageButton rl_button_search = findViewById(R.id.rl_imageButton_search);
         rl_button_search.setOnClickListener(v -> {
             searchFlag = true;
             if(rl_radiogroup_s1.getCheckedRadioButtonId() != -1) {
@@ -251,5 +252,10 @@ public class RoomList extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Client.sendMessage("roomdispatch");
+        super.onBackPressed();
+    }
 }
 

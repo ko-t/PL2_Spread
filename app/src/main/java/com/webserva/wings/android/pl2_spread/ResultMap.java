@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -29,38 +30,52 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
     static Object lock = new Object();
     static int flag = 0;
     static List<LatLng> others_pos = new ArrayList<>(), others_original = new ArrayList<>();
-    Button button;
+    ImageButton rm_imageButton_next;
     TextView textView;
     Intent intent_to_re;
     double area = 0, tmp;
+    private static String TAG = "ResutMap";
 
     static void receiveMessage(String message) {
         String[] s = message.split("\\$");
         int num = Integer.parseInt(s[1]);
         switch (s[0]) {
             case "otherpos12":
-                for (int i = 0; i < num; i++) {
-                    //others_original.add(new LatLng(Double.parseDouble(s[4 * i + 2]), Double.parseDouble(s[4 * i + 3])));
-                    //others_original.add(new LatLng(Double.parseDouble(s[4 * i + 4]), Double.parseDouble(s[4 * i + 5])));
-                    others_pos.add(moveWithVector(Client.start,
-                            new LatLng(Double.parseDouble(s[4 * i + 2]), Double.parseDouble(s[4 * i + 3])),
-                            new LatLng(Double.parseDouble(s[4 * i + 4]), Double.parseDouble(s[4 * i + 5]))));
+                others_pos.clear();
+                others_original.clear();
+                if (Integer.parseInt(s[2]) == 1) { //ステあり
+                    for (int i = 0; i < num; i++) {
+                        others_original.add(moveWithVector(Client.start,
+                                Double.parseDouble(s[2 * i + 3]),
+                                Double.parseDouble(s[2 * i + 4])));
+                        others_pos.add(moveWithVector(others_original.get(i),
+                                Math.toRadians(Double.parseDouble(s[2 * i + 2 * num + 3])),
+                                Double.parseDouble(s[2 * i + 2 * num + 4])));
+                    }
+                } else {
+                    for (int i = 0; i < num; i++) {
+                        others_pos.add(moveWithVector(Client.start,
+                                Double.parseDouble(s[2 * i + 3]),
+                                Double.parseDouble(s[2 * i + 4])));
+                    }
                 }
                 synchronized (lock) {
                     lock.notifyAll();
                 }
                 break;
         }
+        Log.i(TAG, others_original.toString());
+        Log.i(TAG, others_pos.toString());
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resultmap);
 
-        button = findViewById(R.id.rm_button);
+        rm_imageButton_next = findViewById(R.id.rm_imageButton_next);
         textView = findViewById(R.id.rm_textView_value);
 
-        button.setOnClickListener(v -> {
+        rm_imageButton_next.setOnClickListener(v -> {
             Client.finishActivity();
             intent_to_re = new Intent(getApplication(), ResultExp.class);
             intent_to_re.putExtra("SCORE", (int) Math.round(area));
@@ -83,7 +98,6 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ;
 
 //        if (flag <= 1) {
 //            synchronized (lock) {
@@ -95,20 +109,42 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 //            }
 //        }
 
-
-        //直線
+        //最終地点のマーカー
         for (int i = 0; i < others_pos.size(); i++) {
             Client.mMap.addMarker(new MarkerOptions().position(others_pos.get(i)));
-            Polyline polyline = Client.mMap.addPolyline(new PolylineOptions()
-                    .add(Client.start, others_pos.get(i))
-                    .width(15)
-                    .color(Color.BLUE)
-                    .geodesic(true));
+        }
+
+        Polyline polyline, polyline_plus;
+
+        //中心からの直線
+        if (others_original.size() != 0) {
+            for (int i = 0; i < others_pos.size(); i++) {
+                polyline = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(Client.start, others_original.get(i))
+                        .width(15)
+                        .color(Color.BLUE)
+                        .geodesic(true));
+            }
+            for (int i = 0; i < others_pos.size(); i++) {
+                Client.mMap.addMarker(new MarkerOptions().position(others_original.get(i)));
+                polyline_plus = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(others_original.get(i), others_pos.get(i))
+                        .width(15)
+                        .color(Color.RED)
+                        .geodesic(true));
+            }
+        } else {
+            for (int i = 0; i < others_pos.size(); i++) {
+                polyline = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(Client.start, others_pos.get(i))
+                        .width(15)
+                        .color(Color.BLUE)
+                        .geodesic(true));
+            }
         }
 
         //三角形と面積
         List<LatLng> triangle;
-
 
         int[] index = new int[3];
         for (int i = 0; i < others_pos.size(); i++) {
@@ -127,6 +163,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         }
 
         textView.setText(Long.toString(Math.round(area)));
+        Client.sendMessage("newscore$" + Math.round(area));
 
         triangle = new ArrayList<>(Arrays.asList(others_pos.get(index[0]),
                 others_pos.get(index[1]), others_pos.get(index[2])));
@@ -137,7 +174,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                 .fillColor(Color.argb(64, 128, 128, 255)));
     }
 
-    static private double calcAngle(LatLng ll1, LatLng ll2) {
+    static double calcAngle(LatLng ll1, LatLng ll2) {
         double y1 = Math.toRadians(ll1.latitude), y2 = Math.toRadians(ll2.latitude),
                 x1 = Math.toRadians(ll1.longitude), x2 = Math.toRadians(ll2.longitude);
         double angle = Math.toDegrees(Math.atan2(Math.sin(x2 - x1), Math.cos(y1) * Math.tan(y2) - Math.sin(y1) * Math.cos(x2 - x1)));
@@ -147,7 +184,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-    static private double calcDist(LatLng ll1, LatLng ll2) {
+    static double calcDist(LatLng ll1, LatLng ll2) {
         double y1 = Math.toRadians(ll1.latitude), y2 = Math.toRadians(ll2.latitude),
                 x1 = Math.toRadians(ll1.longitude), x2 = Math.toRadians(ll2.longitude), r = 6378.137 * 1000;
         double d = r * Math.acos(
@@ -156,7 +193,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
         return d;
     }
 
-    static LatLng moveWithVector(LatLng target, LatLng vecStart, LatLng vecGoal) {
+    static LatLng moveWithVector(LatLng target, double angle, double dist) {
 //        double a = 6378137.06, f = 1.0 / 298.257223563, b = 6356752.314245,
 //                fi1 = target.latitude, fi2, U1 = Math.atan((1.0 - f) * Math.tan(Math.toRadians(fi1))),
 //                L, al1 = calcAngle(vecStart, vecGoal), dsig, sigm = 0.0,
@@ -189,17 +226,16 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 //                + C * Math.cos(sig) * (-1.0 + 2.0 * Math.cos(sigm) * Math.cos(sigm))));
 //        double L2 = L + target.longitude;
 //        return new LatLng(fi2, L2);
-        double R = 6378150.0, dist = calcDist(vecStart, vecGoal),
-                angle = calcAngle(vecStart, vecGoal);
+        double R = 6378150.0;
         double deltaLat = dist * Math.cos(angle) * 360.0 / (2.0 * Math.PI * R);
         double newLat = target.latitude + deltaLat;
         Log.i("rm_moveWithVector", String.valueOf(deltaLat));
 
         double earth_radius_at_longitude = R * Math.cos(newLat * Math.PI / 180.0),
-        earth_circle_at_longitude = 2.0 * Math.PI * earth_radius_at_longitude,
-        longitude_per_meter = 360.0 / earth_circle_at_longitude;
+                earth_circle_at_longitude = 2.0 * Math.PI * earth_radius_at_longitude,
+                longitude_per_meter = 360.0 / earth_circle_at_longitude;
 
-        double newLng = target.longitude +  dist * Math.sin(angle) * longitude_per_meter;
+        double newLng = target.longitude + dist * Math.sin(angle) * longitude_per_meter;
 
         return new LatLng(newLat, newLng);
     }

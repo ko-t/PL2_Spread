@@ -2,6 +2,7 @@ package com.webserva.wings.android.pl2_spread;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,10 @@ public class MsAdapter extends ArrayAdapter<MemberInfo>{
             button.findViewById(R.id.list_ms_button_ok).setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     //処理内容
+                    //テスト
+                    Button b = (Button)v;
+                    b.setBackgroundColor(Color.GRAY);
+                    b.setEnabled(false);
                     mListener.onItemButtonClick(position,v);
                 }
             });
