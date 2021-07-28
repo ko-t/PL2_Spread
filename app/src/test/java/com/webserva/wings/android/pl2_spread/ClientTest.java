@@ -2,9 +2,13 @@ package com.webserva.wings.android.pl2_spread;
 
 import junit.framework.TestCase;
 
+import static java.lang.String.valueOf;
+
 public class ClientTest extends TestCase {
 
     Clienttester test = new Clienttester();
+
+
 
     public void setUp() throws Exception {
         super.setUp();
@@ -14,9 +18,59 @@ public class ClientTest extends TestCase {
     }
 
     public void testInit() {
+        test.init();
+        //経験値テーブルのテスト
+        int exp=90000;
+        int lv1 =90000;
+        assertEquals("0",test.expTable[0].toString());
+        assertEquals("1",test.expTable[1].toString());
+        assertEquals(valueOf(exp),test.expTable[2].toString());
+        for (int i = 3; i < 100; i++) {
+            exp=exp+ (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
+            assertEquals(valueOf(exp),test.expTable[i].toString());
+        }
+    }
+    /*
+    テストのために、以下のC言語プログラムを作成
+    #include <stdio.h>
+#include <math.h>
+int main(void){
+
+    int exp=90000;
+    int lv1 =90000;
+    int playerExp=118360000;
+    int level[110];
+    int i=0;
+    level[0]=0;
+    level[1]=1;
+    level[2]=lv1;
+
+    for (int i = 0; i < 110; i++) {
+            level[i]=level[i-1]+ (int) ((pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
+             if(playerExp<level[i]){
+                printf("プレイヤレベルは %d です\n 次のレベルまで　%d",i+1,level[i]-playerExp);
+                break;
+            }
 
     }
+}
+     */
+    public void testCalcLevel() {
+        //test.calcLevel(844870);
+        test.init();
+        assertEquals(4,test.calcLevel(118360));
+        assertEquals(10,test.calcLevel(1183600));
+        assertEquals(37,test.calcLevel(11836000));
+        assertEquals(103,test.calcLevel(118360000));
+    }
 
+    public void testCalcNextExp() {
+        test.init();
+        assertEquals(97847,test.calcNextExp(118360));
+        assertEquals(51507,test.calcNextExp(1183600));
+        assertEquals(281220,test.calcNextExp(11836000));
+        assertEquals(3252705,test.calcNextExp(118360000));
+    }
     public void testInit_connection() {
 
     }
@@ -27,9 +81,34 @@ public class ClientTest extends TestCase {
     public void testStartActivity() {
     }
 
+
     public void testSendMessage() {
         //ルームリスト送信リクエスト
-        String [] sMes = test.sendMessage("roomreq");
+        test.init();
+
+
+        String [] sMes = test.sendMessage("register");
+        assertEquals("register",sMes[0]);
+
+
+        test.sendMessage("newroom$TestRoom$4");
+        //ホストのIDと部屋のIDの一致を確認
+        assertEquals(test.myInfo.getRoomId(),test.myInfo.getId());
+        //メッセージやり取りの確認
+        assertEquals("newRoom",test.newRoom.getMessage());
+        //メンバーの人数の初期値を入れる
+        assertEquals(1,test.newRoom.getMemberNum());
+
+        test.sendMessage("apply$TestRoom");{
+            assertEquals("TestRoom",test.myInfo.getRoomId());
+        }
+
+        test.sendMessage("leave");{
+            assertEquals(null,test.myInfo.getRoomId());
+        }
+
+/*
+        sMes = test.sendMessage("roomreq");
         assertEquals("roomreq",sMes[0]);
 
         //メンバーの承認
@@ -84,7 +163,7 @@ public class ClientTest extends TestCase {
         sMes = test.sendMessage("accept$myID");
         assertEquals("accept",sMes[0]);
         assertEquals("myID",sMes[1]);
-
+*/
     }
 
     public void testReceiveMessage() {
@@ -224,11 +303,5 @@ public class ClientTest extends TestCase {
 
     }
 
-    public void testCalcLevel() {
-        assertEquals(10,test.calcLevel(11836));
-    }
 
-    public void testCalcNextExp() {
-        assertEquals(204,test.calcNextExp(12040));
-    }
 }

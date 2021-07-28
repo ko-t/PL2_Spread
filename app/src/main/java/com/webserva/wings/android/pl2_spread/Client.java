@@ -67,7 +67,7 @@ public class Client {
     static Map memberInRoom;
     static int gCount = -1, pCount = -1;
 
-    static Integer[] expTable = new Integer[100];
+    static Integer[] expTable = new Integer[133];
     static PrintWriter out;
 
     static Context context;
@@ -107,7 +107,7 @@ public class Client {
         expTable[0] = 0;
         expTable[1] = 1;
         expTable[2] = lv1;
-        for (int i = 3; i < 100; i++) {
+        for (int i = 3; i < 134; i++) {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
             if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
