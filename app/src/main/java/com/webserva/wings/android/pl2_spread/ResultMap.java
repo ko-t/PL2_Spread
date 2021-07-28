@@ -160,6 +160,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                 }
             }
         }
+        area += 53;
 
         textView.setText(Long.toString(Math.round(area)));
         if(Client.myInfo.getId().equals(Client.myInfo.getRoomId())) Client.sendMessage("newscore$" + Math.round(area));
