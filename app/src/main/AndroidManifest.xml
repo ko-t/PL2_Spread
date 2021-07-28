@@ -23,12 +23,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".Game" android:screenOrientation="portrait"/>
-        <activity android:name=".TeamSplit" android:screenOrientation="portrait">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+        <activity android:name=".TeamSplit" android:screenOrientation="portrait"/>
         <activity android:name=".GameEnd" android:screenOrientation="portrait"/>
         <activity android:name=".HReady" android:screenOrientation="portrait"/>
         <activity android:name=".MoveLocation" android:screenOrientation="portrait" />
@@ -46,8 +41,12 @@
         <activity android:name=".RoomInfo" android:screenOrientation="portrait"/>
         <activity android:name=".RoomWait" android:screenOrientation="portrait"/>
         <activity android:name=".Title" android:screenOrientation="portrait"/>
-
-        <activity android:name=".TitleDebug" android:screenOrientation="portrait"/>
+        <activity android:name=".TitleDebug" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".RoomList" android:screenOrientation="portrait"/>
         <activity android:name=".ResultMap" android:screenOrientation="portrait"/>
         <activity android:name=".TeamResultMap" android:screenOrientation="portrait"/>
