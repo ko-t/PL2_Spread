@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MainMenu extends AppCompatActivity {
 
@@ -16,8 +17,7 @@ public class MainMenu extends AppCompatActivity {
 
         ImageButton mm_imageButton_game = findViewById(R.id.mm_imageButton_game);
         mm_imageButton_game.setOnClickListener(v -> {
-            Intent intent_to_rmn = new Intent(getApplication(), RoomMenu.class);
-            Client.startActivity(intent_to_rmn);
+            Client.sendMessage("login");
         });
 
         ImageButton mm_ImageButton_profile = findViewById(R.id.mm_ImageButton_profile);
@@ -31,5 +31,12 @@ public class MainMenu extends AppCompatActivity {
             Intent intent_to_rmn = new Intent(getApplication(), Ranking.class);
             Client.startActivity(intent_to_rmn);
         });
+    }
+
+    public static void receiveMessage(String s){
+        if(s.equals("success")){
+            Intent intent_to_rmn = new Intent(Client.context, RoomMenu.class);
+            Client.startActivity(intent_to_rmn);
+        }
     }
 }

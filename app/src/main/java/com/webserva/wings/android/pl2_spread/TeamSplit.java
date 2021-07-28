@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,12 +15,11 @@ public class TeamSplit extends AppCompatActivity {
     private static int limit = 5;
     private static String[] name_i;
     private static String[] id_i;
-    private static String[] name_r;
-    private static String[] id_r;
     private static TextView ts_textView_alert;
     private static String alert;
     private static ImageButton ts_imageButton_g;
     private static ImageButton ts_imageButton_p;
+    private static TextView ts_textView_limit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,29 +32,24 @@ public class TeamSplit extends AppCompatActivity {
         MEMBER_NUM = intent_from_ms.getIntExtra("MEMBER_NUM",0);
         MEMBER_NAME = intent_from_ms.getStringExtra("MEMBER_NAME");
         MEMBER_ID = intent_from_ms.getStringExtra("MEMBER_ID");
+
         name_i = MEMBER_NAME.split("\\$");
         id_i = MEMBER_ID.split("\\$");
-        TextView ts_textView_limit = findViewById(R.id.ts_textView_limit);
+        ts_textView_limit = findViewById(R.id.ts_textView_limit);
         ts_textView_limit.setText(String.valueOf(limit));
 
 
 
         ts_imageButton_g.setOnClickListener(v -> {
-            Client.sendMessage("gp$0");
-            //残り回数を記述する処理
-            limit -= 1;
-            ts_textView_limit.setText(String.valueOf(limit));
             ts_imageButton_g.setEnabled(false);
             ts_imageButton_p.setEnabled(false);
+            Client.sendMessage("gp$0");
         });
 
         ts_imageButton_p.setOnClickListener(v -> {
-            Client.sendMessage("gp$1");
-            //残り回数を記述する処理
-            limit -= 1;
-            ts_textView_limit.setText(String.valueOf(limit));
             ts_imageButton_g.setEnabled(false);
             ts_imageButton_p.setEnabled(false);
+            Client.sendMessage("gp$1");
         });
 
         ts_textView_alert = findViewById(R.id.ts_textView_alert);
@@ -67,10 +62,12 @@ public class TeamSplit extends AppCompatActivity {
         String[] s=message.split("\\$");
         switch(s[0]) {
             case "gps17":
+                limit -= 1;
+                ts_textView_limit.setText(String.valueOf(limit));
                 int gCount = 0;
                 int pCount = 0;
                 int memberNum = Integer.parseInt(s[1]);
-                for(int i=2;i<memberNum*2+1;i += 2) {
+                for(int i=3;i<=memberNum*2+1;i += 2) {
                     if(Integer.parseInt(s[i]) == 0) {
                         gCount++;
                     }else {
@@ -82,18 +79,20 @@ public class TeamSplit extends AppCompatActivity {
                     String memberName = "";
                     String memberId = "";
                     String memberGp = "";
-                    for(int i=1;i<memberNum*2;i += 2) {
-                        id_r[i] = s[i];
-                        memberId += id_r[i] + "$";
+                    String[] id_r = new String[MEMBER_NUM];
+                    String[] name_r = new String[MEMBER_NUM];
+                    for(int i=2;i<=memberNum*2;i += 2) {
+                        id_r[i/2-1] = s[i];
+                        memberId += id_r[i/2-1] + "$";
                     }
                     memberId = memberId.substring(0,memberId.length()-1);
 
                     Client.gCount = gCount;
                     Client.pCount = pCount;
 
-                    for(String id_r : id_r) {
+                    for(String id : id_r) {
                         for(int i=0;i<memberNum;i++) {
-                            if(id_r.equals(id_i[i])) {
+                            if(id.equals(id_i[i])) {
                                 name_r[i] = name_i[i];
                                 memberName += name_r[i] + "$";
                                 break;
@@ -102,7 +101,7 @@ public class TeamSplit extends AppCompatActivity {
                     }
                     memberName = memberName.substring(0,memberName.length()-1);
 
-                    for(int i=2;i<memberNum*2+1;i += 2) {
+                    for(int i=3;i<=memberNum*2+1;i += 2) {
                         memberGp += s[i] + "$";
                     }
                     memberGp = memberGp.substring(0,memberGp.length()-1);
@@ -136,7 +135,7 @@ public class TeamSplit extends AppCompatActivity {
                     }else {
                         ts_textView_alert.setText(alert);
                         ts_imageButton_g.setEnabled(true);
-                        ts_imageButton_g.setEnabled(true);
+                        ts_imageButton_p.setEnabled(true);
                     }
                 }
         }

@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.WriteAbortedException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.AbstractMap.SimpleEntry;
@@ -170,6 +171,16 @@ public class Client {
                         .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                         .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
                 break;
+
+            case "login":
+                batch.update(myInfoRef, "state", "offline", "roomId", null);
+                batch.commit().addOnSuccessListener(Void ->{
+                    MainMenu.receiveMessage("success");
+                }).addOnFailureListener(e -> {
+
+                });
+                break;
+
             case "newroom":
                 myInfo.setRoomId(myInfo.getId());
                 roomRef = db.collection("roomList").document(myInfo.getRoomId());
@@ -183,7 +194,7 @@ public class Client {
                 newRoom.setMemberNum(1);
                 roomRef.set(newRoom);
                 roomRef.collection("member").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                    for(DocumentSnapshot x : queryDocumentSnapshots.getDocuments()){
+                    for (DocumentSnapshot x : queryDocumentSnapshots.getDocuments()) {
                         String id = x.getId();
                         x.getReference().delete();
                     }
@@ -324,7 +335,7 @@ public class Client {
                                 roomMemberListener = db.collection("roomList").document(myInfo.getRoomId()).collection("member")
                                         .whereEqualTo("value", -1).addSnapshotListener((value, error) -> {
                                             for (DocumentSnapshot x : value.getDocuments()) {
-                                                if(!x.getId().equals(myInfo.getId())) db.collection("memberList").document(x.getId()).get().addOnSuccessListener(documentSnapshot -> {
+                                                db.collection("memberList").document(x.getId()).get().addOnSuccessListener(documentSnapshot -> {
                                                     receiveMessage("add10$" + documentSnapshot.get("name", String.class) + "$" + x.getId());
                                                 });
                                             }
@@ -752,49 +763,70 @@ public class Client {
 
             case "newscore": //新しいスコアが自分のベストか確認、またホストならランキングに登録
                 if (myInfo.getId().equals(myInfo.getRoomId())) {
-                    db.collection("ranking").orderBy("scoreid", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                int num = document.toObject(Score.class).getScoreId() + 1;
-                                Score newScore = new Score();
-                                newScore.setScore(Integer.parseInt(s[1]));
-                                newScore.setScoreId(num);
-                                db.collection("roomList").document(myInfo.getRoomId()).get().addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        DocumentSnapshot document1 = task1.getResult();
-                                        if (document1.exists()) {
-                                            Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
-                                            newScore.setTeamName(document1.toObject(Room.class).getRoomName());
-                                        } else {
-                                            Log.d(TAG, "No such document");
-                                        }
-                                    } else {
-                                        Log.d(TAG, "get failed with ", task1.getException());
-                                    }
-                                });
-                                db.collection("ranking").document(String.valueOf(num)).set(newScore);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting ranking ", task.getException());
-                        }
+                    Score newScore = new Score();
+                    int nScore = Integer.parseInt(s[1]);
+                    newScore.setScore(nScore);
+                    roomRef.get().addOnSuccessListener(documentSnapshot -> {
+                        newScore.setTeamName(documentSnapshot.get("roomName", String.class));
+                        db.collection("ranking").add(newScore).addOnSuccessListener(documentReference -> {
+                            documentReference.update("recordId", documentReference.getId());
+                            roomRef.collection("memberList").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                                for (QueryDocumentSnapshot x : queryDocumentSnapshots) {
+                                    db.collection("memberInfo").document(x.getId()).get().addOnSuccessListener(documentSnapshot1 -> {
+                                        db.collection("ranking").document(documentSnapshot1.get("recordId", String.class)).get().addOnSuccessListener(documentSnapshot2 -> {
+                                            if (documentSnapshot2.get("score", Integer.class) < nScore) {
+                                                x.getReference().update("recordId", documentReference.getId());
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+                        });
                     });
+//                    db.collection("ranking").orderBy("scoreid", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(task -> {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                int num = document.toObject(Score.class).getScoreId() + 1;
+//                                Score newScore = new Score();
+//                                newScore.setScore(Integer.parseInt(s[1]));
+//                                newScore.setScoreId(num);
+//                                db.collection("roomList").document(myInfo.getRoomId()).get().addOnCompleteListener(task1 -> {
+//                                    if (task1.isSuccessful()) {
+//                                        DocumentSnapshot document1 = task1.getResult();
+//                                        if (document1.exists()) {
+//                                            Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
+//                                            newScore.setTeamName(document1.toObject(Room.class).getRoomName());
+//                                        } else {
+//                                            Log.d(TAG, "No such document");
+//                                        }
+//                                    } else {
+//                                        Log.d(TAG, "get failed with ", task1.getException());
+//                                    }
+//                                });
+//                                db.collection("ranking").document(String.valueOf(num)).set(newScore);
+//                            }
+//                        } else {
+//                            Log.d(TAG, "Error getting ranking ", task.getException());
+//                        }
+//                    });
                 }
-                db.collection("ranking").document(String.valueOf(myInfo.getRecordId())).get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            if (document.toObject(Score.class).getScore() < Integer.parseInt(s[1])) {
-
-                            }
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                });
+//                db.collection("ranking").document(String.valueOf(myInfo.getRecordId())).get().addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()) {
+//                        DocumentSnapshot document = task.getResult();
+//                        if (document.exists()) {
+//                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                            if (document.toObject(Score.class).getScore() < Integer.parseInt(s[1])) {
+//                                myInfoRef.update("recordId");
+//                            }
+//                        } else {
+//                            Log.d(TAG, "No such document");
+//                        }
+//                    } else { //新規スコア
+//                        myInfoRef.update("recordId");
+//                        Log.d(TAG, "get failed with ", task.getException());
+//                    }
+//                });
                 break;
         }
     }
