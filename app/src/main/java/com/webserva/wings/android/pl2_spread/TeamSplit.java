@@ -60,9 +60,6 @@ public class TeamSplit extends AppCompatActivity {
 
     static void receiveMessage(String message){
         String[] s=message.split("\\$");
-        for(int i=0;i<7;i++) {
-            Log.i("message",s[i]);
-        }
         switch(s[0]) {
             case "gps17":
                 limit -= 1;
