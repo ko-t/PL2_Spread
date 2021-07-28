@@ -51,9 +51,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
 
 public class Client {
-    //static String serveraddress = "10.0.2.2";
-    static String serveraddress = "192.168.1.4";
-    //static String serveraddress = "172.20.10.14";
     static int port = 38443, myRank, myScore, rankCounter;
     static long time = 10000;
     private final static String TAG = "Client";
@@ -73,36 +70,10 @@ public class Client {
 
     static Context context;
 
-//    static enum screens{
-//        Title,
-//        MainMenu,
-//        RoomMenu,
-//        RoomList,
-//        RoomWait,
-//        Profile,
-//        Ranking,
-//        TagSet,
-//        MemberSelect,
-//        RoomInfo,
-//        Ready,
-//        ResultMap,
-//        ResultExp,
-//        HReady,
-//        Game,
-//        GameEnd,
-//        TeamSplit,
-//        TeamSplitResult,
-//        TeamResultMap,
-//        MoveLocation,
-//        LevelUp
-//    }
-
     static void init(String id, boolean isNewRegister) {
         db = FirebaseFirestore.getInstance();
         myInfoRef = db.collection("memberList").document(myInfo.getId());
         final int lv1 = 90000;
-        //myInfo.setRoomId("dummyHostId");
-        //context = c;
 
         //経験値テーブルの生成
         expTable[0] = 0;
@@ -119,35 +90,6 @@ public class Client {
         db = FirebaseFirestore.getInstance();
         context = c;
     }
-
-//    static void init_connection() {
-//        new Thread(() -> {
-//            InetSocketAddress address = new InetSocketAddress(serveraddress, port);
-//            Socket socket = new Socket();
-//            try {
-//                socket.connect(address, 3000);
-//                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//                out = new PrintWriter(socket.getOutputStream());
-//                out.println(Client.myInfo.getId());
-//                //初回接続の場合
-//                //out.println("$" + Client.myInfo.getId() + "$" + Client.myInfo.getName());
-////                while(br.readLine().equals("dup")){
-////                    //id重複の処理
-////                }
-//                out.flush();
-//                Log.i("Client_init", "id is sent");
-//                String s;
-//                while (true) {
-//                    s = br.readLine();
-//                    if (s != null) {
-//                        receiveMessage(s);
-//                    }
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
-//    }
 
     static void finishActivity() {
         ((Activity) context).finish();
@@ -309,29 +251,6 @@ public class Client {
                                 break;
 
                             case -1: //承認
-//                                db.collection("roomList").document(myInfo.getRoomId()).collection("member")
-//                                        .whereEqualTo("value", -1).get().addOnCompleteListener(task -> {
-//                                    Log.i(TAG, "approved");
-//                                    if (task.isSuccessful()) {
-//                                        for (QueryDocumentSnapshot document : task.getResult()) {
-//                                            db.collection("memberList").document(document.getId()).get().addOnCompleteListener(task12 -> {
-//                                                if (task12.isSuccessful()) {
-//                                                    DocumentSnapshot document1 = task12.getResult();
-//                                                    if (document1.exists()) {
-//                                                        Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
-//                                                        receiveMessage("add10$" + document1.get("name", String.class) + "$" + document.getId());
-//                                                    } else {
-//                                                        Log.d(TAG, "No such document");
-//                                                    }
-//                                                } else {
-//                                                    Log.d(TAG, "get failed with ", task12.getException());
-//                                                }
-//                                            });
-//                                        }
-//                                    } else {
-//                                        Log.d(TAG, "Error getting -1 members ", task.getException());
-//                                    }
-//                                });
                                 roomMemberListener = db.collection("roomList").document(myInfo.getRoomId()).collection("member")
                                         .whereEqualTo("value", -1).addSnapshotListener((value, error) -> {
                                             for (DocumentSnapshot x : value.getDocuments()) {
@@ -451,13 +370,9 @@ public class Client {
                         "count", 0,
                         "gpCount", 0
                 );
-                //myInfoRef.update("matchHistory", FieldValue.increment(1));
                 break;
 
             case "startpos":
-                //始点を記録
-//                myInfoRef.update("angle", ResultMap.calcAngle(start, ));
-//                myInfoRef.update("dist", start.longitude);
                 break;
 
             case "pos":
@@ -597,16 +512,6 @@ public class Client {
                 sendMessage("goalpos$1");
                 break;
 
-//            case "end": TODO リスナー
-//                roomRef.update("count", FieldValue.increment(1));
-//                // 全員のendが来たら結果を送る。TODO ゲーム終了の処理、ランキング追加などはここ
-//                if (tmpRoom.increaseAndCheckCount()) {
-//                    for (String to : tmpRoom.getMember().keySet()) {
-//                        sendMessage(to, "showresult");
-//                    }
-//                }
-//                break;
-
             case "newstatus":
                 Integer[] tmp = {Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4])};
                 myInfoRef.update("status", Arrays.asList(tmp))
@@ -728,40 +633,13 @@ public class Client {
                         }
                     }
                 });
-
-//                roomMemberListener = roomMemberWatcher.addSnapshotListener((snapshots, e) -> {
-//                    if (e != null) {
-//                        Log.w(TAG, "listen:error", e);
-//                        return;
-//                    }
-//                    for (DocumentChange dc : snapshots.getDocumentChanges()) {
-//                        memberInRoom = dc.getDocument().getData();
-//                        // String roomName = dc.getDocument().getReference().getParent().getId(); //memberが返ってきた
-//                        String changedUserName = dc.getDocument().getReference().getId();
-//                        db.collection("memberList").document(changedUserName).addSnapshotListener((snapshots1, e1) -> {
-//                            Log.d(TAG, "MemberChange in Room " + changedUserName);
-//                            switch (dc.getType()) {
-//                                case ADDED:
-//                                    Log.d(TAG, "MemberChange Added Info:" + dc.getDocument().getData());
-//                                    break;
-//                                case MODIFIED:
-//                                    receiveMessage("num$" + snapshots1.get("roomId", String.class) + "$" + memberInRoom.size());
-//                                    Log.d(TAG, "MemberChange Modified Info:" + dc.getDocument().getData());
-//                                    break;
-//                                case REMOVED:
-//                                    Log.d(TAG, "MemberChange Removed Info:" + dc.getDocument().getData());
-//                                    break;
-//                            }
-//                        });
-//                    }
-//                });
                 break;
 
             case "roomdispatch":
                 roomListener.remove();
                 break;
 
-            case "newscore": //新しいスコアが自分のベストか確認、またホストならランキングに登録
+            case "newscore": //新しいスコアが自分のベストか確認、またホストならランキングに登録、部屋を削除
                 if (myInfo.getId().equals(myInfo.getRoomId())) {
                     Score newScore = new Score();
                     int nScore = Integer.parseInt(s[1]);
@@ -782,51 +660,16 @@ public class Client {
                                 }
                             });
                         });
+                        //部屋を破壊
+                        roomRef.collection("member").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                            WriteBatch wBatch = db.batch();
+                            for(QueryDocumentSnapshot x : queryDocumentSnapshots){
+                                wBatch.delete(x.getReference());
+                            }
+                            roomRef.delete();
+                        });
                     });
-//                    db.collection("ranking").orderBy("scoreid", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(task -> {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                                int num = document.toObject(Score.class).getScoreId() + 1;
-//                                Score newScore = new Score();
-//                                newScore.setScore(Integer.parseInt(s[1]));
-//                                newScore.setScoreId(num);
-//                                db.collection("roomList").document(myInfo.getRoomId()).get().addOnCompleteListener(task1 -> {
-//                                    if (task1.isSuccessful()) {
-//                                        DocumentSnapshot document1 = task1.getResult();
-//                                        if (document1.exists()) {
-//                                            Log.d(TAG, "DocumentSnapshot data: " + document1.getData());
-//                                            newScore.setTeamName(document1.toObject(Room.class).getRoomName());
-//                                        } else {
-//                                            Log.d(TAG, "No such document");
-//                                        }
-//                                    } else {
-//                                        Log.d(TAG, "get failed with ", task1.getException());
-//                                    }
-//                                });
-//                                db.collection("ranking").document(String.valueOf(num)).set(newScore);
-//                            }
-//                        } else {
-//                            Log.d(TAG, "Error getting ranking ", task.getException());
-//                        }
-//                    });
                 }
-//                db.collection("ranking").document(String.valueOf(myInfo.getRecordId())).get().addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()) {
-//                        DocumentSnapshot document = task.getResult();
-//                        if (document.exists()) {
-//                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                            if (document.toObject(Score.class).getScore() < Integer.parseInt(s[1])) {
-//                                myInfoRef.update("recordId");
-//                            }
-//                        } else {
-//                            Log.d(TAG, "No such document");
-//                        }
-//                    } else { //新規スコア
-//                        myInfoRef.update("recordId");
-//                        Log.d(TAG, "get failed with ", task.getException());
-//                    }
-//                });
                 break;
         }
     }
