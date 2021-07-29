@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -42,6 +43,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     long time = 3 * 60 * 1000;
     //long time = 1 * 60 * 1000;
+    boolean arukiSmaphoEliminater = false;
 
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -51,7 +53,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
     static Intent intent;
     float walkDist = 0;
     Location prev;
-    int stepInitValue = -1, stepValue=0;
+    int stepInitValue = -1, stepValue = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +92,9 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         for (Location location : locationResult.getLocations()) {
                             walkDist += location.distanceTo(prev);
                             way.setText(String.valueOf(walkDist));
-                            stride.setText(String.valueOf(walkDist / (float)stepValue));
+                            stride.setText(String.valueOf(walkDist / (float) stepValue));
+                            if(walkDist / (float) stepValue >= 2) stride.setTextColor(Color.RED);
+                            else stride.setTextColor(Color.GRAY);
                             prev = location;
                             speed.setText(String.format(Locale.US, "%.3f m/s", location.getSpeed()));
                         }
@@ -101,21 +105,21 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
         Window w = getWindow();
 
-        imageButton_full.setOnClickListener(v -> {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            if (Build.VERSION.SDK_INT >= 30) {
-                Log.i("Game", "SDK_30~/" + getWindow().getInsetsController());
-                getWindow().getInsetsController().hide(
-                        WindowInsets.Type.navigationBars() | WindowInsets.Type.statusBars());
-                getWindow().getInsetsController().setSystemBarsBehavior(
-                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
-                Log.i("Game", getWindow().getInsetsController().getSystemBarsBehavior() + "");
-            } else {
-                Log.i("Game", "NOT_SDK_30~");
-                View decor = getWindow().getDecorView();
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE);
-            }
-        });
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (Build.VERSION.SDK_INT >= 30) {
+            Log.i("Game", "SDK_30~/" + getWindow().getInsetsController());
+            getWindow().getInsetsController().hide(
+                    WindowInsets.Type.navigationBars() | WindowInsets.Type.statusBars());
+            getWindow().getInsetsController().setSystemBarsBehavior(
+                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+            Log.i("Game", getWindow().getInsetsController().getSystemBarsBehavior() + "");
+        } else {
+            Log.i("Game", "NOT_SDK_30~");
+            View decor = getWindow().getDecorView();
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        }
+
         action();
     }
 
@@ -151,7 +155,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                         .addOnSuccessListener(Game.this, location -> {
                             if (location != null) {
                                 //違法判定
-                                if(walkDist / stepValue >= 2){
+                                if (arukiSmaphoEliminater && walkDist / stepValue >= 2) {
                                     Client.sendMessage("pos$" + Client.start.latitude + "$" +
                                             Client.start.longitude);
                                     Toast.makeText(Game.this, "歩きスマホや乗り物による移動が検出されたので記録が無効となりました", Toast.LENGTH_LONG).show();
@@ -162,7 +166,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                                     //ステータスあり
                                     Client.finishActivity();
                                     Client.startActivity(new Intent(getApplication(), MoveLocation.class));
-                                    Log.i("mm_setOnClickListener","MoveLocation画面に遷移");
+                                    Log.i("mm_setOnClickListener", "MoveLocation画面に遷移");
                                 } else {
                                     Client.sendMessage("goalpos$0");
                                 }
@@ -244,13 +248,12 @@ public class Game extends ComponentActivity implements SensorEventListener {
         switch (s[0]) {
             case "result":
                 Client.finishActivity();
-                if (Client.myInfo.getTeam() == -1){
+                if (Client.myInfo.getTeam() == -1) {
                     Client.startActivity(new Intent(Client.context, ResultMap.class));
-                    Log.i("mm_setOnClickListener","ResultMap画面に遷移");
-                }
-                else {
+                    Log.i("mm_setOnClickListener", "ResultMap画面に遷移");
+                } else {
                     Client.startActivity(new Intent(Client.context, TeamResultMap.class));
-                    Log.i("mm_setOnClickListener","TeamResultMap画面に遷移");
+                    Log.i("mm_setOnClickListener", "TeamResultMap画面に遷移");
                 }
                 break;
         }
