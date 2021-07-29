@@ -8,6 +8,9 @@ import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.StringJoiner;
 
 public class TeamSplit extends AppCompatActivity {
@@ -41,7 +44,6 @@ public class TeamSplit extends AppCompatActivity {
         ts_textView_limit = findViewById(R.id.ts_textView_limit);
         ts_textView_limit.setText(String.valueOf(limit));
         ts_textView_selected = findViewById(R.id.ts_textView_splitExplanation);
-
 
         ts_imageButton_g.setOnClickListener(v -> {
             ts_textView_selected.setText("他のプレイヤの選択を待っています...");
@@ -81,7 +83,7 @@ public class TeamSplit extends AppCompatActivity {
                     }
                 }
 
-                String[] id_r = null;
+                String[] id_r = new String[MEMBER_NUM];
 
                 if (Math.abs(gCount - pCount) <= 1) {
                     String memberName = "";
@@ -140,8 +142,20 @@ public class TeamSplit extends AppCompatActivity {
                         StringJoiner sj = new StringJoiner("$");
                         sj.add("gpdefined");
                         sj.add(MEMBER_NUM + "");
-                        for (int i = 1; i <= MEMBER_NUM; i++) {
-                            sj.add(id_r[i - 1]);
+
+                        List<String> list = new ArrayList<>();
+                        for (int i = 0; i < MEMBER_NUM; i++) {
+                            list.add(id_i[i] + "$" + name_i[i]);
+                        }
+                        Collections.sort(list);
+                        StringJoiner newName = new StringJoiner("$"), newId = new StringJoiner("$");
+                        int i=0;
+                        for(String x : list){
+                            String id = x.split("\\$")[0];
+                            newId.add(id);
+                            newName.add(x.split("\\$")[1]);
+                            sj.add(id);
+
                             if (i % 2 == 0) {
                                 gpDefault += "0$";
                                 sj.add("0");
@@ -149,15 +163,18 @@ public class TeamSplit extends AppCompatActivity {
                                 gpDefault += "1$";
                                 sj.add("1");
                             }
+                            i++;
                         }
+
                         Client.sendMessage(sj.toString());
                         gpDefault = gpDefault.substring(0, gpDefault.length() - 1);
 
+                        gpDefault = gpDefault.replaceAll("0", "g").replaceAll("1", "p");
 
                         Intent intent_to_tsr = new Intent(Client.context, TeamSplitResult.class);
                         intent_to_tsr.putExtra("MEMBER_NUM", MEMBER_NUM);
-                        intent_to_tsr.putExtra("MEMBER_NAME", MEMBER_NAME);
-                        intent_to_tsr.putExtra("MEMBER_ID", MEMBER_ID);
+                        intent_to_tsr.putExtra("MEMBER_NAME", newName.toString());
+                        intent_to_tsr.putExtra("MEMBER_ID", newId.toString());
                         intent_to_tsr.putExtra("MEMBER_GP", gpDefault);
                         Client.finishActivity();
                         Client.startActivity(intent_to_tsr);
