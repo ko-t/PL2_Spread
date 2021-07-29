@@ -125,7 +125,7 @@ public class MemberSelect extends AppCompatActivity {
                 str_name=list_member.get(list_member.size()-1).getName();
                 str_id=list_member.get(list_member.size()-1).getId();
             }
-            
+
             //メンバーの名前とIDの文字列の作る
             StringJoiner sjName = new StringJoiner("$"), sjId = new StringJoiner("$");
             for(int x=0;x<list_member.size();x++){
