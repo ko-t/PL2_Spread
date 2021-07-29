@@ -1,24 +1,5 @@
 package com.webserva.wings.android.pl2_spread;
 
-/*
-  　receiveMessageで画面遷移するときはこれを使ってください
-
-     static void receiveMessage(String message) {
-        String[] s = message.split("\\$");
-        switch (s[0]) {
-            case "start":
-                Client.finishActivity();
-                Intent i = new Intent(Client.context, {次のクラス}.class);
-                Client.startActivity(i);
-                break;
-        }
-    }
-
-       また、receiveMessageをクラスに実装したら、ClientのreceiveMessageの
-   コメントアウトを解除してくれると手間が省けます。
-
- */
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
