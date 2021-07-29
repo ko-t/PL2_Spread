@@ -35,7 +35,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tpr_textview_teamsplit"
-        app:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/team_g" />
 
     <TextView
         android:id="@+id/tpr_textview_teamsplit"
@@ -56,7 +56,7 @@
         android:layout_marginTop="-6dp"
         app:layout_constraintStart_toStartOf="@+id/tsr_imageview_rock"
         app:layout_constraintTop_toBottomOf="@+id/tsr_textview_vs"
-        app:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/team_p" />
 
     <ListView
         android:id="@+id/tsr_listview_rock"
