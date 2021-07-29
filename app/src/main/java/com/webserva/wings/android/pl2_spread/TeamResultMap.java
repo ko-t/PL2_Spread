@@ -133,6 +133,8 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
             rightScore = draw(Color.MAGENTA, textViewRight, others_pos2);
         }
 
+        if(Client.myInfo.getId().equals(Client.myInfo.getRoomId())) Client.sendMessage("newscore$" + Math.max(leftScore, rightScore));
+
         if (leftScore == rightScore) winlose = "引き分け";
         else
             winlose = leftScore < rightScore ^ Client.myInfo.getTeam() == 0 ? "勝ち" : "負け";

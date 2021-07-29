@@ -52,7 +52,7 @@ public class Title extends AppCompatActivity {
             case MotionEvent.ACTION_DOWN:
                 Client.init2(this);
                 if (isNew) {
-                    intent = new Intent(getApplication(), TitleDebug.class);
+                    intent = new Intent(getApplication(), Register.class);
                 } else {
                     intent = new Intent(getApplication(), MainMenu.class);
                 }

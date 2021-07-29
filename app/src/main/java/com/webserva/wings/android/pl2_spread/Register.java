@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.StringJoiner;
 
-public class TitleDebug extends AppCompatActivity {
+public class Register extends AppCompatActivity {
 
     String id = "", name = "";
 

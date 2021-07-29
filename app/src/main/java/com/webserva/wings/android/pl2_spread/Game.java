@@ -41,7 +41,7 @@ import java.util.Locale;
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     //long time = 3 * 60 * 1000;
-    long time = 1 * 10 * 1000;
+    long time = 1 * 60 * 1000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -150,6 +150,12 @@ public class Game extends ComponentActivity implements SensorEventListener {
                 Client.fusedLocationClient.getLastLocation()
                         .addOnSuccessListener(Game.this, location -> {
                             if (location != null) {
+                                //違法判定
+                                if(walkDist / stepValue >= 2){
+                                    Client.sendMessage("pos$" + Client.start.latitude + "$" +
+                                            Client.start.longitude);
+                                    Toast.makeText(Game.this, "歩きスマホや乗り物による移動が検出されたので記録が無効となりました", Toast.LENGTH_LONG).show();
+                                }
                                 Client.goal = new LatLng(location.getLatitude(), location.getLongitude());
                                 Log.i("Game_Goal", location.toString());
                                 if (intent.getIntExtra("STATUS_TAG", 0) == 0) {
