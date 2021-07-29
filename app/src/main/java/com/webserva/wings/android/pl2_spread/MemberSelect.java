@@ -116,15 +116,16 @@ public class MemberSelect extends AppCompatActivity {
                 intent = new Intent(this, HReady.class);
             } else {
                 intent = new Intent(this, TeamSplit.class);
+                //メンバーの名前とIDの文字列の作る
+                for(int k=0;k<list_member.size()-1;k++){
+                    str_name=list_member.get(k).getName()+"$";
+                    str_id=list_member.get(k).getId()+"$";
+                }
+                str_name=list_member.get(list_member.size()-1).getName();
+                str_id=list_member.get(list_member.size()-1).getId();
             }
 
-            //メンバーの名前とIDの文字列の作る
-            for(int k=0;k<list_member.size()-1;k++){
-                str_name=list_member.get(k).getName()+"$";
-                str_id=list_member.get(k).getId()+"$";
-            }
-            str_name=list_member.get(list_member.size()-1).getName();
-            str_id=list_member.get(list_member.size()-1).getId();
+
 
             //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
             intent.putExtra("MEMBER_NUM", size);

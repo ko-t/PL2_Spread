@@ -1,57 +1,26 @@
 package com.webserva.wings.android.pl2_spread;
 
-/*
-  　receiveMessageで画面遷移するときはこれを使ってください
-
-     static void receiveMessage(String message) {
-        String[] s = message.split("\\$");
-        switch (s[0]) {
-            case "start":
-                Client.finishActivity();
-                Intent i = new Intent(Client.context, {次のクラス}.class);
-                Client.startActivity(i);
-                break;
-        }
-    }
-
-       また、receiveMessageをクラスに実装したら、ClientのreceiveMessageの
-   コメントアウトを解除してくれると手間が省けます。
-
- */
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.google.android.gms.common.api.Batch;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.*;
-import com.google.firebase.firestore.EventListener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.WriteAbortedException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
 
 public class Client {
-    static int port = 38443, myRank, myScore, rankCounter;
+    static int port = 38443, myRank, myScore, rankCounter, maxLevel = 133;
     static long time = 10000;
     private final static String TAG = "Client";
 
@@ -60,12 +29,12 @@ public class Client {
     static FusedLocationProviderClient fusedLocationClient;
     static LatLng start, goal;
     static ListenerRegistration startListener, resultListener, readyListener, roomMemberListener,
-            applicationListener, teamNumListener, gpListener, roomListener;
+            applicationListener, teamNumListener, gpCountListener, roomListener;
     static FirebaseFirestore db;
     static Map memberInRoom;
     static int gCount = -1, pCount = -1;
 
-    static Integer[] expTable = new Integer[133];
+    static Integer[] expTable = new Integer[maxLevel];
     static PrintWriter out;
 
     static Context context;
@@ -79,7 +48,7 @@ public class Client {
         expTable[0] = 0;
         expTable[1] = 1;
         expTable[2] = lv1;
-        for (int i = 3; i < 134; i++) {
+        for (int i = 3; i < maxLevel; i++) {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
             if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
@@ -134,50 +103,53 @@ public class Client {
                 Room newRoom = new Room(s[1], Integer.parseInt(s[2]), myInfo.getId(), myInfo.getName());
                 newRoom.setMessage("newRoom");
                 newRoom.setMemberNum(1);
-                roomRef.set(newRoom);
-                roomRef.collection("member").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (DocumentSnapshot x : queryDocumentSnapshots.getDocuments()) {
-                        String id = x.getId();
-                        x.getReference().delete();
-                    }
+                roomRef.set(newRoom).addOnSuccessListener(Void -> {
+                    roomRef.collection("member").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (DocumentSnapshot x : queryDocumentSnapshots.getDocuments()) {
+                            String id = x.getId();
+                            x.getReference().delete();
+                        }
+                        WriteBatch wBatch = db.batch();
+                        wBatch.set(roomRef.collection("member").document(myInfo.getId()), new SimpleEntry("team", 0));
+                        wBatch.commit();
+                        applicationListener = roomRef.collection("member").addSnapshotListener((snapshots, e) -> {
+                            if (e != null) {
+                                Log.w(TAG, "listen:error", e);
+                                return;
+                            }
+                            for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                                // com.google.firebase.database.GenericTypeIndicator
+                                String name = dc.getDocument().getId();
+                                switch (dc.getType()) {
+                                    case ADDED:
+                                        Log.d(TAG, "New Member: " + name + "/" + dc.getDocument().getData());
+                                        db.collection("memberList").whereEqualTo("state", "applying").get().addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if (!document.getId().equals(myInfo.getId())) {
+                                                        Log.d(TAG, document.getId() + " => " + document.getData());
+                                                        receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
+                                                    }
+                                                }
+                                            } else {
+                                                Log.d(TAG, "Error getting documents: ", task.getException());
+                                            }
+                                        });
+                                        break;
+                                    case MODIFIED:
+                                        Log.d(TAG, "Modified city: " + dc.getDocument().getData());
+                                        break;
+                                    case REMOVED:
+                                        Log.d(TAG, "Removed city: " + dc.getDocument().getData());
+                                        receiveMessage("delete9$" + name);
+                                        break;
+                                }
+                            }
+                        });
+                    });
                 });
-                roomRef.collection("member").document(myInfo.getId()).set(new SimpleEntry("team", 0));
                 // ルームリストを表示しているユーザに通知（openで通知されるはず）
                 //申し込みのリスナー
-                applicationListener = roomRef.collection("member").addSnapshotListener((snapshots, e) -> {
-                    if (e != null) {
-                        Log.w(TAG, "listen:error", e);
-                        return;
-                    }
-                    for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                        // com.google.firebase.database.GenericTypeIndicator
-                        String name = dc.getDocument().getId();
-                        switch (dc.getType()) {
-                            case ADDED:
-                                Log.d(TAG, "New Member: " + name + "/" + dc.getDocument().getData());
-                                db.collection("memberList").whereEqualTo("state", "applying").get().addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            if (!document.getId().equals(myInfo.getId())) {
-                                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                                receiveMessage("add9$" + document.getData().get("name") + "$" + document.getId());
-                                            }
-                                        }
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
-                                    }
-                                });
-                                break;
-                            case MODIFIED:
-                                Log.d(TAG, "Modified city: " + dc.getDocument().getData());
-                                break;
-                            case REMOVED:
-                                Log.d(TAG, "Removed city: " + dc.getDocument().getData());
-                                receiveMessage("delete9$" + name);
-                                break;
-                        }
-                    }
-                });
 
                 //countの通知をこの時点で追加しておく
                 readyListener = roomRef.addSnapshotListener((snapshot, e) -> {
@@ -462,10 +434,31 @@ public class Client {
                 // 部屋をopenにする
                 if (s[1].equals("1")) {
                     roomRef.update("open", true);
+                } else {
+                    myInfoRef.update("angle", null,
+                            "dist", null,
+                            "plusAngle", null,
+                            "plusDist", null,
+                            "roomId", null,
+                            "team", null,
+                            "status", "offline");
                 }
                 roomRef.collection("member").document(myInfo.getId()).delete();
                 myInfoRef.update("roomId", null,
                         "state", "offline");
+
+                if(s[1].equals("0")){
+                    roomRef.collection("member").document(myInfo.getId()).delete();
+                } else {
+                    roomRef.update("open", true);
+                    myInfoRef.update("angle", null,
+                            "dist", null,
+                            "plusAngle", null,
+                            "plusDist", null,
+                            "roomId", null,
+                            "team", null,
+                            "status", "offline");
+                }
                 break;
 
             case "gp":
@@ -475,7 +468,7 @@ public class Client {
                 myInfoRef.update("team", Integer.parseInt(s[1]));
                 roomRef.update("gpCount", FieldValue.increment(1));
                 // もし全員集まったらそれぞれに送る
-                gpListener = roomRef.addSnapshotListener((snapshot, e) -> {
+                gpCountListener = roomRef.addSnapshotListener((snapshot, e) -> {
                     if (e != null) {
                         Log.w(TAG, "Listen failed.", e);
                         return;
@@ -489,10 +482,8 @@ public class Client {
                                             StringJoiner sj = new StringJoiner("$");
                                             sj.add("gps17");
                                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                                myEntry member = document.toObject(myEntry.class);
-                                                sj.add(String.valueOf(member.getKey()));
-                                                sj.add(String.valueOf(member.getValue()));
+                                                sj.add(document.getId());
+                                                sj.add(document.get("value", Integer.class) + "");
                                             }
                                             receiveMessage(sj.toString());
                                         } else {

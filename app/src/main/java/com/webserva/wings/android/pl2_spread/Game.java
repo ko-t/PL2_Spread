@@ -41,7 +41,7 @@ import java.util.Locale;
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     //long time = 3 * 60 * 1000;
-    long time = 1 * 60 * 1000;
+    long time = 3 * 60 * 1000;
 
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -248,6 +248,10 @@ public class Game extends ComponentActivity implements SensorEventListener {
                 }
                 break;
         }
+    }
+
+    @Override//戻るボタン無効化
+    public void onBackPressed() {
     }
 }
 

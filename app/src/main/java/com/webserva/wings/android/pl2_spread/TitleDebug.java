@@ -39,7 +39,7 @@ public class TitleDebug extends AppCompatActivity {
         i.putExtra("levelup", 2);
 
         Client.myInfo = new MemberInfo(name, id);
-        Client.myInfo.setStatus(Arrays.asList(150,150,150,150));
+        Client.myInfo.setStatus(Arrays.asList(10,10,10,10));
 
         idText = findViewById(R.id.tid_editText_id);
         idText.setText(Client.myInfo.getId());
