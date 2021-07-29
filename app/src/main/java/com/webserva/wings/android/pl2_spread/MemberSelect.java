@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class MemberSelect extends AppCompatActivity {
     private static List<MemberInfo> list_member = new ArrayList<>();
@@ -85,7 +86,7 @@ public class MemberSelect extends AppCompatActivity {
                 //String userId = (list_host.get(position)).getName();
                 String userId = (list_member.get(position)).getId();
                 Client.sendMessage("accept$" + userId);
-                Log.i("ms_onCreate", userId + "を承認しました");
+                Log.i("ms_onCreate", userId + "を承認しました/" + position);
             }
         });
         listview2.setAdapter(adapter_member);
@@ -125,13 +126,20 @@ public class MemberSelect extends AppCompatActivity {
                 str_id=list_member.get(list_member.size()-1).getId();
             }
 
+            //メンバーの名前とIDの文字列の作る
+            StringJoiner sjName = new StringJoiner("$"), sjId = new StringJoiner("$");
+            for(int x=0;x<list_member.size();x++){
+                sjName.add(list_member.get(x).getName());
+                sjId.add(list_member.get(x).getId());
+            }
 
-
-            //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
-            intent.putExtra("MEMBER_NUM", size);
-            intent.putExtra("MEMBER_NAME", str_name);
-            intent.putExtra("MEMBER_ID", str_id);
+            intent = new Intent(Client.context, TeamSplit.class);
+            intent.putExtra("MEMBER_NUM",list_member.size());
+            intent.putExtra("MEMBER_NAME", sjName.toString());
+            intent.putExtra("MEMBER_ID", sjId.toString());
             intent.putExtra("STATUS_TAG", ms_tag_1[1]);
+
+            Log.i("MemberSelect", size + "/" + sjName.toString() + "/" + sjId.toString() + "/" + ms_tag_1[1]);
 
             Log.i("ms_onClick", "メンバ情報が渡されました");
             Client.startActivity(intent);
@@ -146,6 +154,7 @@ public class MemberSelect extends AppCompatActivity {
             case "add9":
                 //add9$ユーザ名$ユーザID
                 MemberInfo member = new MemberInfo(s[1], s[2]);
+                member.setState("yetClicked");
                 list_member.add(member);
 
                 Log.i("ms_onCreate", "メンバリストのメンバが追加されました");
@@ -153,7 +162,7 @@ public class MemberSelect extends AppCompatActivity {
 //                Log.i("ms_onCreate","メンバが承認されました");
                 break;
 
-            case "del9":
+            case "delete9":
                 //del9$ユーザID
                 size = list_member.size();
                 int k = 0;

@@ -124,8 +124,14 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
 //        }
 
         String winlose = null;
-        leftScore = draw(Color.BLUE, textViewLeft, others_pos1, others_original1);
-        rightScore = draw(Color.MAGENTA, textViewRight, others_pos2, others_original2);
+        if(plus) {
+            leftScore = draw(Color.BLUE, textViewLeft, others_pos1, others_original1);
+            rightScore = draw(Color.MAGENTA, textViewRight, others_pos2, others_original2);
+        } else {
+            leftScore = draw(Color.BLUE, textViewLeft, others_pos1);
+            rightScore = draw(Color.MAGENTA, textViewRight, others_pos2);
+        }
+
         if (leftScore == rightScore) winlose = "引き分け";
         else
             winlose = leftScore < rightScore ^ Client.myInfo.getTeam() == 0 ? "勝ち" : "負け";

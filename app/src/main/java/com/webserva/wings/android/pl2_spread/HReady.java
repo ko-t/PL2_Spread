@@ -17,6 +17,7 @@ public class HReady extends AppCompatActivity {
     private static ImageButton hr_imageButton_startGame;
     private static TextView hr_textView_gameReady;
     private int ruleTotal;
+    private static boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,10 @@ public class HReady extends AppCompatActivity {
         }
 
         hr_imageButton_startGame = findViewById(R.id.hr_imageButton_startGame);
+        if(flag){
+            hr_imageButton_startGame.setEnabled(true);
+            hr_textView_gameReady.setText(gameReady);
+        }
         hr_imageButton_startGame.setEnabled(false);
         hr_imageButton_startGame.setOnClickListener(v -> {
             Client.sendMessage("start");
@@ -111,8 +116,12 @@ public class HReady extends AppCompatActivity {
         String[] s = message.split("\\$");
         switch (s[0]) {
             case "readyall":
-                hr_imageButton_startGame.setEnabled(true);
-                hr_textView_gameReady.setText(gameReady);
+                if(hr_imageButton_startGame != null){
+                    hr_imageButton_startGame.setEnabled(true);
+                    hr_textView_gameReady.setText(gameReady);
+                } else {
+                    flag = true;
+                }
                 break;
         }
     }
