@@ -66,8 +66,8 @@ public class Game extends ComponentActivity implements SensorEventListener {
 
         speed = findViewById(R.id.gm_tv_speedvalue);
         step = findViewById(R.id.gm_tv_stepvalue);
-        imageButton_full = findViewById(R.id.gm_imageButton_fullscreen);
-        imageButton_sleep = findViewById(R.id.gm_imageButton_sleep);
+        //imageButton_full = findViewById(R.id.gm_imageButton_fullscreen);
+        //imageButton_sleep = findViewById(R.id.gm_imageButton_sleep);
         stride = findViewById(R.id.gm_tv_stridevalue);
         way = findViewById(R.id.gm_tv_wayvalue);
 
