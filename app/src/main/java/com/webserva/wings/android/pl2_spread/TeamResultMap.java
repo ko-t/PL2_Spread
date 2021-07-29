@@ -46,23 +46,23 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
                 others_original1.clear();
                 others_pos2.clear();
                 others_original2.clear();
-                plus = Integer.parseInt(s[2]) == 1;
+                plus = Integer.parseInt(s[3]) == 1;
                 if (plus) {
                     for (int i = 0; i < num1; i++) { //グーチーム
                         others_original1.add(moveWithVector(Client.start,
                                 Double.parseDouble(s[2 * i + 4]),
                                 Double.parseDouble(s[2 * i + 5])));
                         others_pos1.add(moveWithVector(others_original1.get(i),
-                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 4]),
-                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 5])));
+                                Math.toRadians(Double.parseDouble(s[2 * i + 2 * (num1 + num2) + 4])),
+                                Double.parseDouble(s[2 * i + 2 * (num1 + num2) + 5])));
                     }
                     for (int i = num1; i < num1 + num2; i++) {
                         others_original2.add(moveWithVector(Client.start,
                                 Double.parseDouble(s[2 * i + 4]),
                                 Double.parseDouble(s[2 * i + 5])));
-                        others_pos2.add(moveWithVector(others_original2.get(i),
-                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 4]),
-                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 5])));
+                        others_pos2.add(moveWithVector(others_original2.get(i-num1),
+                                Math.toRadians(Double.parseDouble(s[2 * i + 2 * (num1 + num2) + 4])),
+                                Double.parseDouble(s[2 * i + 2 * (num1 + num2) + 5])));
                     }
                 } else {
                     for (int i = 0; i < num1; i++) {
@@ -75,6 +75,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
                         lock.notifyAll();
                     }
                 }
+                Log.i("trm_receiveMessage", others_original1.toString() + "???" + others_pos1.toString());
                 break;
         }
     }

@@ -148,9 +148,9 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 //confirm
                 Log.i("ri_receiveMessage","メンバが確定されました");
                 Client.finishActivity();
-                intent.putExtra("STATUS_TAG",ri_tag_1[1]);
                 if(ri_tag_1[0]>=4) {
                     intent = new Intent(Client.context, Ready.class);
+                    intent.putExtra("STATUS_TAG",ri_tag_1[1]);
                 }
                 else {
                     //メンバーの名前とIDの文字列の作る

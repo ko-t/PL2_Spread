@@ -84,7 +84,7 @@ public class Client {
                 break;
 
             case "login":
-                batch.update(myInfoRef, "state", "offline", "roomId", null);
+                batch.update(myInfoRef, "state", "offline", "roomId", null, "angle", null, "dist", null, "plusAngle", null, "plusDist", null);
                 batch.commit().addOnSuccessListener(Void -> {
                     MainMenu.receiveMessage("success");
                 }).addOnFailureListener(e -> {
@@ -472,6 +472,7 @@ public class Client {
                             "team", null,
                             "status", "offline");
                 }
+                Client.myInfo.setTeam(-1);
                 break;
 
             case "gp":
