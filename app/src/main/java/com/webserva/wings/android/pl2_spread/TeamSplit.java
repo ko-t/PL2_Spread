@@ -158,13 +158,18 @@ public class TeamSplit extends AppCompatActivity {
 
                             if (i % 2 == 0) {
                                 gpDefault += "0$";
+                                gCount++;
                                 sj.add("0");
                             } else {
                                 gpDefault += "1$";
+                                pCount++;
                                 sj.add("1");
                             }
                             i++;
                         }
+
+                        Client.gCount = gCount;
+                        Client.pCount = pCount;
 
                         Client.sendMessage(sj.toString());
                         gpDefault = gpDefault.substring(0, gpDefault.length() - 1);
