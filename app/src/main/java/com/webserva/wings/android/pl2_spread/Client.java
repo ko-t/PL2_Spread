@@ -14,6 +14,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.AbstractMap.SimpleEntry;
@@ -444,34 +449,14 @@ public class Client {
                 break;
 
             case "resume":
-                // 部屋をopenにする
-                if (s[1].equals("1")) {
-                    roomRef.update("open", true);
-                } else {
-                    myInfoRef.update("angle", null,
-                            "dist", null,
-                            "plusAngle", null,
-                            "plusDist", null,
-                            "roomId", null,
-                            "team", null,
-                            "status", "offline");
-                }
                 roomRef.collection("member").document(myInfo.getId()).delete();
-                myInfoRef.update("roomId", null,
-                        "state", "offline");
-
-                if (s[1].equals("0")) {
-                    roomRef.collection("member").document(myInfo.getId()).delete();
-                } else {
-                    roomRef.update("open", true);
-                    myInfoRef.update("angle", null,
+                myInfoRef.update("angle", null,
                             "dist", null,
                             "plusAngle", null,
                             "plusDist", null,
                             "roomId", null,
                             "team", null,
                             "status", "offline");
-                }
                 Client.myInfo.setTeam(-1);
                 break;
 
@@ -539,6 +524,23 @@ public class Client {
                         .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                         .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
                 myInfo.setStatus(Arrays.asList(tmp));
+
+                File file = new File(context.getFilesDir(), "userInfo");
+                try (FileWriter writer = new FileWriter(file)) {
+                    StringJoiner sj = new StringJoiner("$");
+                    //name id exp status
+                    sj.add(Client.myInfo.getName());
+                    sj.add(Client.myInfo.getId());
+                    sj.add(String.valueOf(0));
+                    sj.add(String.valueOf(Client.myInfo.getStatus().get(0)));
+                    sj.add(String.valueOf(Client.myInfo.getStatus().get(1)));
+                    sj.add(String.valueOf(Client.myInfo.getStatus().get(2)));
+                    sj.add(String.valueOf(Client.myInfo.getStatus().get(3)));
+                    writer.write(sj.toString());
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case "rankreq":
@@ -668,7 +670,7 @@ public class Client {
                     roomRef.get().addOnSuccessListener(documentSnapshot -> {
                         newScore.setTeamName(documentSnapshot.get("roomName", String.class));
                         db.collection("ranking").add(newScore).addOnSuccessListener(documentReference -> {
-                            documentReference.update("recordId", documentReference.getId());
+                            documentReference.update("scoreId", documentReference.getId());
                             roomRef.collection("memberList").get().addOnSuccessListener(queryDocumentSnapshots -> {
                                 for (QueryDocumentSnapshot x : queryDocumentSnapshots) {
                                     db.collection("memberInfo").document(x.getId()).get().addOnSuccessListener(documentSnapshot1 -> {
@@ -687,7 +689,8 @@ public class Client {
                             for (QueryDocumentSnapshot x : queryDocumentSnapshots) {
                                 wBatch.delete(x.getReference());
                             }
-                            roomRef.delete();
+                            wBatch.delete(roomRef);
+                            wBatch.commit();
                         });
                     });
                 }
