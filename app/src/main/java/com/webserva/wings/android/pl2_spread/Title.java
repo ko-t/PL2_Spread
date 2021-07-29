@@ -28,7 +28,7 @@ public class Title extends AppCompatActivity {
             //name id exp status
             BufferedReader br = new BufferedReader(new FileReader(file));
             text = br.readLine();
-            if (text.isEmpty()) {
+            if (text == null || text.isEmpty()) {
                 isNew = true;
             } else {
                 isNew = false;

@@ -32,7 +32,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
 
 public class Client {
-    static int port = 38443, myRank, myScore, rankCounter;
+    static int port = 38443, myRank, myScore, rankCounter, maxLevel = 133;
     static long time = 10000;
     private final static String TAG = "Client";
 
@@ -46,7 +46,7 @@ public class Client {
     static Map memberInRoom;
     static int gCount = -1, pCount = -1;
 
-    static Integer[] expTable = new Integer[133];
+    static Integer[] expTable = new Integer[maxLevel];
     static PrintWriter out;
 
     static Context context;
@@ -60,7 +60,7 @@ public class Client {
         expTable[0] = 0;
         expTable[1] = 1;
         expTable[2] = lv1;
-        for (int i = 3; i < 134; i++) {
+        for (int i = 3; i < maxLevel; i++) {
             expTable[i] = expTable[i - 1] + (int) ((Math.pow(1.033, (double) i) + 0.1 * (double) i) * lv1);
             if (i < 10) Log.d("Client#init", expTable[i] + "");
         }
