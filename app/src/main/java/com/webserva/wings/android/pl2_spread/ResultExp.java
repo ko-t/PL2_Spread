@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -43,9 +44,11 @@ public class ResultExp extends AppCompatActivity {
             Intent intent;
             if(levelup == 0) {
                 intent = new Intent(getApplication(), GameEnd.class);
+                Log.i("mm_setOnClickListener","GameEnd画面に遷移");
             }else {
                 intent = new Intent(getApplication(), LevelUp.class);
                 intent.putExtra("levelup", levelup);
+                Log.i("mm_setOnClickListener","LevelUp画面に遷移");
             }
             Client.startActivity(intent);
         });

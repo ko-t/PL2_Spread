@@ -93,6 +93,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
             intent_to_re = new Intent(getApplication(), ResultExp.class);
             intent_to_re.putExtra("SCORE", Client.myInfo.getTeam() == 0 ? (int) leftScore : (int) rightScore);
             Client.startActivity(intent_to_re);
+            Log.i("mm_setOnClickListener","Team,ResultExp画面に遷移");
         });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()

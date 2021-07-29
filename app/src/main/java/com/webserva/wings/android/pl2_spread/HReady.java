@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -100,6 +101,7 @@ public class HReady extends AppCompatActivity {
             Intent intent_to_gm = new Intent(Client.context, Game.class);
             intent_to_gm.putExtra("STATUS_TAG", intent_from_ms.getIntExtra("STATUS_TAG", 0));
             Client.startActivity(intent_to_gm);
+            Log.i("mm_setOnClickListener","Host,Game画面に遷移");
         });
         hr_textView_gameReady = findViewById(R.id.hr_textView_gameReady);
         gameReady = getString(R.string.hr_gameReady);

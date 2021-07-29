@@ -156,6 +156,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
                                     //ステータスあり
                                     Client.finishActivity();
                                     Client.startActivity(new Intent(getApplication(), MoveLocation.class));
+                                    Log.i("mm_setOnClickListener","MoveLocation画面に遷移");
                                 } else {
                                     Client.sendMessage("goalpos$0");
                                 }
@@ -237,10 +238,13 @@ public class Game extends ComponentActivity implements SensorEventListener {
         switch (s[0]) {
             case "result":
                 Client.finishActivity();
-                if (Client.myInfo.getTeam() == -1)
+                if (Client.myInfo.getTeam() == -1){
                     Client.startActivity(new Intent(Client.context, ResultMap.class));
+                    Log.i("mm_setOnClickListener","ResultMap画面に遷移");
+                }
                 else {
                     Client.startActivity(new Intent(Client.context, TeamResultMap.class));
+                    Log.i("mm_setOnClickListener","TeamResultMap画面に遷移");
                 }
                 break;
         }

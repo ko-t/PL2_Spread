@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -157,6 +158,7 @@ public class Ready extends AppCompatActivity {
                 Intent intent_to_gm = new Intent(Client.context, Game.class);
                 intent_to_gm.putExtra("STATUS_TAG", intent_from_ri.getIntExtra("STATUS_TAG", 0));
                 Client.startActivity(intent_to_gm);
+                Log.i("mm_setOnClickListener","Game画面に遷移");
                 break;
         }
     }

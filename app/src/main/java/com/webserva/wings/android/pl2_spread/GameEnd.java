@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 
 public class GameEnd extends AppCompatActivity {
@@ -19,6 +20,7 @@ public class GameEnd extends AppCompatActivity {
             Client.finishActivity();
             Intent intent_to_rmn = new Intent(getApplication(), RoomMenu.class);
             Client.startActivity(intent_to_rmn);
+            Log.i("mm_setOnClickListener","RoomMenu画面に遷移");
         });
         ImageButton ge_imageButton_endGame = findViewById(R.id.ge_imageButton_endGame);
         ge_imageButton_endGame.setOnClickListener(v -> {
@@ -26,6 +28,7 @@ public class GameEnd extends AppCompatActivity {
             Client.finishActivity();
             Intent intent_to_mm = new Intent(getApplication(), MainMenu.class);
             Client.startActivity(intent_to_mm);
+            Log.i("mm_setOnClickListener","MainMenu画面に遷移");
         });
 
     }
