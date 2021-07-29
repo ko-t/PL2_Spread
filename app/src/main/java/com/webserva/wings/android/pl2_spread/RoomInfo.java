@@ -137,6 +137,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                                 Client.finishActivity();
                                 intent = new Intent(Client.context, RoomList.class);
                                 Client.startActivity(intent);
+                                Log.i("mm_setOnClickListener","RoomList画面に遷移");
                             }
                         }).show();
                 break;
@@ -169,6 +170,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
 
                 }
                 Client.startActivity(intent);
+                Log.i("mm_setOnClickListener","Ready画面に遷移");
                 break;
         }
 
@@ -201,6 +203,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
             Client.sendMessage("leave");
             Intent intent = new Intent(this,RoomList.class);
             Client.startActivity(intent);
+            Log.i("mm_setOnClickListener","RoomList画面に遷移");
         }
     }
 

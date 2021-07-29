@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -96,6 +97,7 @@ public class LevelUp extends AppCompatActivity {
                     + newStatus[2] + "$" + newStatus[3]);
             Intent intent_to_ge = new Intent(getApplication(), GameEnd.class);
             Client.startActivity(intent_to_ge);
+            Log.i("mm_setOnClickListener","LevelUp,GameEnd画面に遷移");
         });
 
     }

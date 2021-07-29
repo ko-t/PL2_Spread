@@ -80,6 +80,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
             intent_to_re = new Intent(getApplication(), ResultExp.class);
             intent_to_re.putExtra("SCORE", (int) Math.round(area));
             Client.startActivity(intent_to_re);
+            Log.i("mm_setOnClickListener","ResultExp画面に遷移");
         });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
