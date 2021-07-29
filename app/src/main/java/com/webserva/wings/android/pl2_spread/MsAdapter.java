@@ -3,6 +3,7 @@ package com.webserva.wings.android.pl2_spread;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,17 +40,31 @@ public class MsAdapter extends ArrayAdapter<MemberInfo>{
             list_ms_id.setText(item.getId());
 
             Button button = (Button)convertView.findViewById(R.id.list_ms_button_ok);
+            if(item.getState().equals("yetClicked")){
+                button.setBackgroundColor(Color.CYAN);
+                button.setEnabled(true);
+            } else {
+                button.setBackgroundColor(Color.GRAY);
+                button.setEnabled(false);
+            }
             button.setTag(position);
             button.findViewById(R.id.list_ms_button_ok).setOnClickListener(new View.OnClickListener(){
                 public void onClick(View v){
                     //処理内容
                     //テスト
                     Button b = (Button)v;
+                    item.setState("clicked");
                     b.setBackgroundColor(Color.GRAY);
                     b.setEnabled(false);
                     mListener.onItemButtonClick(position,v);
                 }
             });
+            Log.i("MsAdapter", item.getId() + "/" + Client.myInfo.getId() + "/" + item.getState());
+            if(item.getId().equals(Client.myInfo.getId())){
+                button.setVisibility(View.GONE);
+            } else {
+                button.setVisibility(View.VISIBLE);
+            }
         }
         return convertView;
     }

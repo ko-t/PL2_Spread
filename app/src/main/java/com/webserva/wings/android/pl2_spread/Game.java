@@ -113,7 +113,7 @@ public class Game extends ComponentActivity implements SensorEventListener {
             } else {
                 Log.i("Game", "NOT_SDK_30~");
                 View decor = getWindow().getDecorView();
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE);
             }
         });
         action();
