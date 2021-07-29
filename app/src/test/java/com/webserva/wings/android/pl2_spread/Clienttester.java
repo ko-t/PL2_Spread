@@ -57,13 +57,14 @@ public class Clienttester {
 
     //static MemberInfo myInfo;
     static MemberInfo myInfo = new MemberInfo("Name_Kota","ID_kota");
+    static FirebaseFirestore db ;
+    static DocumentReference myInfoRef;
     static Room newRoom;
     static GoogleMap mMap;
     static FusedLocationProviderClient fusedLocationClient;
     static LatLng start, goal;
     static ListenerRegistration startListener, resultListener, readyListener, roomMemberListener,
             applicationListener, teamNumListener, gpListener, roomListener;
-    static FirebaseFirestore db;
     static Map memberInRoom;
     static int gCount = -1, pCount = -1;
 
@@ -157,8 +158,7 @@ public class Clienttester {
         context.startActivity(i);
     }
 
-    static DocumentReference roomRef,
-            myInfoRef;
+    static DocumentReference roomRef;
 
     static String []  sendMessage(String message) {
         //Log.i(TAG, "sendMessage:" + message);
@@ -379,6 +379,7 @@ public class Clienttester {
                 applicationListener.remove();
                 //batch = db.batch();
                 // 非承認だった人をroomlist画面に戻すために-3を設定
+                /*
                 Query noApproval = db.collection("roomList").document(myInfo.getId())
                         .collection("member").whereEqualTo("value", -2);
                 noApproval.get().addOnCompleteListener(task -> {
@@ -415,10 +416,12 @@ public class Clienttester {
                         "count", FieldValue.increment(1),
                         "gpCount", 0
                 ).addOnFailureListener(e -> Log.w(TAG, "Error updating \"open\"", e));
+
+                 */
                 break;
 
-            case "ready":
-                DocumentReference ref = db.collection("roomList").document(myInfo.getRoomId());
+            case "ready":/*
+                //DocumentReference ref = db.collection("roomList").document(myInfo.getRoomId());
                 // メンバのready状態を変更
                 db.runTransaction((Transaction.Function<Void>) transaction -> {
                     transaction.update(ref, "count", FieldValue.increment(1));
@@ -439,7 +442,7 @@ public class Clienttester {
                     } else {
                         Log.d(TAG, "Current data: null");
                     }
-                });
+                });*/
                 break;
 
             case "start":
@@ -453,6 +456,9 @@ public class Clienttester {
 
             case "startpos":
                 //始点を記録
+                start = new LatLng(	35.473899,139.591011);
+                db=FirebaseFirestore.getInstance();
+                myInfoRef=db.collection("memberList").document(myInfo.getId());
 //                myInfoRef.update("angle", ResultMap.calcAngle(start, ));
 //                myInfoRef.update("dist", start.longitude);
                 break;
@@ -466,7 +472,7 @@ public class Clienttester {
             case "goalpos":
                 //終点を記録、タイマー終了、リスナ追加
                 resultListener = roomRef.addSnapshotListener((snapshot, e) -> {
-                    Log.i(TAG, snapshot.toString());
+                    //Log.i(TAG, snapshot.toString());
                     if (e != null) {
                         Log.w(TAG, "Listen failed.", e);
                         return;
@@ -608,9 +614,12 @@ public class Clienttester {
 
             case "newstatus":
                 Integer[] tmp = {Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4])};
+                /*
                 myInfoRef.update("status", Arrays.asList(tmp))
                         .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                         .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+
+                 */
                 myInfo.setStatus(Arrays.asList(tmp));
                 break;
 

@@ -2,6 +2,9 @@ package com.webserva.wings.android.pl2_spread;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.String.valueOf;
 
 public class ClientTest extends TestCase {
@@ -103,9 +106,31 @@ int main(void){
             assertEquals("TestRoom",test.myInfo.getRoomId());
         }
 
-        test.sendMessage("leave");{
+        test.sendMessage("leave");
+            {
             assertEquals(null,test.myInfo.getRoomId());
         }
+
+        test.sendMessage("newstatus$10$20$30$40");{
+            List<Integer> testList = new ArrayList<Integer>();
+            testList = test.myInfo.getStatus();
+            assertEquals(10,(int)testList.get(0));
+            assertEquals(20,(int)testList.get(1));
+            assertEquals(30,(int)testList.get(2));
+            assertEquals(40,(int)testList.get(3));
+        }
+/*
+        test.sendMessage("startpos");{
+            //getInstance();ができないため検証不可
+            //テストクラスはアクティビティではなかった
+            //ベクトル計算のためのスタート地点の初期値を設定する
+        }
+        test.sendMessage("pos$35.472496$139.586897");
+        {
+
+        }
+
+ */
 
 /*
         sMes = test.sendMessage("roomreq");
