@@ -42,7 +42,7 @@ import java.util.Locale;
 public class Game extends ComponentActivity implements SensorEventListener {
     ProgressBar progressBar;
     //long time = 3 * 60 * 1000;
-    long time = 1 * 60 * 1000;
+    long time = 1 * 20 * 1000;
     boolean arukiSmaphoEliminater = false;
 
     private SensorManager sensorManager;

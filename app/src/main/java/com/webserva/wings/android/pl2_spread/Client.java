@@ -11,6 +11,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.*;
 
@@ -452,12 +453,12 @@ public class Client {
             case "resume":
                 roomRef.collection("member").document(myInfo.getId()).delete();
                 myInfoRef.update("angle", 0,
-                            "dist", 0,
-                            "plusAngle", 0,
-                            "plusDist", 0,
-                            "roomId", null,
-                            "team", null,
-                            "status", "offline");
+                        "dist", 0,
+                        "plusAngle", 0,
+                        "plusDist", 0,
+                        "roomId", null,
+                        "team", null,
+                        "status", "offline");
                 Client.myInfo.setTeam(-1);
                 break;
 
@@ -539,8 +540,7 @@ public class Client {
                     sj.add(String.valueOf(Client.myInfo.getStatus().get(3)));
                     sj.add(String.valueOf(Client.myInfo.getExp()));
                     writer.write(sj.toString());
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 break;
@@ -550,67 +550,70 @@ public class Client {
                 StringJoiner sj = new StringJoiner("$");
                 sj.add("rank");
                 sj.add(String.valueOf(reqNum));
-                db.collection("ranking").orderBy("score", Query.Direction.DESCENDING)
-                        .limit(reqNum).get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int counter = 1;
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d(TAG, document.getId() + " => " + document.getData());
-                            //TODO ランキングにチーム名いらないっけ？
-                            Score score = document.toObject(Score.class);
-                            sj.add(String.valueOf(score.getScore()));
-                            sj.add(score.getTeamName());
-                            if (score.getScoreId().equals(myInfo.getRecordId())) {
-                                myRank = counter;
-                                myScore = score.getScore();
-                            }
-                            counter++;
-                        }
-                        receiveMessage(sj.toString());
-                        if (myRank == -1) {
-                            rankCounter = reqNum * 10;
-                            while (rankCounter <= 10000) {
-                                db.collection("ranking")
-                                        .orderBy("score", Query.Direction.DESCENDING).limit(rankCounter)
-                                        .orderBy("score", Query.Direction.ASCENDING).limit(1)
-                                        .get().addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task1.getResult()) {
-                                            Log.d(TAG, document.getId() + " => " + document.getData());
-                                            Score score = document.toObject(Score.class);
-                                            if (score.getScore() <= myScore) {
-                                                myRank = rankCounter;
-                                                myScore = score.getScore();
-                                            }
-                                        }
-                                    } else {
-                                        Log.d(TAG, "Error getting ranking ", task1.getException());
-                                    }
-                                });
-                                if (myRank != -1) break;
-                                rankCounter *= 10;
-                            }
-                        }
-                        receiveMessage("best$" + myRank + "$" + myScore);
-                    } else {
-                        Log.d(TAG, "Error getting ranking ", task.getException());
-                    }
-                });
-                myInfoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                myInfoRef.get().addOnSuccessListener(documentSnapshot -> {
+                    String myScoreId = documentSnapshot.get("recordId", String.class);
+                    db.collection("ranking").orderBy("score", Query.Direction.DESCENDING)
+                            .limit(reqNum).get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                receiveMessage("numrank$" + document.get("matchHistory", Integer.class));
-                            } else {
-                                Log.d(TAG, "No such document");
+                            int counter = 1;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                //TODO ランキングにチーム名いらないっけ？
+                                Score score = document.toObject(Score.class);
+                                sj.add(String.valueOf(score.getScore()));
+                                sj.add(score.getTeamName());
+                                if (document.getId().equals(myScoreId)) {
+                                    myRank = counter;
+                                    myScore = score.getScore();
+                                }
+                                counter++;
                             }
+                            receiveMessage(sj.toString());
+                            if (myRank == -1) {
+                                rankCounter = reqNum * 10;
+                                while (rankCounter <= 10000) {
+                                    db.collection("ranking")
+                                            .orderBy("score", Query.Direction.DESCENDING).limit(rankCounter)
+                                            .orderBy("score", Query.Direction.ASCENDING).limit(1)
+                                            .get().addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task1.getResult()) {
+                                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                                Score score = document.toObject(Score.class);
+                                                if (score.getScore() <= myScore) {
+                                                    myRank = rankCounter;
+                                                    myScore = score.getScore();
+                                                }
+                                            }
+                                        } else {
+                                            Log.d(TAG, "Error getting ranking ", task1.getException());
+                                        }
+                                    });
+                                    if (myRank != -1) break;
+                                    rankCounter *= 10;
+                                }
+                            }
+                            receiveMessage("best$" + myRank + "$" + myScore);
                         } else {
-                            Log.d(TAG, "get failed with ", task.getException());
+                            Log.d(TAG, "Error getting ranking ", task.getException());
                         }
-                    }
+                    });
+                    myInfoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                    receiveMessage("numrank$" + document.get("matchHistory", Integer.class));
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
                 });
                 break;
 
@@ -673,27 +676,30 @@ public class Client {
                         newScore.setTeamName(documentSnapshot.get("roomName", String.class));
                         db.collection("ranking").add(newScore).addOnSuccessListener(documentReference -> {
                             documentReference.update("scoreId", documentReference.getId());
-                            roomRef.collection("memberList").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                            roomRef.collection("member").get().addOnSuccessListener(queryDocumentSnapshots -> {
                                 for (QueryDocumentSnapshot x : queryDocumentSnapshots) {
-                                    db.collection("memberInfo").document(x.getId()).get().addOnSuccessListener(documentSnapshot1 -> {
+                                    db.collection("memberList").document(x.getId()).get().addOnSuccessListener(documentSnapshot1 -> {
                                         db.collection("ranking").document(documentSnapshot1.get("recordId", String.class)).get().addOnSuccessListener(documentSnapshot2 -> {
-                                            if (documentSnapshot2.get("score", Integer.class) < nScore) {
-                                                x.getReference().update("recordId", documentReference.getId());
+                                            Log.i(TAG, "rank " + documentSnapshot2.exists());
+                                            if(documentSnapshot2.exists()){
+                                                if (documentSnapshot2.get("score", Integer.class) < nScore) {
+                                                    WriteBatch wb = db.batch();
+                                                    wb.update(db.collection("memberList").document(x.getId()), "recordId", documentReference.getId());
+                                                    wb.delete(x.getReference());
+                                                    wb.commit();
+                                                }
+                                            } else {
+                                                WriteBatch wb = db.batch();
+                                                wb.update(db.collection("memberList").document(x.getId()), "recordId", documentReference.getId());
+                                                wb.delete(x.getReference());
+                                                wb.commit();
                                             }
                                         });
                                     });
                                 }
                             });
                         });
-                        //部屋を破壊
-                        roomRef.collection("member").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                            WriteBatch wBatch = db.batch();
-                            for (QueryDocumentSnapshot x : queryDocumentSnapshots) {
-                                wBatch.delete(x.getReference());
-                            }
-                            wBatch.delete(roomRef);
-                            wBatch.commit();
-                        });
+                        roomRef.delete();
                     });
                 }
                 break;
