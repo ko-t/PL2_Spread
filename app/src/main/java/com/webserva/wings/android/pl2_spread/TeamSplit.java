@@ -136,6 +136,7 @@ public class TeamSplit extends AppCompatActivity {
 
                     Client.finishActivity();
                     Client.startActivity(intent_to_tsr);
+                    Log.i("mm_setOnClickListener","TeamSplitResult画面に遷移");
                 } else {
                     if (limit == 0) {
                         String gpDefault = "";
@@ -183,6 +184,7 @@ public class TeamSplit extends AppCompatActivity {
                         intent_to_tsr.putExtra("MEMBER_GP", gpDefault);
                         Client.finishActivity();
                         Client.startActivity(intent_to_tsr);
+                        Log.i("mm_setOnClickListener","TeamSplitResult画面に遷移");
                     } else {
                         ts_textView_alert.setText(alert);
                         ts_imageButton_g.setEnabled(true);
