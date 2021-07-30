@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainMenu">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/st_back_vec"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/mm_imageButton_game"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/b_button1"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <TextView
+        android:id="@+id/mm_textView_game"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/mm_start_game"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        app:layout_constraintWidth_percent="0.3"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/mm_imageButton_game"
+        app:layout_constraintEnd_toEndOf="@id/mm_imageButton_game"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@id/mm_imageButton_game"
+        app:layout_constraintTop_toTopOf="@id/mm_imageButton_game" />
+
+    <ImageButton
+        android:id="@+id/mm_ImageButton_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/b_button1" />
+
+    <TextView
+        android:id="@+id/mm_textView_profile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/mm_profile"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        app:layout_constraintWidth_percent="0.3"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/mm_ImageButton_profile"
+        app:layout_constraintEnd_toEndOf="@id/mm_ImageButton_profile"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@id/mm_ImageButton_profile"
+        app:layout_constraintTop_toTopOf="@id/mm_ImageButton_profile" />
+
+    <ImageButton
+        android:id="@+id/mm_ImageButton_record"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/b_button1"
+        app:layout_constraintVertical_bias="0.8"/>
+
+    <TextView
+        android:id="@+id/mm_textView_record"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/mm_record"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        app:layout_constraintWidth_percent="0.3"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/mm_ImageButton_record"
+        app:layout_constraintEnd_toEndOf="@id/mm_ImageButton_record"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@id/mm_ImageButton_record"
+        app:layout_constraintTop_toTopOf="@id/mm_ImageButton_record" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

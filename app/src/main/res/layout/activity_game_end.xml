@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameEnd">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/st_back_vec"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ge_imageButton_replay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7"
+        app:srcCompat="@drawable/b_button1"
+        app:layout_constraintVertical_bias="0.25" />
+
+    <TextView
+        android:id="@+id/ge_textView_replay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/ge_replay"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        app:layout_constraintWidth_percent="0.45"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/ge_imageButton_replay"
+        app:layout_constraintEnd_toEndOf="@id/ge_imageButton_replay"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@id/ge_imageButton_replay"
+        app:layout_constraintTop_toTopOf="@id/ge_imageButton_replay" />
+
+    <ImageButton
+        android:id="@+id/ge_imageButton_endGame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.7"
+        app:srcCompat="@drawable/b_button1"
+        app:layout_constraintVertical_bias="0.75" />
+
+    <TextView
+        android:id="@+id/ge_textView_endGame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/ge_endGame"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        app:layout_constraintWidth_percent="0.45"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/ge_imageButton_endGame"
+        app:layout_constraintEnd_toEndOf="@id/ge_imageButton_endGame"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@id/ge_imageButton_endGame"
+        app:layout_constraintTop_toTopOf="@id/ge_imageButton_endGame" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

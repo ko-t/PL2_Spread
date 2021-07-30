@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HReady">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/st_back_vec"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/hr_textView_ruleLabel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center_horizontal"
+        android:text="@string/ruleLabel"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_percent="0.2" />
+
+    <ImageView
+        android:id="@+id/hr_imageView_rule"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@id/hr_textView_ruleLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0"/>
+
+    <ImageButton
+        android:id="@+id/hr_imageButton_right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#00000000"
+        android:scaleType="fitXY"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHeight_percent="0.1"
+        app:srcCompat="@drawable/arrow_right"
+        app:layout_constraintTop_toTopOf="@id/hr_imageView_rule"
+        app:layout_constraintBottom_toBottomOf="@id/hr_imageView_rule"
+        app:layout_constraintStart_toEndOf="@id/hr_imageView_rule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"/>
+
+    <ImageButton
+        android:id="@+id/hr_imageButton_left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#00000000"
+        android:scaleType="fitXY"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintHeight_percent="0.1"
+        app:srcCompat="@drawable/arrow_left"
+        app:layout_constraintTop_toTopOf="@id/hr_imageView_rule"
+        app:layout_constraintBottom_toBottomOf="@id/hr_imageView_rule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/hr_imageView_rule"
+        app:layout_constraintHorizontal_bias="0.5"/>
+
+    <TextView
+        android:id="@+id/hr_textView_rule"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintHeight_percent="0.1"
+        android:textStyle="bold"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintTop_toTopOf="@id/hr_imageView_rule"
+        app:layout_constraintBottom_toBottomOf="@id/hr_imageView_rule"
+        app:layout_constraintStart_toStartOf="@id/hr_imageView_rule"
+        app:layout_constraintEnd_toEndOf="@id/hr_imageView_rule"
+        app:layout_constraintVertical_bias="0.9"/>
+
+    <TextView
+        android:id="@+id/hr_textView_ruleNumber"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintHeight_percent="0.05"
+        android:autoSizeTextType="uniform"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="@id/hr_imageView_rule"
+        app:layout_constraintStart_toStartOf="@id/hr_imageView_rule"
+        app:layout_constraintTop_toBottomOf="@id/hr_imageView_rule"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"/>
+
+    <ImageButton
+        android:id="@+id/hr_imageButton_startGame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:textAllCaps="false"
+        android:backgroundTint="@color/Transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.75"
+        app:srcCompat="@drawable/y_button2"
+        app:layout_constraintVertical_bias="0.95" />
+
+    <TextView
+        android:id="@+id/hr_textView_startGame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/hr_gameStart"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintWidth_percent="0.5"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@id/hr_imageButton_startGame"
+        app:layout_constraintEnd_toEndOf="@id/hr_imageButton_startGame"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintStart_toStartOf="@id/hr_imageButton_startGame"
+        app:layout_constraintTop_toTopOf="@id/hr_imageButton_startGame" />
+
+
+    <TextView
+        android:id="@+id/hr_textView_gameReady"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/hr_gameWait"
+        android:textColor="@color/black"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.73"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

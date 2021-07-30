@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.webserva.wings.android.pl2_spread">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +14,46 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PL2_Spread">
-        <activity android:name=".MainActivity">
+
+
+        <meta-data android:name="com.google.android.gms.version" /> <!-- android:value="@integer/google_play_services_version" -->
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".Game" android:screenOrientation="portrait"/>
+        <activity android:name=".TeamSplit" android:screenOrientation="portrait"/>
+        <activity android:name=".GameEnd" android:screenOrientation="portrait"/>
+        <activity android:name=".HReady" android:screenOrientation="portrait"/>
+        <activity android:name=".MoveLocation" android:screenOrientation="portrait" />
+        <activity android:name=".LevelUp" android:screenOrientation="portrait"/>
+        <activity android:name=".ResultExp" android:screenOrientation="portrait"/>
+        <activity android:name=".Ready" android:screenOrientation="portrait"/>
+        <activity android:name=".TagSet" android:screenOrientation="portrait"/>
+        <activity android:name=".Profile" android:screenOrientation="portrait"/>
+        <activity android:name=".RoomMenu" android:screenOrientation="portrait"/>
+        <activity android:name=".MainMenu" android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".TeamSplitResult" android:screenOrientation="portrait"/>
+        <activity android:name=".MemberSelect" android:screenOrientation="portrait"/>
+        <activity android:name=".Ranking" android:screenOrientation="portrait"/>
+        <activity android:name=".RoomInfo" android:screenOrientation="portrait"/>
+        <activity android:name=".RoomWait" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Title"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Register" android:screenOrientation="portrait"/>
+        <activity android:name=".RoomList" android:screenOrientation="portrait"/>
+        <activity android:name=".ResultMap" android:screenOrientation="portrait"/>
+        <activity android:name=".TeamResultMap" android:screenOrientation="portrait"/>
+        <activity android:name=".InitialLaunch" android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
