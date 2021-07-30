@@ -224,12 +224,13 @@ public class RoomList extends AppCompatActivity {
             case "num":
                 //num$ホストのID$新しい人数
                 size = list.size();
-                int l = 0;
                 int item_position = 0;
-                hostId = (list.get(l)).getHostId();
-                if (hostId.equals(s[1])) {
-                    item_position = list.indexOf(s[1]);
-                    break;
+                for(int l = 0; l < size; l++){
+                    hostId = (list.get(l)).getHostId();
+                    if (hostId.equals(s[1])) {
+                        item_position = l;
+                        break;
+                    }
                 }
                 rl_adapter = (RlAdapter) listview.getAdapter();
                 Room item = rl_adapter.getItem(item_position);

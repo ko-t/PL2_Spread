@@ -21,28 +21,27 @@
     <ListView
         android:id="@+id/tsr_listview_paper"
         android:layout_width="409dp"
-        android:layout_height="154dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tsr_imageButton_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tsr_imageview_paper" />
 
     <ImageView
         android:id="@+id/tsr_imageview_rock"
         android:layout_width="81dp"
         android:layout_height="59dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="138dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star" />
+        app:layout_constraintTop_toBottomOf="@+id/tpr_textview_teamsplit"
+        app:srcCompat="@drawable/team_g" />
 
     <TextView
         android:id="@+id/tpr_textview_teamsplit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:text="@string/tsr_textview_teamsplit"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,64 +53,60 @@
         android:id="@+id/tsr_imageview_paper"
         android:layout_width="81dp"
         android:layout_height="59dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="248dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/btn_star" />
+        android:layout_marginTop="-6dp"
+        app:layout_constraintStart_toStartOf="@+id/tsr_imageview_rock"
+        app:layout_constraintTop_toBottomOf="@+id/tsr_textview_vs"
+        app:srcCompat="@drawable/team_p" />
 
     <ListView
         android:id="@+id/tsr_listview_rock"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="135dp"
-        app:layout_constraintBottom_toTopOf="@+id/tsr_listview_paper"
+        app:layout_constraintBottom_toTopOf="@+id/tsr_textview_vs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tpr_textview_teamsplit" />
+        app:layout_constraintTop_toBottomOf="@+id/tsr_imageview_rock" />
 
     <TextView
         android:id="@+id/tsr_textview_vs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
         android:text="@string/tsr_textview_vs"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/tsr_listview_paper"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/tsr_imageButton_next"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.08"
-        app:layout_constraintWidth_percent="0.5"
-        android:layout_marginTop="16dp"
-        android:scaleType="fitXY"
         android:backgroundTint="@color/Transparent"
-        app:srcCompat="@drawable/y_button2"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.08"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tsr_listview_paper" />
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/y_button2" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
         android:text="@string/next"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/tsr_imageButton_next"
         app:layout_constraintEnd_toEndOf="@id/tsr_imageButton_next"
         app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintWidth_percent="0.3"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/tsr_imageButton_next"
         app:layout_constraintTop_toTopOf="@id/tsr_imageButton_next"
-        app:layout_constraintStart_toStartOf="@id/tsr_imageButton_next" />
+        app:layout_constraintWidth_percent="0.3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

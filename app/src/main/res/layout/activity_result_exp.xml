@@ -39,13 +39,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        app:layout_constraintWidth_percent="0.1"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="right"
         app:layout_constraintBottom_toBottomOf="@id/re_textView_levelLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintHeight_percent="0.05"
         app:layout_constraintTop_toTopOf="@id/re_textView_levelLabel"
-        app:layout_constraintHorizontal_bias="0.8"/>
+        app:layout_constraintWidth_percent="0.5" />
 
     <TextView
         android:id="@+id/re_textView_expLabel"
@@ -68,13 +69,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        app:layout_constraintWidth_percent="0.1"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="right"
+        app:layout_constraintWidth_percent="0.5"
         app:layout_constraintBottom_toBottomOf="@id/re_textView_expLabel"
-        app:layout_constraintTop_toTopOf="@id/re_textView_expLabel"
-        app:layout_constraintHorizontal_bias="0.8"/>
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@+id/re_textView_level"
+        app:layout_constraintTop_toTopOf="@id/re_textView_expLabel" />
 
     <TextView
         android:id="@+id/re_textView_nextLevelLabel"
@@ -97,12 +97,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        app:layout_constraintWidth_percent="0.1"
+        android:gravity="right"
+        app:layout_constraintBottom_toBottomOf="@id/re_textView_nextLevelLabel"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/re_textView_nextLevelLabel"
         app:layout_constraintTop_toTopOf="@id/re_textView_nextLevelLabel"
+        app:layout_constraintWidth_percent="0.3"
         app:layout_constraintHorizontal_bias="0.8"/>
 
     <ImageView

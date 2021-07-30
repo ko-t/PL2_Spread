@@ -124,7 +124,7 @@
     <string name="pro_fin_edi">Finish Edit</string>
     <string name="ini_reg_fail">Registration failed</string>
     <string name="ini_nullid_fail">Blank ID cannot be used</string>
-    <string name="ini_id_no_use">ID cannot be used</string>
+    <string name="ini_id_no_use">ID cannot be usSented</string>
     <string name="ini_id_can_use">ID can be used</string>
     <string name="gm_speed">speed</string>
     <string name="gm_steps">steps</string>
@@ -132,5 +132,10 @@
     <string name="general_no">No</string>
     <string name="ms_back_confirm">The room is deleted when you return to the previous screen \n Ary you OK</string>
     <string name="rk_no_rec">No record</string>
+    <string name="ml_send_fin">Sent</string>
+    <string name="tib_new_reg">Sign UP</string>
+    <string name="tib_check_ID">CheckId!</string>
+    <string name="game_Stride">Stride</string>
+    <string name="gm_move_distance">Moving distance</string>
 
 </resources>

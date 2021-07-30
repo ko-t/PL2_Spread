@@ -3,9 +3,9 @@
     <string name="app_name">広がれ！</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD2NHadjkzTxKv1baYFgXubRr1ko2Eodvk</string>
 
-    <string name="mm_start_game">Start Game</string>
+    <string name="mm_start_game">ゲームスタート</string>
     <string name="mm_profile">プロフィール</string>
-    <string name="mm_record">記録</string>
+    <string name="mm_record">ランキング</string>
     <string name="rmn_joinRoom">ルームに参加する</string>
     <string name="rmn_makeRoom">ルームを作る</string>
     <string name="tg_roomName">ルーム名</string>
@@ -61,8 +61,8 @@
     <string name="rl_checkbox_coop">協力</string>
     <string name="rl_checkbox_versus">対戦</string>
 
-    <string name="rk_textview_Ranking">Ranking</string>
-    <string name="rk_textview_Score">Score</string>
+    <string name="rk_textview_Ranking">ランキング</string>
+    <string name="rk_textview_Score">スコア</string>
     <string name="rk_textview_playcount">プレイ回数</string>
     <string name="rk_textview_count">TextView</string>
     <string name="ms_textview_gamemode">ゲームモード</string>
@@ -131,4 +131,9 @@
     <string name="general_no">いいえ</string>
     <string name="ms_back_confirm">前の画面に戻るとルームが削除されます。\nよろしいですか？</string>
     <string name="rk_no_rec">記録なし</string>
+    <string name="ml_send_fin">送信済み</string>
+    <string name="tib_new_reg">新規登録する</string>
+    <string name="tib_check_ID">CheckId!</string>
+    <string name="game_Stride">歩幅</string>
+    <string name="gm_move_distance">移動距離</string>
 </resources>

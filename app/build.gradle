@@ -47,6 +47,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.google.maps.android:android-maps-utils:0.6.2'
     implementation platform('com.google.firebase:firebase-bom:28.2.1')
+
+    //yoshida-add
+    implementation "io.grpc:grpc-okhttp:1.32.2"
 }
 repositories {
     mavenCentral()

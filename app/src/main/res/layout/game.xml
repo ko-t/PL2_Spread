@@ -65,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="歩幅"
+        android:text="@string/game_Stride"
         app:layout_constraintStart_toStartOf="@+id/gm_tv_speed"
         app:layout_constraintTop_toBottomOf="@+id/gm_tv_step" />
 
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="移動距離"
+        android:text="@string/gm_move_distance"
         app:layout_constraintStart_toStartOf="@+id/gm_tv_stride"
         app:layout_constraintTop_toBottomOf="@+id/gm_tv_stride" />
 
@@ -112,64 +112,62 @@
         app:layout_constraintBottom_toBottomOf="@+id/gm_tv_way"
         app:layout_constraintEnd_toEndOf="@+id/gm_tv_speedvalue" />
 
-    <ImageButton
-        android:id="@+id/gm_imageButton_fullscreen"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:srcCompat="@drawable/b_button1"
-        android:backgroundTint="@color/Transparent"
-        android:scaleType="fitXY"
-        app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintWidth_percent="0.25"
-        android:layout_marginBottom="16dp"
-        android:text="full"
-        app:layout_constraintBottom_toTopOf="@+id/gm_prog_waitingOthers"
-        app:layout_constraintEnd_toStartOf="@+id/gm_imageButton_sleep"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/gm_imageButton_fullscreen"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:src="@drawable/b_button1"-->
+<!--        android:backgroundTint="@color/Transparent"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:layout_constraintHeight_percent="0.07"-->
+<!--        app:layout_constraintWidth_percent="0.25"-->
+<!--        android:text="full"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/gm_prog_waitingOthers"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/gm_imageButton_sleep"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="full"
-        android:textColor="@color/white"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/gm_imageButton_fullscreen"
-        app:layout_constraintEnd_toEndOf="@id/gm_imageButton_fullscreen"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintStart_toStartOf="@id/gm_imageButton_fullscreen"
-        app:layout_constraintTop_toTopOf="@id/gm_imageButton_fullscreen"
-        app:layout_constraintWidth_percent="0.1" />
+<!--    <TextView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:text="full"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:autoSizeTextType="uniform"-->
+<!--        android:gravity="center"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/gm_imageButton_fullscreen"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/gm_imageButton_fullscreen"-->
+<!--        app:layout_constraintHeight_percent="0.04"-->
+<!--        app:layout_constraintStart_toStartOf="@id/gm_imageButton_fullscreen"-->
+<!--        app:layout_constraintTop_toTopOf="@id/gm_imageButton_fullscreen"-->
+<!--        app:layout_constraintWidth_percent="0.1" />-->
 
-    <ImageButton
-        android:id="@+id/gm_imageButton_sleep"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:srcCompat="@drawable/b_button1"
-        android:backgroundTint="@color/Transparent"
-        android:scaleType="fitXY"
-        app:layout_constraintHeight_percent="0.07"
-        app:layout_constraintWidth_percent="0.25"
-        android:layout_marginBottom="16dp"
-        android:text="sleep"
-        app:layout_constraintBottom_toTopOf="@+id/gm_prog_waitingOthers"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/gm_imageButton_fullscreen" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/gm_imageButton_sleep"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:src="@drawable/b_button1"-->
+<!--        android:backgroundTint="@color/Transparent"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:layout_constraintHeight_percent="0.07"-->
+<!--        app:layout_constraintWidth_percent="0.25"-->
+<!--        android:text="sleep"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/gm_prog_waitingOthers"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/gm_imageButton_fullscreen" />-->
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="sleep"
-        android:textColor="@color/white"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/gm_imageButton_sleep"
-        app:layout_constraintEnd_toEndOf="@id/gm_imageButton_sleep"
-        app:layout_constraintHeight_percent="0.04"
-        app:layout_constraintStart_toStartOf="@id/gm_imageButton_sleep"
-        app:layout_constraintTop_toTopOf="@id/gm_imageButton_sleep"
-        app:layout_constraintWidth_percent="0.1" />
+<!--    <TextView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:text="sleep"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:autoSizeTextType="uniform"-->
+<!--        android:gravity="center"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/gm_imageButton_sleep"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/gm_imageButton_sleep"-->
+<!--        app:layout_constraintHeight_percent="0.04"-->
+<!--        app:layout_constraintStart_toStartOf="@id/gm_imageButton_sleep"-->
+<!--        app:layout_constraintTop_toTopOf="@id/gm_imageButton_sleep"-->
+<!--        app:layout_constraintWidth_percent="0.1" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

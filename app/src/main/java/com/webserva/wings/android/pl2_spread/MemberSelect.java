@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class MemberSelect extends AppCompatActivity {
     private static List<MemberInfo> list_member = new ArrayList<>();
@@ -37,7 +38,7 @@ public class MemberSelect extends AppCompatActivity {
         String ms_hostname = i.getStringExtra("HOSTNAME");
 
         for (int j = 0; j < 3; j++) {
-            ms_tag_1[2-j] = ms_tag & (1 << j);
+            ms_tag_1[2 - j] = ms_tag & (1 << j);
         }
 
         TextView ms_roomname = findViewById(R.id.ms_textview_roomname);
@@ -67,9 +68,9 @@ public class MemberSelect extends AppCompatActivity {
         }
 
 
-
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
+        list_host.add(new MemberInfo(Client.myInfo.getName(), ms_id));
         ListView listview1 = findViewById(R.id.ms_listview_host);
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);   //listview(host)に追加
@@ -85,7 +86,7 @@ public class MemberSelect extends AppCompatActivity {
                 //String userId = (list_host.get(position)).getName();
                 String userId = (list_member.get(position)).getId();
                 Client.sendMessage("accept$" + userId);
-                Log.i("ms_onCreate", userId + "を承認しました");
+                Log.i("ms_onCreate", userId + "を承認しました/" + position);
             }
         });
         listview2.setAdapter(adapter_member);
@@ -110,13 +111,36 @@ public class MemberSelect extends AppCompatActivity {
             */
 
             Client.sendMessage("confirm");
+            Intent intent;
 
-            Intent intent = new Intent(this, HReady.class);
-            //データ渡す　 人数・ユーザ名(連結)・ユーザID(連結)
-            intent.putExtra("MEMBER_NUM", size);
-            intent.putExtra("MEMBER_NAME", str_name);
-            intent.putExtra("MEMBER_ID", str_id);
-            intent.putExtra("STATUS_TAG",ms_tag_1[1]);
+            if (ms_tag >= 4) {
+                intent = new Intent(this, HReady.class);
+            } else {
+                intent = new Intent(this, TeamSplit.class);
+                //メンバーの名前とIDの文字列の作る
+                for(int k=0;k<list_member.size()-1;k++){
+                    str_name=list_member.get(k).getName()+"$";
+                    str_id=list_member.get(k).getId()+"$";
+                }
+                str_name=list_member.get(list_member.size()-1).getName();
+                str_id=list_member.get(list_member.size()-1).getId();
+            }
+
+            //メンバーの名前とIDの文字列の作る
+            StringJoiner sjName = new StringJoiner("$"), sjId = new StringJoiner("$");
+            for(int x=0;x<list_member.size();x++){
+                sjName.add(list_member.get(x).getName());
+                sjId.add(list_member.get(x).getId());
+            }
+
+            intent = new Intent(Client.context, TeamSplit.class);
+            intent.putExtra("MEMBER_NUM",list_member.size());
+            intent.putExtra("MEMBER_NAME", sjName.toString());
+            intent.putExtra("MEMBER_ID", sjId.toString());
+            intent.putExtra("STATUS_TAG", ms_tag_1[1]);
+
+            Log.i("MemberSelect", size + "/" + sjName.toString() + "/" + sjId.toString() + "/" + ms_tag_1[1]);
+
             Log.i("ms_onClick", "メンバ情報が渡されました");
             Client.startActivity(intent);
         });
@@ -130,6 +154,7 @@ public class MemberSelect extends AppCompatActivity {
             case "add9":
                 //add9$ユーザ名$ユーザID
                 MemberInfo member = new MemberInfo(s[1], s[2]);
+                member.setState("yetClicked");
                 list_member.add(member);
 
                 Log.i("ms_onCreate", "メンバリストのメンバが追加されました");
@@ -137,7 +162,7 @@ public class MemberSelect extends AppCompatActivity {
 //                Log.i("ms_onCreate","メンバが承認されました");
                 break;
 
-            case "del9":
+            case "delete9":
                 //del9$ユーザID
                 size = list_member.size();
                 int k = 0;
@@ -154,8 +179,7 @@ public class MemberSelect extends AppCompatActivity {
 
                 break;
         }
-        adapter_member.notifyDataSetChanged();
-
+        if (adapter_member != null) adapter_member.notifyDataSetChanged();
     }
 
     @Override

@@ -80,6 +80,7 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
             intent_to_re = new Intent(getApplication(), ResultExp.class);
             intent_to_re.putExtra("SCORE", (int) Math.round(area));
             Client.startActivity(intent_to_re);
+            Log.i("mm_setOnClickListener","ResultExp画面に遷移");
         });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -126,7 +127,6 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                         .geodesic(true));
             }
             for (int i = 0; i < others_pos.size(); i++) {
-                Client.mMap.addMarker(new MarkerOptions().position(others_original.get(i)));
                 polyline_plus = Client.mMap.addPolyline(new PolylineOptions()
                         .add(others_original.get(i), others_pos.get(i))
                         .width(15)
@@ -161,9 +161,10 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
                 }
             }
         }
+        area += 53;
 
         textView.setText(Long.toString(Math.round(area)));
-        Client.sendMessage("newscore$" + Math.round(area));
+        if(Client.myInfo.getId().equals(Client.myInfo.getRoomId())) Client.sendMessage("newscore$" + Math.round(area));
 
         triangle = new ArrayList<>(Arrays.asList(others_pos.get(index[0]),
                 others_pos.get(index[1]), others_pos.get(index[2])));

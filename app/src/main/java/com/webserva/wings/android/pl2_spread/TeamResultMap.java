@@ -46,23 +46,23 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
                 others_original1.clear();
                 others_pos2.clear();
                 others_original2.clear();
-                plus = Integer.parseInt(s[2]) == 1;
+                plus = Integer.parseInt(s[3]) == 1;
                 if (plus) {
                     for (int i = 0; i < num1; i++) { //グーチーム
                         others_original1.add(moveWithVector(Client.start,
                                 Double.parseDouble(s[2 * i + 4]),
                                 Double.parseDouble(s[2 * i + 5])));
                         others_pos1.add(moveWithVector(others_original1.get(i),
-                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 4]),
-                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 5])));
+                                Math.toRadians(Double.parseDouble(s[2 * i + 2 * (num1 + num2) + 4])),
+                                Double.parseDouble(s[2 * i + 2 * (num1 + num2) + 5])));
                     }
                     for (int i = num1; i < num1 + num2; i++) {
                         others_original2.add(moveWithVector(Client.start,
                                 Double.parseDouble(s[2 * i + 4]),
                                 Double.parseDouble(s[2 * i + 5])));
-                        others_pos2.add(moveWithVector(others_original2.get(i),
-                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 4]),
-                                Double.parseDouble(s[2 * i + 2 * num1 + num2 + 5])));
+                        others_pos2.add(moveWithVector(others_original2.get(i-num1),
+                                Math.toRadians(Double.parseDouble(s[2 * i + 2 * (num1 + num2) + 4])),
+                                Double.parseDouble(s[2 * i + 2 * (num1 + num2) + 5])));
                     }
                 } else {
                     for (int i = 0; i < num1; i++) {
@@ -75,6 +75,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
                         lock.notifyAll();
                     }
                 }
+                Log.i("trm_receiveMessage", others_original1.toString() + "???" + others_pos1.toString());
                 break;
         }
     }
@@ -93,6 +94,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
             intent_to_re = new Intent(getApplication(), ResultExp.class);
             intent_to_re.putExtra("SCORE", Client.myInfo.getTeam() == 0 ? (int) leftScore : (int) rightScore);
             Client.startActivity(intent_to_re);
+            Log.i("mm_setOnClickListener","Team,ResultExp画面に遷移");
         });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -123,8 +125,16 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
 //        }
 
         String winlose = null;
-        leftScore = draw(Color.BLUE, textViewLeft, others_pos1, others_original1);
-        rightScore = draw(Color.MAGENTA, textViewRight, others_pos2, others_original2);
+        if(plus) {
+            leftScore = draw(Color.BLUE, textViewLeft, others_pos1, others_original1);
+            rightScore = draw(Color.MAGENTA, textViewRight, others_pos2, others_original2);
+        } else {
+            leftScore = draw(Color.BLUE, textViewLeft, others_pos1);
+            rightScore = draw(Color.MAGENTA, textViewRight, others_pos2);
+        }
+
+        if(Client.myInfo.getId().equals(Client.myInfo.getRoomId())) Client.sendMessage("newscore$" + Math.max(leftScore, rightScore));
+
         if (leftScore == rightScore) winlose = "引き分け";
         else
             winlose = leftScore < rightScore ^ Client.myInfo.getTeam() == 0 ? "勝ち" : "負け";
@@ -141,6 +151,12 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
             if (lists.length == 2) {
                 Polyline polyline = Client.mMap.addPolyline(new PolylineOptions()
                         .add(Client.start, others_pos.get(i))
+                        .width(15)
+                        .color(color)
+                        .geodesic(true));
+
+                Polyline polyline_test = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(Client.start, lists[1].get(i))
                         .width(15)
                         .color(color)
                         .geodesic(true));

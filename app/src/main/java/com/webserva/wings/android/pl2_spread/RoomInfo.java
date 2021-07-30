@@ -1,6 +1,7 @@
 package com.webserva.wings.android.pl2_spread;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 //確定した(承認された)プレイヤの表示画面
 public class RoomInfo extends AppCompatActivity implements View.OnClickListener {
@@ -25,6 +27,10 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
 
     private static int[] ri_tag_1 = new int[3];
     static Rw_Ri_Tsr_Adapter adapter_member;
+    private static String str_name, str_id;
+
+    static ListView listview2;
+    static Context c;
 
 
     @Override
@@ -34,6 +40,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         ri_imageButton_quit=findViewById(R.id.ri_imageButton_quit);
         ri_imageButton_quit.setOnClickListener(this);
         roomInfo = this;
+        c = this;
 
         Intent intent_from_rw = getIntent();
         int ri_tag = intent_from_rw.getIntExtra("TAG",0);
@@ -61,13 +68,14 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
 
         //ホストの表示
         List<MemberInfo> list_host = new ArrayList<>();
+        list_host.add(new MemberInfo(ri_hostname, ri_id));
         ListView listview1 = findViewById(R.id.ri_listview_host);
         Rw_Ri_Tsr_Adapter adapter_host = new Rw_Ri_Tsr_Adapter(this, list_host);
         listview1.setAdapter(adapter_host);
 
         //メンバーのリスト作成
         list_member = new ArrayList<>();
-        ListView listview2 = findViewById(R.id.ri_listview_member);
+        listview2 = findViewById(R.id.ri_listview_member);
         adapter_member = new Rw_Ri_Tsr_Adapter(this, list_member);
         listview2.setAdapter(adapter_member);
     }
@@ -79,20 +87,34 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         switch (s[0]) {
             case "add10":
                 //add10$ユーザ名$ユーザID
-                Log.i("ri_receiveMessage","サーバからadd10を受け取りました");
-                MemberInfo member = new MemberInfo(s[1], s[2]);
-                list_member.add(member);
-                adapter_member.notifyDataSetChanged();
-                Log.i("ri_receiveMessage","メンバリストのメンバが追加されました");
+//                Log.i("ri_receiveMessage","サーバからadd10を受け取りました");
+//                MemberInfo member = new MemberInfo(s[1], s[2]);
+//                list_member.add(member);
+//                adapter_member.notifyDataSetChanged();
+//                Log.i("ri_receiveMessage","メンバリストのメンバが追加されました" + list_member.toString());
+
+                list_member = new ArrayList<>();
+                adapter_member.clear();
+                for(int i=0; i<Integer.parseInt(s[1]); i++){
+                    MemberInfo member = new MemberInfo(s[2*i+2], s[2*i+3]);
+                    list_member.add(member);
+                }
+                for(MemberInfo x :list_member){
+                    Log.i("RoomInfo", x.getId());
+                }
+                adapter_member = new Rw_Ri_Tsr_Adapter(c, list_member);
+                listview2.setAdapter(adapter_member);
+                new testThread().start();
                 break;
 
             case "del10":
                 //delete10$ユーザID
-                Log.i("ri_receiveMessage","サーバからdel9を受け取りました");
+                Log.i("ri_receiveMessage","サーバからdel10を受け取りました");
                 int size = list_member.size();
                 int k=0;
                 while(k< size){
                     //ユーザID == リストk番目のid
+                    Log.i("ri_receiveMessage", list_member.get(k).getId());
                     if(s[1].equals (list_member.get(k).getId()) ){
                         list_member.remove(k);
                         break;
@@ -115,6 +137,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                                 Client.finishActivity();
                                 intent = new Intent(Client.context, RoomList.class);
                                 Client.startActivity(intent);
+                                Log.i("mm_setOnClickListener","RoomList画面に遷移");
                             }
                         }).show();
                 break;
@@ -125,10 +148,47 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
                 //confirm
                 Log.i("ri_receiveMessage","メンバが確定されました");
                 Client.finishActivity();
-                intent = new Intent(Client.context, Ready.class);
-                intent.putExtra("STATUS_TAG",ri_tag_1[1]);
+                if(ri_tag_1[0]>=4) {
+                    intent = new Intent(Client.context, Ready.class);
+                    intent.putExtra("STATUS_TAG",ri_tag_1[1]);
+                }
+                else {
+                    //メンバーの名前とIDの文字列の作る
+                    StringJoiner sjName = new StringJoiner("$"), sjId = new StringJoiner("$");
+                    for(int x=0;x<list_member.size();x++){
+                        sjName.add(list_member.get(x).getName());
+                        sjId.add(list_member.get(x).getId());
+                    }
+
+                    intent = new Intent(Client.context, TeamSplit.class);
+                    intent.putExtra("MEMBER_NUM",list_member.size());
+                    intent.putExtra("MEMBER_NAME", sjName.toString());
+                    intent.putExtra("MEMBER_ID", sjId.toString());
+                    intent.putExtra("STATUS_TAG", ri_tag_1[1]);
+
+                    Log.i("MemberSelect", list_member.size() + "/" + sjName.toString() + "/" + sjId.toString() + "/" + ri_tag_1[1]);
+
+                }
                 Client.startActivity(intent);
+                Log.i("mm_setOnClickListener","Ready画面に遷移");
                 break;
+        }
+
+
+    }
+
+    static class testThread extends Thread{
+        @Override
+        public void run() {
+            try {
+                int i=0;
+                while(++i<=5){
+                    Thread.sleep(1000);
+                    Log.i("RoomInfo", list_member.size() + "");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -143,6 +203,7 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
             Client.sendMessage("leave");
             Intent intent = new Intent(this,RoomList.class);
             Client.startActivity(intent);
+            Log.i("mm_setOnClickListener","RoomList画面に遷移");
         }
     }
 

@@ -60,8 +60,12 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
         Room room1 = new Room(rw_hostname, rw_tag, rw_id, rw_hostname);
         rw_roomname.setText(room1.getRoomName());
 
+        MemberInfo host = new MemberInfo();
+        host.setName(rw_hostname);
+        host.setId(rw_id);
         //ホストの表示
         List<MemberInfo> list = new ArrayList<>();
+        list.add(host);
         ListView listview = findViewById(R.id.rw_listview_hostname);
         Rw_Ri_Tsr_Adapter rw_ri_tsr_adapter = new Rw_Ri_Tsr_Adapter(this, list);
         listview.setAdapter(rw_ri_tsr_adapter);
