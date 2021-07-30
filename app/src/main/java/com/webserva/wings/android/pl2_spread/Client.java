@@ -419,14 +419,14 @@ public class Client {
                                             if (team) {
                                                 if (document.get("team", Integer.class) == 0) {
                                                     sj.add(String.valueOf(document.get("plusAngle", Double.class)));
-                                                    sj.add(String.valueOf(document.get("plusDist", Double.class)));
+                                                    sj.add(String.valueOf(document.get("plusDist", Double.class) * 10.0));
                                                 } else {
                                                     sj2.add(String.valueOf(document.get("plusAngle", Double.class)));
-                                                    sj2.add(String.valueOf(document.get("plusDist", Double.class)));
+                                                    sj2.add(String.valueOf(document.get("plusDist", Double.class) * 10.0));
                                                 }
                                             } else {
                                                 sj.add(String.valueOf(document.get("plusAngle", Double.class)));
-                                                sj.add(String.valueOf(document.get("plusDist", Double.class)));
+                                                sj.add(String.valueOf(document.get("plusDist", Double.class) * 10.0));
                                             }
                                         }
                                         if (team) sj.merge(sj2);
