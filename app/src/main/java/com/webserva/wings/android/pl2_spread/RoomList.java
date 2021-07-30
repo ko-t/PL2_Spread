@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.appcompat.widget.SearchView;
 import android.widget.SearchView;
+
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import java.util.Map;
 public class RoomList extends AppCompatActivity {
     private static TextView textview_count;
     private static Room new_room;
-    private int[] tagStatus = {0,0,0};
+    private int[] tagStatus = {0, 0, 0};
     private int tag;
     private static boolean searchFlag = false;
     private static int size;
@@ -57,13 +59,13 @@ public class RoomList extends AppCompatActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-                String hostid  = tempList.get(position).getHostId(),
+                String hostid = tempList.get(position).getHostId(),
                         hostname = tempList.get(position).getHostName();
                 int hosttag = tempList.get(position).getTag();
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
-                intent_list.putExtra("TAG",hosttag);
-                intent_list.putExtra("HOSTID",hostid);
-                intent_list.putExtra("HOSTNAME",hostname);
+                intent_list.putExtra("TAG", hosttag);
+                intent_list.putExtra("HOSTID", hostid);
+                intent_list.putExtra("HOSTNAME", hostname);
                 Log.i("roomList", hosttag + "/" + hostid + "/" + hostname);
 
                 Client.sendMessage("apply$" + hostid);
@@ -113,63 +115,35 @@ public class RoomList extends AppCompatActivity {
         RadioGroup rl_radiogroup_s1 = findViewById(R.id.rl_radiogroup_s1);
         RadioGroup rl_radiogroup_s2 = findViewById(R.id.rl_radiogroup_s2);
         RadioGroup rl_radiogroup_s3 = findViewById(R.id.rl_radiogroup_s3);
-        RadioButton rl_radiobutton_versus = findViewById(R.id.rl_radiobutton_versus);
-        RadioButton rl_radiobutton_on = findViewById(R.id.rl_radiobutton_on);
-        RadioButton rl_radioButton_known = findViewById(R.id.rl_radioButton_known);
+        final int checkNum = 6;
+        CheckBox[] checks = new CheckBox[checkNum];
+        checks[0] = findViewById(R.id.rl_radiobutton_versus);
+        checks[1] = findViewById(R.id.rl_radiobutton_coop);
+        checks[2] = findViewById(R.id.rl_radiobutton_on);
+        checks[3] = findViewById(R.id.rl_radiobutton_off);
+        checks[4] = findViewById(R.id.rl_radioButton_known);
+        checks[5] = findViewById(R.id.rl_radioButton_unknown);
+        for (int i = 0; i < checkNum; i++) {
+            checks[i].setChecked(true);
+        }
 
         ImageButton rl_button_search = findViewById(R.id.rl_imageButton_search);
         rl_button_search.setOnClickListener(v -> {
             searchFlag = true;
-            if(rl_radiogroup_s1.getCheckedRadioButtonId() != -1) {
-                rl_radiogroup_s1.setBackgroundColor(ContextCompat.getColor(this, R.color.Transparent));
-            }else {
-                searchFlag = false;
-                rl_radiogroup_s1.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red));
-            }
-
-            if(rl_radiogroup_s2.getCheckedRadioButtonId() != -1) {
-                rl_radiogroup_s2.setBackgroundColor(ContextCompat.getColor(this, R.color.Transparent));
-            }else {
-                searchFlag = false;
-                rl_radiogroup_s2.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red));
-            }
-
-            if(rl_radiogroup_s3.getCheckedRadioButtonId() != -1) {
-                rl_radiogroup_s3.setBackgroundColor(ContextCompat.getColor(this, R.color.Transparent));
-            }else {
-                searchFlag = false;
-                rl_radiogroup_s3.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red));
-            }
-
-            if(searchFlag) {
-                if(rl_radiobutton_versus.isChecked()) {
-                    tagStatus[0] = 0;
-                }else {
-                    tagStatus[0] = 1;
-                }
-
-                if(rl_radiobutton_on.isChecked()) {
-                    tagStatus[1] = 0;
-                }else {
-                    tagStatus[1] = 1;
-                }
-
-                if(rl_radioButton_known.isChecked()) {
-                    tagStatus[2] = 0;
-                }else {
-                    tagStatus[2] = 1;
-                }
-                tag = tagStatus[0]*4+tagStatus[1]*2+tagStatus[2];
-                tempList = new ArrayList<Room>();
-                for(Room item : list) {
-                    if(item.getTag() == tag) {
-                        tempList.add(item);
+            tempList = new ArrayList<Room>();
+            for (Room item : list) {
+                boolean flag = true;
+                for (int i = 0; i < 3; i++) {
+                    if (((!checks[2 * i].isChecked() && !((item.getTag() & 1 << (2 - i)) != 0)))
+                            || (!checks[2 * i + 1].isChecked() && (item.getTag() & 1 << (2 - i)) != 0)) {
+                        flag=false;
                     }
                 }
-                rl_adapter.clear();
-                rl_adapter.addAll(tempList);
-                rl_adapter.notifyDataSetChanged();
+                if (flag) tempList.add(item);
             }
+            rl_adapter.clear();
+            rl_adapter.addAll(tempList);
+            rl_adapter.notifyDataSetChanged();
         });
     }
 
@@ -192,7 +166,7 @@ public class RoomList extends AppCompatActivity {
                 new_room.setMemberNum(Integer.parseInt(s[5]));
 
                 list.add(new_room);
-                if(!searchFlag) tempList.add(new_room);
+                if (!searchFlag) tempList.add(new_room);
                 rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate", "ルームが追加されました");
 
@@ -233,8 +207,8 @@ public class RoomList extends AppCompatActivity {
 //                rl_adapter = (RlAdapter) listview.getAdapter();
 //                Room item = rl_adapter.getItem(item_position);
 //                item.setMemberNum(Integer.valueOf(s[2]));
-                for(Room x : list){
-                    if(x.getHostId().equals(s[1])){
+                for (Room x : list) {
+                    if (x.getHostId().equals(s[1])) {
                         list.get(list.indexOf(x)).setMemberNum(Integer.parseInt(s[2]));
                     }
                 }

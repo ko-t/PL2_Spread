@@ -28,13 +28,13 @@
             app:layout_constraintStart_toStartOf="@+id/rl_searchview_name"
             app:layout_constraintTop_toBottomOf="@+id/rl_searchview_name">
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/rl_radiobutton_versus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rl_checkbox_versus" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/rl_radiobutton_coop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,13 +50,13 @@
             app:layout_constraintStart_toEndOf="@+id/rl_radiogroup_s1"
             app:layout_constraintTop_toTopOf="@+id/rl_radiogroup_s1">
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/rl_radiobutton_on"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rl_checkbox_effectOn" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/rl_radiobutton_off"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,13 +71,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/rl_radiogroup_s2">
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/rl_radioButton_known"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rl_checkbox_no" />
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/rl_radioButton_unknown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
