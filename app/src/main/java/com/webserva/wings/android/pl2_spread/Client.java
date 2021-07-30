@@ -89,7 +89,7 @@ public class Client {
                 break;
 
             case "login":
-                batch.update(myInfoRef, "state", "offline", "roomId", null, "angle", null, "dist", null, "plusAngle", null, "plusDist", null);
+                batch.update(myInfoRef, "state", "offline", "roomId", null, "angle", 0, "dist", 0, "plusAngle", 0, "plusDist", 0);
                 batch.commit().addOnSuccessListener(Void -> {
                     MainMenu.receiveMessage("success");
                 }).addOnFailureListener(e -> {
@@ -450,10 +450,10 @@ public class Client {
 
             case "resume":
                 roomRef.collection("member").document(myInfo.getId()).delete();
-                myInfoRef.update("angle", null,
-                            "dist", null,
-                            "plusAngle", null,
-                            "plusDist", null,
+                myInfoRef.update("angle", 0,
+                            "dist", 0,
+                            "plusAngle", 0,
+                            "plusDist", 0,
                             "roomId", null,
                             "team", null,
                             "status", "offline");
