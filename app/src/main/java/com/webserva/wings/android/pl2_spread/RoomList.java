@@ -30,9 +30,9 @@ public class RoomList extends AppCompatActivity {
     private static Room new_room;
     private int[] tagStatus = {0,0,0};
     private int tag;
-    private boolean searchFlag = false;
+    private static boolean searchFlag = false;
     private static int size;
-    static List<Room> list = new ArrayList<>();
+    static List<Room> list = new ArrayList<>(), tempList = new ArrayList<>();
     private static ListView listview;
     static RlAdapter rl_adapter;
 
@@ -46,33 +46,31 @@ public class RoomList extends AppCompatActivity {
 
         //listviewについて
         list = new ArrayList<>();
+        tempList = new ArrayList<>();
+        searchFlag = false;
 
         listview = (ListView) findViewById(R.id.rl_listview_roominfo);
-        rl_adapter = new RlAdapter(this, list);
+        rl_adapter = new RlAdapter(this, tempList);
         listview.setAdapter(rl_adapter);
 
         // ListView中の要素がタップされたときの処理を記述
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-
-                String hostid  = list.get(position).getHostId(),
-                        hostname = list.get(position).getHostName();
-                int hosttag = list.get(position).getTag();
+                String hostid  = tempList.get(position).getHostId(),
+                        hostname = tempList.get(position).getHostName();
+                int hosttag = tempList.get(position).getTag();
                 Intent intent_list = new Intent(RoomList.this, RoomWait.class);
                 intent_list.putExtra("TAG",hosttag);
                 intent_list.putExtra("HOSTID",hostid);
                 intent_list.putExtra("HOSTNAME",hostname);
-
                 Log.i("roomList", hosttag + "/" + hostid + "/" + hostname);
 
                 Client.sendMessage("apply$" + hostid);
-
                 Log.i("RoomList_onItemClick", intent_list.toString());
 
                 startActivity(intent_list);
                 Log.i("rl_onCreate", "RoomWait.classが開始されました");
-
             }
         });
 
@@ -162,7 +160,7 @@ public class RoomList extends AppCompatActivity {
                     tagStatus[2] = 1;
                 }
                 tag = tagStatus[0]*4+tagStatus[1]*2+tagStatus[2];
-                List<Room> tempList = new ArrayList<Room>();
+                tempList = new ArrayList<Room>();
                 for(Room item : list) {
                     if(item.getTag() == tag) {
                         tempList.add(item);
@@ -173,7 +171,6 @@ public class RoomList extends AppCompatActivity {
                 rl_adapter.notifyDataSetChanged();
             }
         });
-
     }
 
     static void receiveMessage(String message) {
@@ -195,6 +192,7 @@ public class RoomList extends AppCompatActivity {
                 new_room.setMemberNum(Integer.parseInt(s[5]));
 
                 list.add(new_room);
+                if(!searchFlag) tempList.add(new_room);
                 rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onCreate", "ルームが追加されました");
 
@@ -223,18 +221,23 @@ public class RoomList extends AppCompatActivity {
 
             case "num":
                 //num$ホストのID$新しい人数
-                size = list.size();
-                int item_position = 0;
-                for(int l = 0; l < size; l++){
-                    hostId = (list.get(l)).getHostId();
-                    if (hostId.equals(s[1])) {
-                        item_position = l;
-                        break;
+//                size = list.size();
+//                int item_position = 0;
+//                for(int l = 0; l < size; l++){
+//                    hostId = (list.get(l)).getHostId();
+//                    if (hostId.equals(s[1])) {
+//                        item_position = l;
+//                        break;
+//                    }
+//                }
+//                rl_adapter = (RlAdapter) listview.getAdapter();
+//                Room item = rl_adapter.getItem(item_position);
+//                item.setMemberNum(Integer.valueOf(s[2]));
+                for(Room x : list){
+                    if(x.getHostId().equals(s[1])){
+                        list.get(list.indexOf(x)).setMemberNum(Integer.parseInt(s[2]));
                     }
                 }
-                rl_adapter = (RlAdapter) listview.getAdapter();
-                Room item = rl_adapter.getItem(item_position);
-                item.setMemberNum(Integer.valueOf(s[2]));
                 rl_adapter.notifyDataSetChanged();
                 break;
 

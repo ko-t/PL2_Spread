@@ -459,7 +459,7 @@ public class Client {
                         "plusDist", 0,
                         "roomId", null,
                         "team", null,
-                        "status", "offline");
+                        "state", "offline");
                 Client.myInfo.setTeam(-1);
                 break;
 

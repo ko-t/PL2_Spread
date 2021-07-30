@@ -11,6 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.text.TextWatcher;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.StringJoiner;
+
 
 public class Profile extends AppCompatActivity implements TextWatcher{
 
@@ -48,6 +53,22 @@ public class Profile extends AppCompatActivity implements TextWatcher{
             } else {
                 Client.sendMessage("new");
                 Client.myInfo.setName(pr_plainText_name.getText().toString());
+                File file = new File(getFilesDir(), "userInfo");
+                try (FileWriter writer = new FileWriter(file)) {
+                    StringJoiner sj = new StringJoiner("$");
+                    //name id exp status
+                    sj.add(Client.myInfo.getName());
+                    sj.add(Client.myInfo.getId());
+                    sj.add(String.valueOf(0));
+                    sj.add(String.valueOf(Client.myInfo.getStatus().get(0)));
+                    sj.add(String.valueOf(Client.myInfo.getStatus().get(1)));
+                    sj.add(String.valueOf(Client.myInfo.getStatus().get(2)));
+                    sj.add(String.valueOf(Client.myInfo.getStatus().get(3)));
+                    sj.add(String.valueOf(Client.myInfo.getExp()));
+                    writer.write(sj.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 pr_button_editName.setText(R.string.pro_edi);
                 pr_plainText_name.setFocusable(false);
                 pr_plainText_name.setFocusableInTouchMode(false);
