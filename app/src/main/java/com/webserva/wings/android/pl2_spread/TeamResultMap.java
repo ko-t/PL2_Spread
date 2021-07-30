@@ -155,6 +155,12 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
                         .color(color)
                         .geodesic(true));
 
+                Polyline polyline_test = Client.mMap.addPolyline(new PolylineOptions()
+                        .add(Client.start, lists[1].get(i))
+                        .width(15)
+                        .color(color)
+                        .geodesic(true));
+
                 Polyline polyline2 = Client.mMap.addPolyline(new PolylineOptions()
                         .add(others_pos.get(i), lists[1].get(i))
                         .width(15)
