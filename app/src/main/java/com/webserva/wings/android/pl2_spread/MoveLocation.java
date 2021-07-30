@@ -47,4 +47,8 @@ public class MoveLocation extends AppCompatActivity {
             ml_textView_decide.setText(R.string.ml_send_fin);//送信済みチェックのため変更
         });
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

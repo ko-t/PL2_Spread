@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ImageButton;
 
 public class GameEnd extends AppCompatActivity {
+    ImageButton ge_imageButton_endGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class GameEnd extends AppCompatActivity {
             Client.startActivity(intent_to_rmn);
             Log.i("mm_setOnClickListener","RoomMenu画面に遷移");
         });
-        ImageButton ge_imageButton_endGame = findViewById(R.id.ge_imageButton_endGame);
+        ge_imageButton_endGame = findViewById(R.id.ge_imageButton_endGame);
         ge_imageButton_endGame.setOnClickListener(v -> {
             Client.sendMessage("resume$0");
             Client.finishActivity();
@@ -33,5 +34,10 @@ public class GameEnd extends AppCompatActivity {
             Log.i("mm_setOnClickListener","MainMenu画面に遷移");
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        ge_imageButton_endGame.performClick();
     }
 }

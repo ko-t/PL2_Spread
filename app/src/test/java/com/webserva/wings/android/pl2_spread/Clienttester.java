@@ -775,7 +775,7 @@ public class Clienttester {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                int num = document.toObject(Score.class).getScoreId() + 1;
+                                String num = document.toObject(Score.class).getScoreId() + 1;
                                 Score newScore = new Score();
                                 newScore.setScore(Integer.parseInt(s[1]));
                                 newScore.setScoreId(num);

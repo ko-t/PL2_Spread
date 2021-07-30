@@ -100,8 +100,16 @@ public class RoomWait extends AppCompatActivity implements View.OnClickListener 
             Client.sendMessage("leave");
             Client.finishActivity();
             intent = new Intent(this,RoomList.class);
-//            Client.startActivity(intent);
-//            startActivityForResult(intent,0);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Client.startActivity(intent);
+            //startActivityForResult(intent,0);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        RoomList.list.clear();
+        RoomList.rl_adapter.notifyDataSetChanged();
+        onClick(rw_imageButton_quit);
     }
 }

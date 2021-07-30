@@ -207,4 +207,8 @@ public class RoomInfo extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        onClick(ri_imageButton_quit);
+    }
 }

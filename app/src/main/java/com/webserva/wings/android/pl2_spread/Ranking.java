@@ -16,7 +16,7 @@ import java.util.TreeMap;
 public class Ranking extends AppCompatActivity {
     private static String rk_str_count="初期値";
     private static List<SimpleEntry<Integer,String>> rank = new ArrayList<>();
-    private static TextView rk_count;
+    private static TextView rk_count, rk_myRank, rk_myScore;
     private static RkAdapter rk_adapter;
 
     @Override
@@ -24,6 +24,8 @@ public class Ranking extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ranking);
         rk_count = findViewById((R.id.rk_textview_count));
+        rk_myScore = findViewById((R.id.rk_textview_b_score));
+        rk_myRank = findViewById((R.id.rk_textview_b_ranking));
         rk_adapter = new RkAdapter(this, rank);
 
         //receiveMessage("rank$3$820$280$208");
@@ -58,9 +60,9 @@ public class Ranking extends AppCompatActivity {
 
             //s[0]="best", s[1]="順位", s[2]="ベストスコア"
             case "best":
-//                Log.i("rk_receiveMessage","bestを受信しました");
-//                int best_rank = Integer.parseInt(s[1]);
-//                rank.add(new SimpleEntry<Integer, String>(best_rank, s[2]));    //ランクは10位まで、ベストスコアは11位の位置
+                Log.i("rk_receiveMessage","bestを受信しました");
+                rk_myScore.setText(s[2]);
+                rk_myRank.setText(s[1]);
                 break;
 
             //s[0]="num", s[1]="プレイ回数"

@@ -157,7 +157,7 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
 
                 Polyline polyline_test = Client.mMap.addPolyline(new PolylineOptions()
                         .add(Client.start, lists[1].get(i))
-                        .width(15)
+                        .width(8)
                         .color(color)
                         .geodesic(true));
 
@@ -271,5 +271,9 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
         double newLng = target.longitude + dist * Math.sin(angle) * longitude_per_meter;
 
         return new LatLng(newLat, newLng);
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }

@@ -36,6 +36,7 @@ public class Title extends AppCompatActivity {
                 MemberInfo mi = new MemberInfo(s[0], s[1]);
                 mi.addExp(Integer.parseInt(s[2]));
                 mi.setStatus(Arrays.asList(Integer.parseInt(s[3]), Integer.parseInt(s[4]), Integer.parseInt(s[5]), Integer.parseInt(s[6])));
+                mi.addExp(Integer.parseInt(s[7]));
                 Client.myInfo = mi;
                 Client.init(s[2], false);
             }

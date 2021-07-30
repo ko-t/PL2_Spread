@@ -2,7 +2,7 @@ package com.webserva.wings.android.pl2_spread;
 
 public class Score {
     private int score;
-    private int scoreId;
+    private String scoreId;
     private String teamName;
 
     public int getScore() {
@@ -13,11 +13,11 @@ public class Score {
         this.score = score;
     }
 
-    public int getScoreId() {
+    public String getScoreId() {
         return scoreId;
     }
 
-    public void setScoreId(int scoreId) {
+    public void setScoreId(String scoreId) {
         this.scoreId = scoreId;
     }
 

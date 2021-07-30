@@ -13,7 +13,7 @@ public class MemberInfo {
 //    private int[] status = {0, 0, 0, 0};
     private List<Integer> status = new ArrayList<>(Arrays.asList(0, 0, 0 ,0));
     private int matchHistory = 0;
-    private int recordId = -1;
+    private String recordId = "-1";
     private String state = "offline";
 
     MemberInfo(){}
@@ -63,11 +63,11 @@ public class MemberInfo {
         this.matchHistory = matchHistory;
     }
 
-    public int getRecordId() {
+    public String getRecordId() {
         return recordId;
     }
 
-    public void setRecordId(int recordId) {
+    public void setRecordId(String recordId) {
         this.recordId = recordId;
     }
 

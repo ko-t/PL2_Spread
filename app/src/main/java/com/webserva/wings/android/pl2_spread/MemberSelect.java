@@ -31,6 +31,8 @@ public class MemberSelect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.memberselect);
 
+        //list_member.clear();
+
         //ルームタグ設定(ゲームモード、ステータス効果、メンバー)
         Intent i = getIntent();
         int ms_tag = i.getIntExtra("TAG", 0);
@@ -133,7 +135,6 @@ public class MemberSelect extends AppCompatActivity {
                 sjId.add(list_member.get(x).getId());
             }
 
-            intent = new Intent(Client.context, TeamSplit.class);
             intent.putExtra("MEMBER_NUM",list_member.size());
             intent.putExtra("MEMBER_NAME", sjName.toString());
             intent.putExtra("MEMBER_ID", sjId.toString());

@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/rk_textview_playcount"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,36 +64,42 @@
         android:id="@+id/rk_textview_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:text="0"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/rk_textview_b_score" />
+        app:layout_constraintBottom_toBottomOf="@+id/rk_textview_playcount"
+        app:layout_constraintEnd_toEndOf="@+id/rk_textview_b_score" />
 
     <TextView
         android:id="@+id/rk_textview_b_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/rk_textview_b_title"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/rk_textview_playcount"
+        app:layout_constraintBottom_toTopOf="@+id/rk_textview_b_ranking"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!--ベストスコアのスコア表示-->
     <TextView
+        android:id="@+id/rk_textview_b_ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="0"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/rk_textview_playcount"
+        app:layout_constraintStart_toStartOf="@+id/rk_textview_b_title" />
+
+    <TextView
         android:id="@+id/rk_textview_b_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
         android:text="0"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/rk_textview_count"
-        app:layout_constraintStart_toEndOf="@+id/rk_textview_b_title"
-        tools:layout_editor_absoluteX="258dp"
-        tools:layout_editor_absoluteY="610dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/rk_textview_b_ranking"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
