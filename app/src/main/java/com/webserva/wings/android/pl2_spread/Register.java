@@ -92,6 +92,7 @@ public class Register extends AppCompatActivity {
                                 sj.add(String.valueOf(Client.myInfo.getStatus().get(1)));
                                 sj.add(String.valueOf(Client.myInfo.getStatus().get(2)));
                                 sj.add(String.valueOf(Client.myInfo.getStatus().get(3)));
+                                sj.add(String.valueOf(Client.myInfo.getExp()));
                                 writer.write(sj.toString());
                             }
                             catch (IOException e) {

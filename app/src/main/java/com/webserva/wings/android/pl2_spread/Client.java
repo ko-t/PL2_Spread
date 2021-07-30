@@ -99,6 +99,7 @@ public class Client {
 
             case "newroom":
                 myInfo.setRoomId(myInfo.getId());
+                myInfo.setTeam(-1);
                 roomRef = db.collection("roomList").document(myInfo.getRoomId());
                 db.collection("memberList").whereEqualTo("roomId", myInfo.getId()).get().addOnSuccessListener(queryDocumentSnapshots -> {
                     for (DocumentSnapshot x : queryDocumentSnapshots.getDocuments()) {
@@ -520,7 +521,7 @@ public class Client {
 
             case "newstatus":
                 Integer[] tmp = {Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]), Integer.parseInt(s[4])};
-                myInfoRef.update("status", Arrays.asList(tmp))
+                myInfoRef.update("status", Arrays.asList(tmp), "exp", myInfo.getExp())
                         .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                         .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
                 myInfo.setStatus(Arrays.asList(tmp));
@@ -536,6 +537,7 @@ public class Client {
                     sj.add(String.valueOf(Client.myInfo.getStatus().get(1)));
                     sj.add(String.valueOf(Client.myInfo.getStatus().get(2)));
                     sj.add(String.valueOf(Client.myInfo.getStatus().get(3)));
+                    sj.add(String.valueOf(Client.myInfo.getExp()));
                     writer.write(sj.toString());
                 }
                 catch (IOException e) {
@@ -558,7 +560,7 @@ public class Client {
                             Score score = document.toObject(Score.class);
                             sj.add(String.valueOf(score.getScore()));
                             sj.add(score.getTeamName());
-                            if (score.getScoreId() == myInfo.getRecordId()) {
+                            if (score.getScoreId().equals(myInfo.getRecordId())) {
                                 myRank = counter;
                                 myScore = score.getScore();
                             }
