@@ -240,4 +240,8 @@ public class ResultMap extends FragmentActivity implements OnMapReadyCallback {
 
         return new LatLng(newLat, newLng);
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

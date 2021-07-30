@@ -280,6 +280,7 @@ public class Client {
 
             case "leave":
                 //roomListから削除
+
                 db.collection("roomList").document(myInfo.getRoomId())
                         .collection("member").document(myInfo.getId()).delete();
                 db.collection("roomList").document(myInfo.getRoomId()).update("memberNum", FieldValue.increment(-1));
@@ -618,6 +619,7 @@ public class Client {
                 break;
 
             case "roomreq":
+                if(roomListener != null) roomListener.remove();
                 // 部屋探し中のリストに追加
                 myInfo.setState("choosingRoom");
                 myInfoRef.update(

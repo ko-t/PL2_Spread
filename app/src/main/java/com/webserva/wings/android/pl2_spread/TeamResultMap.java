@@ -272,4 +272,8 @@ public class TeamResultMap extends FragmentActivity implements OnMapReadyCallbac
 
         return new LatLng(newLat, newLng);
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }

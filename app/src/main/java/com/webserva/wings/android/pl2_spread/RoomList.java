@@ -34,7 +34,7 @@ public class RoomList extends AppCompatActivity {
     private static int size;
     static List<Room> list = new ArrayList<>();
     private static ListView listview;
-    private static RlAdapter rl_adapter;
+    static RlAdapter rl_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
