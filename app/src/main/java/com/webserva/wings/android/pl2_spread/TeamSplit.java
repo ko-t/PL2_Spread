@@ -139,6 +139,8 @@ public class TeamSplit extends AppCompatActivity {
                     Log.i("mm_setOnClickListener","TeamSplitResult画面に遷移");
                 } else {
                     if (limit == 0) {
+                        gCount=0;
+                        pCount=0;
                         String gpDefault = "";
                         StringJoiner sj = new StringJoiner("$");
                         sj.add("gpdefined");
@@ -156,7 +158,6 @@ public class TeamSplit extends AppCompatActivity {
                             newId.add(id);
                             newName.add(x.split("\\$")[1]);
                             sj.add(id);
-
                             if (i % 2 == 0) {
                                 gpDefault += "0$";
                                 gCount++;
