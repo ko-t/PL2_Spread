@@ -66,8 +66,10 @@ public class TeamSplitResult extends AppCompatActivity implements View.OnClickLi
             Intent intent;
             if (Client.myInfo.getId().equals(Client.myInfo.getRoomId())) {
                 intent = new Intent(this, HReady.class);
+                Log.i("mm_setOnClickListener","HReady画面に遷移");
             } else {
                 intent = new Intent(this, Ready.class);
+                Log.i("mm_setOnClickListener","Ready画面に遷移");
             }
             intent.putExtra("STATUS_TAG", i.getIntExtra("STATUS_TAG", 0));
             Client.finishActivity();
