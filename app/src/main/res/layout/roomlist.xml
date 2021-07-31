@@ -18,7 +18,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+
+        </SearchView>
 
         <RadioGroup
             android:id="@+id/rl_radiogroup_s1"
@@ -88,12 +90,12 @@
             android:id="@+id/rl_listview_roominfo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:isScrollContainer="false"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rl_imageButton_search"></ListView>
+            app:layout_constraintTop_toBottomOf="@+id/rl_radiogroup_s2"></ListView>
 
         <ImageView
             android:id="@+id/imageView"
@@ -103,29 +105,30 @@
             android:scaleType="fitXY"
             app:srcCompat="@drawable/st_back_vec" />
 
-        <ImageButton
-            android:id="@+id/rl_imageButton_search"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.08"
-            app:layout_constraintWidth_percent="0.5"
-            android:layout_marginTop="8dp"
-            android:scaleType="fitXY"
-            android:backgroundTint="@color/Transparent"
-            app:srcCompat="@drawable/y_button2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rl_radiogroup_s2" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/rl_imageButton_search"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintHeight_percent="0.08"-->
+<!--            app:layout_constraintWidth_percent="0.5"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:backgroundTint="@color/Transparent"-->
+<!--            app:srcCompat="@drawable/y_button2"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/rl_radiogroup_s2" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rl_button_search"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@id/rl_imageButton_search"
-            app:layout_constraintStart_toStartOf="@id/rl_imageButton_search"
-            app:layout_constraintTop_toTopOf="@id/rl_imageButton_search"
-            app:layout_constraintBottom_toBottomOf="@id/rl_imageButton_search" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView2"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/rl_button_search"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/rl_imageButton_search"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/rl_imageButton_search"-->
+<!--            app:layout_constraintStart_toStartOf="@id/rl_imageButton_search"-->
+<!--            app:layout_constraintTop_toTopOf="@id/rl_imageButton_search" />-->
 
 
 

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -27,7 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RoomList extends AppCompatActivity {
+import javax.annotation.RegEx;
+
+public class RoomList extends AppCompatActivity{
     private static TextView textview_count;
     private static Room new_room;
     private int[] tagStatus = {0, 0, 0};
@@ -107,6 +110,16 @@ public class RoomList extends AppCompatActivity {
             //submitボタンは使用不可中
             @Override
             public boolean onQueryTextChange(String newText) {
+                final List<Room> filteredItems = new ArrayList<Room>();
+                for (Room item : list) {
+                    if (item.getRoomName().contains(newText)) { // テキストがqueryを含めば検索にHITさせる
+                        filteredItems.add(item);
+                    }
+                }
+                // adapterの更新処理
+                rl_adapter.clear();
+                rl_adapter.addAll(filteredItems);
+                rl_adapter.notifyDataSetChanged();
                 Log.i("rl_onQueryTextChange", "ルーム名検索が実行されました");
                 return false;
             }
@@ -125,26 +138,43 @@ public class RoomList extends AppCompatActivity {
         checks[5] = findViewById(R.id.rl_radioButton_unknown);
         for (int i = 0; i < checkNum; i++) {
             checks[i].setChecked(true);
+            checks[i].setOnCheckedChangeListener((buttonView, isChecked) -> {
+                searchFlag = true;
+                tempList = new ArrayList<Room>();
+                for (Room item : list) {
+                    boolean flag = true;
+                    for (int j = 0; j < 3; j++) {
+                        if (((!checks[2 * j].isChecked() && !((item.getTag() & 1 << (2 - j)) != 0)))
+                                || (!checks[2 * j + 1].isChecked() && (item.getTag() & 1 << (2 - j)) != 0)) {
+                            flag = false;
+                        }
+                    }
+                    if (flag) tempList.add(item);
+                }
+                rl_adapter.clear();
+                rl_adapter.addAll(tempList);
+                rl_adapter.notifyDataSetChanged();
+            });
         }
 
-        ImageButton rl_button_search = findViewById(R.id.rl_imageButton_search);
-        rl_button_search.setOnClickListener(v -> {
-            searchFlag = true;
-            tempList = new ArrayList<Room>();
-            for (Room item : list) {
-                boolean flag = true;
-                for (int i = 0; i < 3; i++) {
-                    if (((!checks[2 * i].isChecked() && !((item.getTag() & 1 << (2 - i)) != 0)))
-                            || (!checks[2 * i + 1].isChecked() && (item.getTag() & 1 << (2 - i)) != 0)) {
-                        flag=false;
-                    }
-                }
-                if (flag) tempList.add(item);
-            }
-            rl_adapter.clear();
-            rl_adapter.addAll(tempList);
-            rl_adapter.notifyDataSetChanged();
-        });
+//        ImageButton rl_button_search = findViewById(R.id.rl_imageButton_search);
+//        rl_button_search.setOnClickListener(v -> {
+//            searchFlag = true;
+//            tempList = new ArrayList<Room>();
+//            for (Room item : list) {
+//                boolean flag = true;
+//                for (int i = 0; i < 3; i++) {
+//                    if (((!checks[2 * i].isChecked() && !((item.getTag() & 1 << (2 - i)) != 0)))
+//                            || (!checks[2 * i + 1].isChecked() && (item.getTag() & 1 << (2 - i)) != 0)) {
+//                        flag = false;
+//                    }
+//                }
+//                if (flag) tempList.add(item);
+//            }
+//            rl_adapter.clear();
+//            rl_adapter.addAll(tempList);
+//            rl_adapter.notifyDataSetChanged();
+//        });
     }
 
     static void receiveMessage(String message) {

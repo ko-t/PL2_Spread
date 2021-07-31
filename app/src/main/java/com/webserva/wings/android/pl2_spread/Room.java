@@ -3,6 +3,7 @@ package com.webserva.wings.android.pl2_spread;
 import android.util.Log;
 
 import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -93,5 +94,11 @@ public class Room {
 
     public void setHostName(String hostName) {
         this.hostName = hostName;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return roomName;
     }
 }
